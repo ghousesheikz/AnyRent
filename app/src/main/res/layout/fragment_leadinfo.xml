@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.leadinfo.LeadInfoFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutHeader"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/purple_500"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="@dimen/size_0dp"
+            android:layout_marginBottom="@dimen/size_5dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:scaleY="2"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_buildings" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtLeadNameName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_15dp"
+                android:fontFamily="@font/font_bold_secondary"
+                android:text="Shaik"
+                android:textColor="@color/c_white_1"
+                android:textSize="@dimen/font_24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/callImg"
+                android:layout_width="@dimen/size_30dp"
+                android:layout_height="@dimen/size_30dp"
+                android:layout_margin="@dimen/size_12dp"
+                android:tint="@color/white"
+                app:layout_constraintEnd_toStartOf="@id/whatsappImg"
+                app:layout_constraintTop_toBottomOf="@id/txtLeadNameName"
+                app:srcCompat="@drawable/ic_call_icon" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/whatsappImg"
+                android:layout_width="@dimen/size_30dp"
+                android:layout_height="@dimen/size_30dp"
+                android:layout_margin="@dimen/size_12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtLeadNameName"
+                app:srcCompat="@drawable/ic_whatsapp_icon" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/msgImg"
+                android:layout_width="@dimen/size_30dp"
+                android:layout_height="@dimen/size_30dp"
+                android:layout_margin="@dimen/size_12dp"
+                android:tint="@color/white"
+                app:layout_constraintStart_toEndOf="@id/whatsappImg"
+                app:layout_constraintTop_toBottomOf="@id/txtLeadNameName"
+                app:srcCompat="@drawable/ic_msg_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.03" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.97" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtBasicInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/ic_edit"
+        android:fontFamily="@font/font_bold"
+        android:gravity="start"
+        android:padding="@dimen/size_5dp"
+        android:text="Basic Information"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_22sp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/layoutHeader" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_1dp"
+        android:background="@color/c_gray_1"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtBasicInfo" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtname"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:padding="@dimen/size_5dp"
+        android:text="@string/name"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/divider1"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/leadName"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:padding="@dimen/size_5dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/txtname"
+        app:layout_constraintTop_toBottomOf="@id/divider1"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtcontactNo"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text="@string/contact_no"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtname"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/contactNo"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/txtcontactNo"
+        app:layout_constraintTop_toBottomOf="@id/txtname"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtsource"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text="@string/source"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtcontactNo"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/source"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/txtsource"
+        app:layout_constraintTop_toBottomOf="@id/txtcontactNo"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtpriority"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text="@string/lead_priority"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtsource"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/priority"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/txtpriority"
+        app:layout_constraintTop_toBottomOf="@id/txtsource"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtRequirements"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/ic_edit"
+        android:fontFamily="@font/font_bold"
+        android:gravity="start"
+        android:padding="@dimen/size_5dp"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:text="Requirements"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_22sp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtAddRequirement" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_1dp"
+        android:background="@color/c_gray_1"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtRequirements" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtLeadType"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:padding="@dimen/size_5dp"
+        android:text="Lead Type"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/divider2"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/leadType"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:padding="@dimen/size_5dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/txtLeadType"
+        app:layout_constraintTop_toBottomOf="@id/divider2"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtPropertyType"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text="Property Type"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtLeadType"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/propertyType"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/txtPropertyType"
+        app:layout_constraintTop_toBottomOf="@id/txtLeadType"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtSubPropertyType"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text="Sub-Property Type"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/subPropertyType"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/txtSubPropertyType"
+        app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtNoOfBedrooms"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text="No. of bedrooms"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtSubPropertyType"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/NoOfBedrooms"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/txtNoOfBedrooms"
+        app:layout_constraintTop_toBottomOf="@id/txtSubPropertyType"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtProject"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text="Project"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtNoOfBedrooms"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/project"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/txtProject"
+        app:layout_constraintTop_toBottomOf="@id/txtNoOfBedrooms"
+        app:layout_constraintWidth_percent="0.5" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtLocalities"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text="Localities"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtProject"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/localities"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/txtLocalities"
+        app:layout_constraintTop_toBottomOf="@id/txtProject"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtBudget"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text="Budget"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtLocalities"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/budget"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_5dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/txtBudget"
+        app:layout_constraintTop_toBottomOf="@id/txtLocalities"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtAddRequirement"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:padding="@dimen/size_5dp"
+        android:text="@string/add_requirement"
+        android:textAllCaps="true"
+        android:textColor="@color/purple_500"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@id/priority"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/requirementGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="txtNoOfBedrooms,NoOfBedrooms,txtLocalities,localities,txtRequirements,divider2,txtLeadType,leadType,propertyType,txtPropertyType,subPropertyType,txtSubPropertyType,project,txtProject,budget,txtBudget" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btmAddReminder"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@color/purple_500"
+        android:text="@string/add_reminder"
+        android:textColor="@color/c_white_1"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtBudget" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

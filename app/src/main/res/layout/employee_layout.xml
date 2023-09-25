@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/size_8dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/size_5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/size_8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/employeeName"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:text="Emp Name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:gravity="start"
+            android:text="Address"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/employeeName" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:gravity="start"
+            android:text="Status"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtAddress"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchStatus"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            app:layout_constraintStart_toEndOf="@id/txtStatus"
+            app:layout_constraintTop_toBottomOf="@id/txtAddress" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtLeadsCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:gravity="start"
+            android:text="Count"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtStatus" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

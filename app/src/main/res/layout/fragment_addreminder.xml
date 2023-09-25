@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.03" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.97" />
+
+
+    <LinearLayout
+        android:id="@+id/dateTimelayout"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_reminder_logo" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/currentDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25 SEP, 2023"
+            android:textColor="@color/purple_500"
+            android:textSize="@dimen/font_22sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/currentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:52 PM"
+            android:textColor="@color/purple_500"
+            android:textSize="@dimen/font_18sp" />
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtLeadsNumber"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_50dp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:hint="@string/contact_no"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/dateTimelayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtLeadNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/c_white_1"
+            android:inputType="number"
+            android:maxLength="10" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtActivity"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:text="Activity with lead"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtLeadsNumber" />
+
+    <LinearLayout
+        android:id="@+id/activityLayout"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/layout_border"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtActivity">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Call" />
+
+        <View
+            android:layout_width="@dimen/size_1dp"
+            android:layout_height="match_parent"
+            android:background="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Site Visit" />
+
+        <View
+            android:layout_width="@dimen/size_1dp"
+            android:layout_height="match_parent"
+            android:background="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Face to Face Discussion" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtAddNotes"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_0dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/layout_border"
+        android:gravity="start"
+        android:hint="Add Notes (Optional)"
+        android:maxLines="2"
+        android:padding="@dimen/size_5dp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/activityLayout" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSelectDate"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@color/purple_500"
+        android:text="Select Date"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/edtAddNotes"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSelectTime"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@color/purple_500"
+        android:text="Select Time"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/btnSelectDate"
+        app:layout_constraintTop_toBottomOf="@id/edtAddNotes"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtDate"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/layout_border"
+        android:gravity="center"
+        android:hint="DD-MM-YYYY"
+        android:padding="@dimen/size_5dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/btnSelectDate"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtTime"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/layout_border"
+        android:gravity="center"
+        android:hint="HH:MM AA"
+        android:padding="@dimen/size_5dp"
+        app:layout_constraintStart_toEndOf="@id/txtDate"
+        app:layout_constraintTop_toBottomOf="@id/btnSelectTime"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btmAddReminder"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@color/purple_500"
+        android:text="Add Reminder"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtDate" />
+</androidx.constraintlayout.widget.ConstraintLayout>

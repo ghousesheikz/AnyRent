@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.shaikhomes.smartdiary.ui.home.HomeFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_addleadFragment"
+            app:destination="@id/nav_addlead"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_addproperty"
+            app:destination="@id/nav_addrequirement"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_homeFragment_to_leadinfo"
+            app:destination="@id/nav_leadinfo"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_viewleads"
+            app:destination="@id/nav_viewleads"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_addrequirement"
+            app:destination="@id/nav_addrequirement"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_addreminder"
+            app:destination="@id/nav_addreminder"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="false" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_addlead"
+        android:name="com.shaikhomes.smartdiary.ui.addlead.AddLeadFragment"
+        android:label="Add Lead"
+        tools:layout="@layout/fragment_addlead">
+
+        <action
+            android:id="@+id/action_addleadFragment_to_addrequirement"
+            app:destination="@id/nav_addrequirement"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_addlead"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.shaikhomes.smartdiary.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.shaikhomes.smartdiary.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_manageLeads"
+        android:name="com.shaikhomes.smartdiary.ui.manageleads.ManageLeadsFragment"
+        android:label="@string/menu_manageleads"
+        tools:layout="@layout/fragment_manageleads" />
+
+    <fragment
+        android:id="@+id/nav_employeeData"
+        android:name="com.shaikhomes.smartdiary.ui.employeeData.EmployeeDataFragment"
+        android:label="@string/menu_employee"
+        tools:layout="@layout/fragment_employeedata" />
+
+    <fragment
+        android:id="@+id/nav_addreminder"
+        android:name="com.shaikhomes.smartdiary.ui.addreminder.AddReminder"
+        android:label="@string/add_reminder"
+        tools:layout="@layout/fragment_addreminder" />
+
+
+    <fragment
+        android:id="@+id/nav_addrequirement"
+        android:name="com.shaikhomes.smartdiary.ui.addrequirement.AddRequirement"
+        android:label="@string/add_requirement"
+        tools:layout="@layout/fragment_addrequirement">
+        <action
+            android:id="@+id/action_addrequirementFragment_to_homeFragment"
+            app:destination="@id/nav_home"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_leadinfo"
+        android:name="com.shaikhomes.smartdiary.ui.leadinfo.LeadInfoFragment"
+        android:label=""
+        tools:layout="@layout/fragment_leadinfo">
+        <action
+            android:id="@+id/action_leadinfoFragment_to_addrequirement"
+            app:destination="@id/nav_addrequirement"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_leadinfo"
+            app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_leadinfoFragment_to_addlead"
+            app:destination="@id/nav_addlead"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_leadinfo"
+            app:popUpToInclusive="false" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_viewleads"
+        android:name="com.shaikhomes.smartdiary.ui.addlead.ViewLeadsFragment"
+        android:label="@string/hot_leads"
+        tools:layout="@layout/fragment_viewleads">
+        <action
+            android:id="@+id/action_viewleadFragment_to_leadinfo"
+            app:destination="@id/nav_leadinfo"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_viewleads"
+            app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_viewleadFragment_to_addrequirement"
+            app:destination="@id/nav_addrequirement"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_viewleads"
+            app:popUpToInclusive="false" />
+    </fragment>
+</navigation>

@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.03" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.97" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:layout_marginBottom="@dimen/size_8dp"
+        android:text="This requirement is for"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/buyToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Buy"
+        android:textOn="Buy"
+        app:layout_constraintStart_toEndOf="@id/rentToggle"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <ToggleButton
+        android:id="@+id/rentToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Rent"
+        android:textOn="Rent"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <ToggleButton
+        android:id="@+id/pgToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="PG"
+        android:textOn="PG"
+        app:layout_constraintStart_toEndOf="@id/buyToggle"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtPropertyType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:layout_marginBottom="@dimen/size_8dp"
+        android:text="Property Type"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/buyToggle" />
+
+    <ToggleButton
+        android:id="@+id/residentialToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Residential"
+        android:textOn="Residential"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <ToggleButton
+        android:id="@+id/commercialToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Commercial"
+        android:textOn="Commercial"
+        app:layout_constraintStart_toEndOf="@id/residentialToggle"
+        app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtSubPropertyType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:layout_marginBottom="@dimen/size_8dp"
+        android:text="Sub-Property Type"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/residentialToggle" />
+
+    <LinearLayout
+        android:id="@+id/subPropertyContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_2dp"
+        android:weightSum="4"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtSubPropertyType">
+
+        <ToggleButton
+            android:id="@+id/SubProToggle1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Flat"
+            android:textOn="Flat"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/SubProToggle2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Builder Floor"
+            android:textOn="Builder Floor"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/SubProToggle3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="House"
+            android:textOn="House"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/SubProToggle4"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Plot"
+            android:textOn="Plot"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/subPropertyContainer2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_2dp"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/subPropertyContainer">
+
+        <ToggleButton
+            android:id="@+id/SubProToggle5"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_8dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Villa"
+            android:textOn="Villa"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/SubProToggle6"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_8dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Studio Apartment"
+            android:textOn="Studio Apartment"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/SubProToggle7"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_8dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Penthouse"
+            android:textOn="Penthouse"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/subPropertyContainer3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_2dp"
+        android:weightSum="4"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/subPropertyContainer2">
+
+        <ToggleButton
+            android:id="@+id/SubProToggle8"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="OfficeSpace"
+            android:textOn="OfficeSpace"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/SubProToggle9"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Shop"
+            android:textOn="Shop"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/SubProToggle10"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Showroom"
+            android:textOn="Showroom"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/SubProToggle11"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Warehouse"
+            android:textOn="Warehouse"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/subPropertyContainer4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_2dp"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/subPropertyContainer3">
+
+        <ToggleButton
+            android:id="@+id/SubProToggle12"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_8dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Commercial Land"
+            android:textOn="Commercial Land"
+            android:textSize="@dimen/font_10sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/SubProToggle13"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_8dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Space in mall"
+            android:textOn="Space in mall"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/SubProToggle14"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_8dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Office in ITPark/SEZ"
+            android:textOn="Office in ITPark/SEZ"
+            android:textSize="@dimen/font_10sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/residentialGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="subPropertyContainer,subPropertyContainer2" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/commercialGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="subPropertyContainer3,subPropertyContainer4" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/bedroomsGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="txtNoOfBedrooms,noOfBedroomsContainer" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtNoOfBedrooms"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:layout_marginBottom="@dimen/size_8dp"
+        android:text="No. of Bedrooms"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/subPropertyContainer4" />
+
+    <LinearLayout
+        android:id="@+id/noOfBedroomsContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_2dp"
+        android:weightSum="5"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtNoOfBedrooms">
+
+        <ToggleButton
+            android:id="@+id/BedToggle1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="1BHK"
+            android:textOn="1BHK"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/BedToggle2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="2BHK"
+            android:textOn="2BHK"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/BedToggle3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="3BHK"
+            android:textOn="3BHK"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/BedToggle4"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="4BHK"
+            android:textOn="4BHK"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/BedToggle5"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff=">4BHK"
+            android:textOn=">4BHK"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toEndOf="@id/residentialToggle"
+            app:layout_constraintTop_toBottomOf="@id/txtPropertyType"
+            app:layout_constraintWidth_percent="0.45" />
+
+    </LinearLayout>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtSpecifyProject"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:layout_marginBottom="@dimen/size_8dp"
+        android:text="Specify Project (Optional)"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/noOfBedroomsContainer" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtEnteronemore"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_50dp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:hint="@string/enter_one_more"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtSpecifyProject">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSpecifyProject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/c_white_1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtLoocality"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:layout_marginBottom="@dimen/size_8dp"
+        android:text="Specify Locality"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtEnteronemore" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtLocalityEnteronemore"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_50dp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:hint="@string/enter_one_more"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtLoocality">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSpecifyLocality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/c_white_1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtBudget"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:layout_marginBottom="@dimen/size_8dp"
+        android:text="Budget"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtLocalityEnteronemore" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/minSpinner"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_45dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtBudget"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtTo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_15dp"
+        android:layout_marginBottom="@dimen/size_8dp"
+        android:text="To"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_18sp"
+        app:layout_constraintStart_toEndOf="@id/minSpinner"
+        app:layout_constraintTop_toBottomOf="@id/txtBudget" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/maxSpinner"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_45dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        app:layout_constraintStart_toEndOf="@id/txtTo"
+        app:layout_constraintTop_toBottomOf="@id/txtBudget"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSave"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginTop="@dimen/size_25dp"
+        android:background="@color/purple_500"
+        android:text="@string/save"
+        android:textColor="@color/c_white_1"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/minSpinner" />
+</androidx.constraintlayout.widget.ConstraintLayout>

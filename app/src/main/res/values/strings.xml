@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Smart Diary</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Shaik Mohammed Ghouse</string>
+    <string name="nav_header_subtitle">shaik.ghouse@shaikhomes.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="lead_s_name">Lead\'s Name</string>
+    <string name="country">Country</string>
+    <string name="contact_no">Contact No.</string>
+    <string name="email_optional">Email (Optional)</string>
+    <string name="next">next</string>
+    <string name="enter_number">Enter Mobile Number\n</string>
+    <string name="login">Login</string>
+    <string name="new_user_register_now">New User? REGISTER NOW</string>
+    <string name="welcome_smart_diary_users">Welcome! Smart Diary Users</string>
+    <string name="add_requirement">Add Requirement</string>
+    <string name="enter_one_more">Enter one or more</string>
+    <string name="save">Save</string>
+    <string name="add_property">Add Property</string>
+    <string name="add_reminder">Add Reminder</string>
+    <string name="register_user">User Register</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="lead_info">Lead Info</string>
+    <string name="name">Name</string>
+    <string name="source">Source</string>
+    <string name="lead_priority">Lead Priority</string>
+    <string name="add_assignee">Add Assignee</string>
+    <string name="employee_list">Employee List</string>
+    <string name="hot_leads">Hot Leads</string>
+    <string name="menu_manageleads">Manage Leads</string>
+    <string name="menu_employee">Employee Tracking</string>
+</resources>

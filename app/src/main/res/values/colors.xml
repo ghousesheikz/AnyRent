@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#01335C</color>
+    <color name="purple_500">#01335C</color>
+    <color name="purple_700">#01335C</color>
+    <color name="teal_200">#01335C</color>
+    <color name="teal_700">#003668</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- white tone -->
+    <color name="c_white_1">#FFFFFF</color>
+    <color name="c_white_2">#B3FFFFFF</color>
+    <color name="c_white_3">#FFBEBEBE</color>
+    <color name="c_white_4">#B8C0C7</color>
+    <color name="c_white_5">#F7F9FC</color>
+    <color name="c_white_7">#FEFEFE</color>
+    <color name="c_white_8">#F1F1F1</color>
+    <color name="c_white_10">#FFDDDDDD</color>
+    <color name="c_white_11">#11FFFFFF</color>
+    <color name="c_white_12">#CCF7F9FC</color>
+    <color name="c_white_13">#C1B8C0C7</color>
+    <color name="c_white_14">#12FFFFFF</color>
+    <color name="c_white_15">#500361AE</color>
+
+    <!-- black tone -->
+    <color name="c_black_1">#000000</color>
+    <color name="c_black_2">#B4000000</color>
+    <color name="c_black_3">#CC000000</color>
+    <color name="c_black_4">#99000000</color>
+    <color name="c_black_5">#1A1C20</color>
+    <color name="c_black_6">@android:color/transparent</color>
+    <color name="c_black_7">#121416</color>
+    <color name="c_black_8">#23262D</color>
+    <color name="c_black_9">#0D0D0D</color>
+    <color name="c_black_10">#2A2D32</color>
+    <color name="c_black_11">#0A0A0A</color>
+    <color name="c_black_12">#212121</color>
+    <color name="c_black_13">#0f0f0f</color>
+    <color name="c_black_14">#26000000</color>
+    <color name="c_black_15">#181818</color>
+
+
+    <!-- gray tone -->
+    <color name="c_gray_1">#23272C</color>
+    <color name="c_gray_2">#4C000000</color>
+    <color name="c_gray_3">#1F2228</color>
+    <color name="c_gray_4">#CC1A1C20</color>
+    <color name="c_gray_5">#191B20</color>
+    <color name="c_gray_6">#0DA4A4A4</color>
+    <color name="c_gray_7">#2C3036</color>
+    <color name="c_gray_8">#802C3036</color>
+    <color name="c_gray_9">#2C3039</color>
+    <color name="c_gray_10">#1D2026</color>
+    <color name="c_gray_11">#3B3F49</color>
+    <color name="c_gray_12">#902C3039</color>
+    <color name="c_gray_13">#DF1F2228</color>
+    <color name="c_gray_14">#6B70787F</color>
+    <color name="c_gray_15">#5C6168</color>
+    <color name="c_gray_17">#c1c1c1</color>
+
+    <!-- Dark green tone-->
+    <color name="c_dark_green_1">#1F592D</color>
+
+    <!-- light_gray tone-->
+    <color name="c_light_gray_1">#70787F</color>
+    <color name="c_light_gray_2">#d3d3d3</color>
+    <color name="c_light_gray_7">#EFEDED</color>
+    <color name="c_light_gray_3">#777E8A</color>
+    <color name="c_light_gray_4">#6A6A6A</color>
+    <color name="c_light_gray_5">#47E8E8E8</color>
+    <color name="c_light_gray_6">#AAA</color>
+
+    <!-- ruby tone -->
+    <color name="c_ruby_1">#EE1E5C</color>
+
+    <!-- orange tone -->
+    <color name="c_orange_1">#E2792D</color>
+    <color name="c_orange_2">#FF2222</color>
+
+    <color name="c_orange_3">#ED262A</color>
+
+
+    <!-- ebony tone -->
+    <color name="c_ebony_1">#2E3339</color>
+    <color name="c_ebony_2">#A92E3339</color>
+
+    <!-- blue tone -->
+    <color name="c_blue_1">#1C6BC6</color>
+    <color name="c_blue_2">#2339D7</color>
+    <color name="c_blue_3">#3B5998</color>
+    <color name="c_blue_4">#4285F4</color>
+    <color name="c_blue_6">#4267B2</color>
+
+
+    <color name="c_blue_5">#4D7BFF</color>
+
+    <!-- yellow tone-->
+    <color name="c_yellow_1">#FF9600</color>
+    <color name="c_yellow_2">#F7D426</color>
+    <color name="c_yellow_3">#FBBC04</color>
+    <color name="c_yellow_4">#FF9600</color>
+    <color name="c_yellow_5">#e8a622</color>
+    <color name="c_yellow_6">#DFB300</color>
+    <!-- shark tone-->
+    <color name="c_shark_1">#32363E</color>
+
+    <!-- flamingo tone-->
+    <color name="c_flamingo_1">#E75540</color>
+
+    <!-- pink tone-->
+    <color name="c_pink_1">#FE2851</color>
+
+    <!-- green tone-->
+    <color name="c_green_1">#29D65B</color>
+    <color name="c_green_2">#0FDA66</color>
+    <color name="c_green_3">#59C583</color>
+    <color name="c_green_5">#34A853</color>
+
+    <!-- red -->
+    <color name="c_red_1">#FA5252</color>
+    <color name="c_red_2">#CE6679</color>
+    <color name="c_red_3">#E81C25</color>
+    <color name="c_red_4">#EA4335</color>
+    <color name="c_red_5">#FF0000</color>
+    <color name="c_red_6">#8B1836</color>
+
+    <!-- Jazzberry -->
+    <color name="c_jazz_berry_1">#9B1E2D</color>
+    <color name="c_jazz_berry_2">#E81C25</color>
+    <color name="c_jazz_berry_3">#9B1E2D</color>
+    <color name="c_jazz_berry_4">#9B1E2D</color>
+
+    <!-- Violet -->
+    <color name="c_violet_1">#FF6363</color>
+    <color name="c_violet_2">#FF7C8E</color>
+    <color name="c_violet_3">#ED2658</color>
+    <color name="c_violet_4">#cd154e</color>
+
+</resources>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:paddingBottom="@dimen/size_12dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/titleHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_500"
+        android:fontFamily="@font/font_bold"
+        android:gravity="center"
+        android:padding="@dimen/size_12dp"
+        android:text="Broadcast Message"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_15dp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:layout_marginEnd="@dimen/size_15dp"
+        android:background="@drawable/layout_border"
+        android:gravity="start"
+        android:hint="Enter Message"
+        android:maxHeight="150dp"
+        android:minHeight="100dp"
+        android:padding="@dimen/size_5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleHeader" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/pickImg1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="@dimen/size_12dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/edtMsg"
+        app:layout_constraintTop_toBottomOf="@id/edtMsg"
+        app:srcCompat="@drawable/add_img" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/pickImg2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_12dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/pickImg1"
+        app:layout_constraintTop_toBottomOf="@id/edtMsg"
+        app:srcCompat="@drawable/add_img" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSend"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginStart="@dimen/size_15dp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:layout_marginEnd="@dimen/size_15dp"
+        android:background="@color/purple_500"
+        android:fontFamily="@font/font_bold"
+        android:text="send"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pickImg1" />
+</androidx.constraintlayout.widget.ConstraintLayout>

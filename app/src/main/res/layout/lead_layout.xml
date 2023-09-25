@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/size_8dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/size_5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/size_8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/leadName"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:text="Lead Name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_18sp"
+            app:layout_constraintEnd_toStartOf="@id/Imgcall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/Imgcall"
+            android:layout_width="@dimen/size_40dp"
+            android:layout_height="@dimen/size_40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/leadName"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_call" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:gravity="start"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintEnd_toStartOf="@id/Imgcall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/leadName" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/propertyData"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:gravity="start"
+            android:textSize="@dimen/font_12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/Imgcall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dateTime" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/createdBy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:gravity="start"
+            android:textSize="@dimen/font_12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/Imgcall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/propertyData" />
+
+        <ToggleButton
+            android:id="@+id/highToggle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_8dp"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="High"
+            android:textOn="High"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/createdBy"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <ToggleButton
+            android:id="@+id/mediumToggle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_marginStart="@dimen/size_8dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_marginEnd="@dimen/size_8dp"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Medium"
+            android:textOn="Medium"
+            app:layout_constraintStart_toEndOf="@id/highToggle"
+            app:layout_constraintTop_toBottomOf="@id/createdBy"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <ToggleButton
+            android:id="@+id/lowToggle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_marginStart="@dimen/size_8dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:background="@drawable/toggle_background"
+            android:textAllCaps="false"
+            android:textOff="Low"
+            android:textOn="Low"
+            app:layout_constraintStart_toEndOf="@id/mediumToggle"
+            app:layout_constraintTop_toBottomOf="@id/createdBy"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/priorityGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="highToggle,mediumToggle,lowToggle" />
+
+        <LinearLayout
+            android:id="@+id/layoutReminder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:layout_marginBottom="@dimen/size_10dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/size_5dp"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@id/highToggle">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="@dimen/size_0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:drawableStart="@drawable/ic_add_reminder"
+                android:drawablePadding="@dimen/size_8dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/size_5dp"
+                android:text="@string/add_reminder"
+                android:textColor="@color/purple_500"
+                android:textSize="@dimen/font_12sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/addRequirement"
+                android:layout_width="@dimen/size_0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:drawableStart="@drawable/ic_requirement"
+                android:drawablePadding="@dimen/size_8dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/size_5dp"
+                android:text="@string/add_requirement"
+                android:textColor="@color/purple_500"
+                android:textSize="@dimen/font_12sp" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtAssignTo"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/arrow_down"
+            android:gravity="center_vertical"
+            android:padding="@dimen/size_5dp"
+            android:text="@string/add_assignee"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutReminder" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
