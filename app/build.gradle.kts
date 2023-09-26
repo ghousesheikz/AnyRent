@@ -11,8 +11,8 @@ android {
         applicationId = "com.shaikhomes.smartdiary"
         minSdk = 24
         targetSdk = 33
-        versionCode = 4
-        versionName = "4.0"
+        versionCode = 5
+        versionName = "5.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -60,5 +60,4 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.jraska:falcon:2.2.0")
     implementation("com.github.OzcanAlasalvar:DatePicker:1.0.4")
-    implementation("com.github.abdulrehmank7:iOS-date-time-picker:1.05")
 }

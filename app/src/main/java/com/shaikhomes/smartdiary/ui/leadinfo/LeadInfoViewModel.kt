@@ -3,6 +3,7 @@ package com.shaikhomes.smartdiary.ui.leadinfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.shaikhomes.smartdiary.ui.models.AddReminderData
 import com.shaikhomes.smartdiary.ui.models.LeadsData
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.models.PropertyData
@@ -68,7 +69,7 @@ class LeadInfoViewModel : ViewModel() {
     }
 
     fun getProperties(contactno: String, success: (PropertyData) -> Unit, error: (String) -> Unit) {
-        RetrofitInstance.api.getProperty(contactno)
+        RetrofitInstance.api.getProperty(contactno,"")
             .enqueue(object : Callback<PropertyData> {
                 override fun onResponse(
                     call: Call<PropertyData>,
@@ -82,6 +83,26 @@ class LeadInfoViewModel : ViewModel() {
                 }
 
                 override fun onFailure(call: Call<PropertyData>, t: Throwable) {
+                    error.invoke(t.message.toString())
+                }
+            })
+    }
+
+    fun getLeadSchedule(contactno: String, success: (AddReminderData) -> Unit, error: (String) -> Unit) {
+        RetrofitInstance.api.getScheduleLeads("","",contactno)
+            .enqueue(object : Callback<AddReminderData> {
+                override fun onResponse(
+                    call: Call<AddReminderData>,
+                    response: Response<AddReminderData>
+                ) {
+                    if (response.body()?.status == "200") {
+                        success.invoke(response.body()!!)
+                    } else {
+                        error.invoke("Something Went Wrong")
+                    }
+                }
+
+                override fun onFailure(call: Call<AddReminderData>, t: Throwable) {
                     error.invoke(t.message.toString())
                 }
             })

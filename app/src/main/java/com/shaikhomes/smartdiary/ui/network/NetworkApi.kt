@@ -1,7 +1,9 @@
 package com.shaikhomes.smartdiary.ui.network
 
+import com.shaikhomes.smartdiary.ui.models.AddReminderData
 import com.shaikhomes.smartdiary.ui.models.LeadsData
 import com.shaikhomes.smartdiary.ui.models.LeadsList
+import com.shaikhomes.smartdiary.ui.models.LeadscheduleList
 import com.shaikhomes.smartdiary.ui.models.PropertyData
 import com.shaikhomes.smartdiary.ui.models.PropertyList
 import com.shaikhomes.smartdiary.ui.models.ResponseData
@@ -19,7 +21,7 @@ interface NetworkApi {
 
 
     @GET("Property?")
-    fun getProperty(@Query("contactno") contactno: String): Call<PropertyData>
+    fun getProperty(@Query("contactno") contactno: String,@Query("leadid") leadid: String): Call<PropertyData>
 
     @GET("Leads?")
     fun getleadsData(
@@ -29,8 +31,18 @@ interface NetworkApi {
         @Query("contactno") contactno: String
     ): Call<LeadsData>
 
+    @GET("LeadSchedule?")
+    fun getScheduleLeads(
+        @Query("assignto") assignto: String,
+        @Query("scheduledon") scheduledon: String,
+        @Query("contactno") contactno: String
+    ): Call<AddReminderData>
+
     @POST("Property?")
     fun postProperty(@Body propertyList: PropertyList): Call<ResponseData>
+
+    @POST("LeadSchedule?")
+    fun postReminder(@Body reminderData: LeadscheduleList): Call<ResponseData>
 
     @POST("Leads?")
     fun postLead(@Body leadData: LeadsList): Call<ResponseData>

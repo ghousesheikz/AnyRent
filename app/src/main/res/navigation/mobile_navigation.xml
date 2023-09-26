@@ -157,7 +157,15 @@
             app:popExitAnim="@animator/nav_default_pop_exit_anim"
             app:popUpTo="@id/nav_leadinfo"
             app:popUpToInclusive="false" />
-
+        <action
+            android:id="@+id/action_leadinfoFragment_to_addreminder"
+            app:destination="@id/nav_addreminder"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_leadinfo"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment

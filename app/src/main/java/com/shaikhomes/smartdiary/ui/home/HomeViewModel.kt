@@ -79,7 +79,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun getProperties(contactno: String, success: (PropertyData) -> Unit, error: (String) -> Unit) {
-        RetrofitInstance.api.getProperty(contactno)
+        RetrofitInstance.api.getProperty(contactno,"")
             .enqueue(object : Callback<PropertyData> {
                 override fun onResponse(
                     call: Call<PropertyData>,

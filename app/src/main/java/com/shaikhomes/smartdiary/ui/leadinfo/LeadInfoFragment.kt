@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -56,6 +57,14 @@ class LeadInfoFragment : Fragment() {
             leadsList = Gson().fromJson(arguments?.getString(LEAD_DATA), LeadsList::class.java)
         }
         //updateLeadData(leadsList)
+        binding.btmAddReminder.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(LEAD_DATA, Gson().toJson(leadsList))
+            findNavController().navigate(
+                R.id.action_leadinfoFragment_to_addreminder,
+                bundle
+            )
+        }
         return root
     }
 
@@ -140,6 +149,7 @@ class LeadInfoFragment : Fragment() {
         if (!leadsList?.contactnumber.isNullOrEmpty()) {
             getLeadDetails(leadsList?.contactnumber)
             getProperty(leadsList?.contactnumber)
+            getLeadSchedules(leadsList?.contactnumber)
         }
     }
 
@@ -147,6 +157,30 @@ class LeadInfoFragment : Fragment() {
         leadInfoViewModel?.getProperties(contactnumber!!, success = {
             if (it.propertyList.isNotEmpty()) {
                 updateProperties(it.propertyList.first())
+            }
+        }, error = {})
+    }
+
+    private fun getLeadSchedules(contactnumber: String?) {
+        leadInfoViewModel?.getLeadSchedule(contactnumber!!, success = {
+            if (it.leadscheduleList.isNotEmpty()) {
+                binding.leadScheduleContainer.removeAllViews()
+                it.leadscheduleList.forEach { scheduledData ->
+                    binding.leadScheduleContainer.addView(
+                        layoutInflater.inflate(R.layout.item_leadschedule, null)?.apply {
+                            this.findViewById<AppCompatTextView>(R.id.scheduledOn).apply {
+                                text = scheduledData.scheduledon
+                            }
+                            this.findViewById<AppCompatTextView>(R.id.leadActivity).apply {
+                                text = scheduledData.activity
+                            }
+                            this.findViewById<AppCompatTextView>(R.id.notes).apply {
+                                text = scheduledData.feedback
+                            }
+
+                        }
+                    )
+                }
             }
         }, error = {})
     }
@@ -211,10 +245,9 @@ class LeadInfoFragment : Fragment() {
                 this.show()
 
             }
-        }
-        else if(item.itemId == R.id.action_screenshot){
+        } else if (item.itemId == R.id.action_screenshot) {
             val bitmap = Falcon.takeScreenshotBitmap(requireActivity())
-            shareImage(bitmap,leadsList?.leadsname)
+            shareImage(bitmap, leadsList?.leadsname)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -233,7 +266,7 @@ class LeadInfoFragment : Fragment() {
             shareIntent.putExtra(Intent.EXTRA_TEXT, text)
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
             startActivity(Intent.createChooser(shareIntent, "Smart Diary"))
-        }catch (exp:Exception){
+        } catch (exp: Exception) {
             exp.printStackTrace()
         }
     }

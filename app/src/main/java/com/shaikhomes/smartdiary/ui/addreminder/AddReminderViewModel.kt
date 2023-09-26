@@ -3,6 +3,7 @@ package com.shaikhomes.smartdiary.ui.addreminder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.shaikhomes.smartdiary.ui.models.LeadscheduleList
 import com.shaikhomes.smartdiary.ui.models.PropertyList
 import com.shaikhomes.smartdiary.ui.models.ResponseData
 import com.shaikhomes.smartdiary.ui.network.RetrofitInstance
@@ -23,6 +24,29 @@ class AddReminderViewModel : ViewModel() {
         error: (String) -> Unit
     ) {
         RetrofitInstance.api.postProperty(propertyList)
+            .enqueue(object : Callback<ResponseData> {
+                override fun onResponse(
+                    call: Call<ResponseData>,
+                    response: Response<ResponseData>
+                ) {
+                    if (response.body()?.status == "200") {
+                        success.invoke(response.body()!!)
+                    } else {
+                        error.invoke("Something Went Wrong")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseData>, t: Throwable) {
+                    error.invoke(t.message.toString())
+                }
+            })
+    }
+
+    fun scheduleVisit(
+        propertyList: LeadscheduleList, success: (ResponseData) -> Unit,
+        error: (String) -> Unit
+    ) {
+        RetrofitInstance.api.postReminder(propertyList)
             .enqueue(object : Callback<ResponseData> {
                 override fun onResponse(
                     call: Call<ResponseData>,
