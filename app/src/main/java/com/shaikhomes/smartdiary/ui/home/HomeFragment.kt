@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -22,11 +21,14 @@ import com.shaikhomes.smartdiary.MainActivity
 import com.shaikhomes.smartdiary.R
 import com.shaikhomes.smartdiary.databinding.FragmentHomeBinding
 import com.shaikhomes.smartdiary.ui.models.LeadsList
+import com.shaikhomes.smartdiary.ui.models.LeadscheduleList
 import com.shaikhomes.smartdiary.ui.models.PropertyData
 import com.shaikhomes.smartdiary.ui.models.UserDetailsList
+import com.shaikhomes.smartdiary.ui.utils.ADD_PROPERTY
 import com.shaikhomes.smartdiary.ui.utils.LEAD_DATA
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.currentdate
+import com.shaikhomes.smartdiary.ui.utils.currentonlydate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -41,6 +43,10 @@ class HomeFragment : Fragment() {
     var homeViewModel: HomeViewModel? = null
     var assignTo: String = ""
     var propertyData: PropertyData? = null
+    protected val prefmanager: PrefManager by lazy {
+        PrefManager(requireContext())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,12 +60,17 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_addleadFragment)
         }
         binding.propertyNav.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putBoolean(ADD_PROPERTY, true)
             findNavController().navigate(R.id.action_homeFragment_to_addproperty)
         }
         PrefManager(requireContext()).userData.let {
             assignTo = if (it?.IsAdmin == "1") "" else it?.UserName.toString()
             binding.txtUserName.text = it?.UserName
             binding.txtLocation.text = it?.Address
+        }
+        binding.layoutProperties.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_propertylist)
         }
         binding.leadsList.apply {
             this.layoutManager = LinearLayoutManager(requireContext())
@@ -115,11 +126,66 @@ class HomeFragment : Fragment() {
              binding.layoutSubHeader.visibility = View.GONE
          }*/
         getProperties()
+        getProperty()
         getLeads(assignTo)
+        getReminders()
         binding.swipeLead.setOnRefreshListener {
             getLeads(assignTo)
         }
         return root
+    }
+
+    private fun getReminders() {
+        homeViewModel?.getLeadSchedule(
+            prefmanager.userData?.UserName!!,
+            currentonlydate() /*"2023-11-03"*/,
+            success = {
+                if (!it.leadscheduleList.isNullOrEmpty()) showReminders(
+                    it.leadscheduleList,
+                    clickListener = {
+                        homeViewModel?.getLeadData(it.contactnumber!!, success = {
+                            if(it.leadsList.isNotEmpty()) {
+                                val bundle = Bundle()
+                                bundle.putString(LEAD_DATA, Gson().toJson(it.leadsList.first()))
+                                findNavController().navigate(
+                                    R.id.action_homeFragment_to_leadinfo,
+                                    bundle
+                                )
+                            }
+                        }, error = {})
+                    })
+            },
+            error = {})
+    }
+
+    private fun showReminders(
+        leadscheduleList: ArrayList<LeadscheduleList>,
+        clickListener: (LeadscheduleList) -> Unit
+    ) {
+        val dialog = Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_employee);
+        val linearlayout = dialog.findViewById<LinearLayout>(R.id.employeeList)
+        dialog.findViewById<AppCompatTextView>(R.id.titleHeader).apply {
+            text = "Today's Lead Reminders"
+        }
+        linearlayout.removeAllViews()
+        leadscheduleList.forEachIndexed { index, userDetailsList ->
+            linearlayout.addView(
+                layoutInflater.inflate(R.layout.item_employee, null)?.apply {
+                    this.findViewById<AppCompatTextView>(R.id.textName).apply {
+                        text = userDetailsList.getData()
+                        setOnClickListener {
+                            clickListener.invoke(userDetailsList)
+                            dialog.dismiss()
+                        }
+                    }
+
+                }
+            )
+        }
+        dialog.setCancelable(true)
+        dialog.show();
     }
 
     private fun getProperties() {
@@ -176,12 +242,29 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun getProperty() {
+        homeViewModel?.getProperty(success = {
+            it.propertyList.let { propertyList ->
+                if (prefmanager.userData?.IsAdmin == "1") {
+                    binding.txtPropertyCount.setText(it.propertyList.size.toString())
+                } else {
+                    val filter =
+                        it.propertyList.filter { it.assignto == prefmanager.userData?.UserName }
+                    binding.txtPropertyCount.setText(filter.size.toString())
+
+                }
+            }
+        }, error = {
+
+        })
+    }
+
     private fun getLeads(assignTo: String? = "") {
         binding.animationView.visibility = View.VISIBLE
         binding.leadsList.visibility = View.GONE
         homeViewModel?.getLeads(assignTo!!, success = {
             viewLifecycleOwner.lifecycleScope.launch {
-                if(binding.swipeLead.isRefreshing) binding.swipeLead.isRefreshing=false
+                if (binding.swipeLead.isRefreshing) binding.swipeLead.isRefreshing = false
                 delay(3000)
                 binding.animationView.visibility = View.GONE
                 binding.leadsList.visibility = View.VISIBLE
@@ -191,7 +274,7 @@ class HomeFragment : Fragment() {
                 } else leadAdapter?.updateList(emptyList(), emptyList())
             }
         }, error = {
-            if(binding.swipeLead.isRefreshing) binding.swipeLead.isRefreshing=false
+            if (binding.swipeLead.isRefreshing) binding.swipeLead.isRefreshing = false
             binding.animationView.visibility = View.GONE
         })
     }
@@ -205,4 +288,10 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun LeadscheduleList.getData(): String? {
+        return "Name : ${this.leadsname}\nNumber : ${this.contactnumber}"
+    }
 }
+
+

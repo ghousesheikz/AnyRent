@@ -21,6 +21,8 @@ data class LeadsList(
     @SerializedName("createdby") var createdby: String? = null,
     @SerializedName("assignto") var assignto: String? = null,
     @SerializedName("updatedon") var updatedon: String? = null,
+    @SerializedName("countrycode") var countrycode: String? = null,
+    @SerializedName("lookingfor") var lookingfor: String? = null,
     @SerializedName("update") var update: String? = null,
     @SerializedName("delete") var delete: String? = null,
     var propertyData: String? = ""

@@ -300,7 +300,7 @@ class ViewLeadsFragment : Fragment() {
             try {
                 /*${lead.contactnumber}*/
                 val url =
-                    "https://api.whatsapp.com/send?phone=${lead.contactnumber}" + "&text=" + URLEncoder.encode(
+                    "https://api.whatsapp.com/send?phone=${(if (!lead.countrycode.isNullOrEmpty()) lead.countrycode else "+91") + lead.contactnumber}" + "&text=" + URLEncoder.encode(
                         "${message} \uD83D\uDE0A",
                         "UTF-8"
                     )//+"&data-action=File://"+ file?.absoluteFile

@@ -73,7 +73,12 @@ class LeadInfoFragment : Fragment() {
             if (!leadData?.contactnumber.isNullOrEmpty()) {
                 binding.txtLeadNameName.setText(leadData?.leadsname)
                 binding.leadName.setText(leadData?.leadsname)
-                binding.contactNo.setText(leadData?.contactnumber)
+                binding.LookingFor.setText(leadData?.lookingfor)
+                binding.contactNo.setText(
+                    (if (!leadData?.countrycode.isNullOrEmpty()) leadData?.countrycode else "").plus(
+                        leadData?.contactnumber
+                    )
+                )
                 binding.source.setText(leadData?.createdby)
                 val priority = when (leadData?.priority) {
                     "High" -> {
@@ -95,7 +100,9 @@ class LeadInfoFragment : Fragment() {
                     try {
                         val intent = Intent(
                             Intent.ACTION_CALL,
-                            Uri.parse("tel:" + leadData?.contactnumber)
+                            Uri.parse(
+                                "tel:" + (leadData?.countrycode ?: "+91") + leadData?.contactnumber
+                            )
                         )
                         requireActivity().startActivity(intent)
                     } catch (exp: Exception) {
@@ -108,7 +115,7 @@ class LeadInfoFragment : Fragment() {
 
                     try {
                         val url =
-                            "https://api.whatsapp.com/send?phone=${leadData?.contactnumber}" + "&text=" + URLEncoder.encode(
+                            "https://api.whatsapp.com/send?phone=${(if (!leadData?.countrycode.isNullOrEmpty()) leadData?.countrycode else "+91") + leadData?.contactnumber}" + "&text=" + URLEncoder.encode(
                                 "",
                                 "UTF-8"
                             )

@@ -1,17 +1,20 @@
 package com.shaikhomes.smartdiary.ui.addlead
 
+import android.app.Dialog
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.gson.Gson
 import com.shaikhomes.smartdiary.R
 import com.shaikhomes.smartdiary.databinding.FragmentAddleadBinding
@@ -31,6 +34,7 @@ class AddLeadFragment : Fragment() {
     private val binding get() = _binding!!
     private var leadType: String? = "Rent"
     private var leadRole: String? = ""
+    private var lookingFor: String? = ""
     protected val prefmanager: PrefManager by lazy {
         PrefManager(requireContext())
     }
@@ -56,6 +60,7 @@ class AddLeadFragment : Fragment() {
             if (!leadData?.leadsname.isNullOrEmpty()) {
                 binding.edtContactNumber.setText(leadData?.contactnumber)
                 binding.edtLeadsName.setText(leadData?.leadsname)
+                lookingFor = leadData?.lookingfor
                 if (leadData?.typeoflead?.toLowerCase() == "buy") {
                     binding.buyToggle.isChecked = true
                     binding.buyToggle.setTextColor(resources.getColor(R.color.c_white_1))
@@ -86,6 +91,19 @@ class AddLeadFragment : Fragment() {
                 } else if (leadData?.priority?.toLowerCase() == "low") {
                     binding.lowToggle.isChecked = true
                     binding.lowToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                }
+                if (leadData?.lookingfor?.toLowerCase() == "male") {
+                    binding.maleToggle.isChecked = true
+                    binding.maleToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                } else if (leadData?.lookingfor?.toLowerCase() == "female") {
+                    binding.femaleToggle.isChecked = true
+                    binding.femaleToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                } else if (leadData?.lookingfor?.toLowerCase() == "family") {
+                    binding.familyToggle.isChecked = true
+                    binding.familyToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                } else if (leadData?.lookingfor?.toLowerCase() == "couples") {
+                    binding.couplesToggle.isChecked = true
+                    binding.couplesToggle.setTextColor(resources.getColor(R.color.c_white_1))
                 }
                 handleToggles()
                 binding.priorityGroup.visibility = View.VISIBLE
@@ -169,7 +187,56 @@ class AddLeadFragment : Fragment() {
                 binding.agentToggle.setTextColor(resources.getColor(R.color.c_black_1))
             }
         }
-        binding.btnNext.setOnClickListener {view->
+        binding.maleToggle.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                lookingFor = "Male"
+                leadsList?.lookingfor = "Male"
+                binding.maleToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                binding.femaleToggle.isChecked = false
+                binding.familyToggle.isChecked = false
+                binding.couplesToggle.isChecked = false
+            } else {
+                binding.maleToggle.setTextColor(resources.getColor(R.color.c_black_1))
+            }
+        }
+
+        binding.rentToggle.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                lookingFor = "Female"
+                leadsList?.lookingfor = "Female"
+                binding.femaleToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                binding.maleToggle.isChecked = false
+                binding.familyToggle.isChecked = false
+                binding.couplesToggle.isChecked = false
+            } else {
+                binding.femaleToggle.setTextColor(resources.getColor(R.color.c_black_1))
+            }
+        }
+        binding.familyToggle.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                lookingFor = "Family"
+                leadsList?.lookingfor = "Family"
+                binding.familyToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                binding.maleToggle.isChecked = false
+                binding.femaleToggle.isChecked = false
+                binding.couplesToggle.isChecked = false
+            } else {
+                binding.familyToggle.setTextColor(resources.getColor(R.color.c_black_1))
+            }
+        }
+        binding.couplesToggle.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                lookingFor = "Couples"
+                leadsList?.lookingfor = "Couples"
+                binding.couplesToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                binding.maleToggle.isChecked = false
+                binding.femaleToggle.isChecked = false
+                binding.familyToggle.isChecked = false
+            } else {
+                binding.couplesToggle.setTextColor(resources.getColor(R.color.c_black_1))
+            }
+        }
+        binding.btnNext.setOnClickListener { view ->
             if (validations()) {
                 requireActivity().hideKeyboard(view)
                 val leadsData = if (!leadsList?.leadsname.isNullOrEmpty()) {
@@ -178,6 +245,7 @@ class AddLeadFragment : Fragment() {
                     leadsList?.updatedon = currentdate()
                     leadsList?.contactnumber = binding.edtContactNumber.text.toString().trim()
                     leadsList?.leadsname = binding.edtLeadsName.text.toString().trim()
+                    leadsList?.countrycode = binding.prefixNumber.text.toString()
                     leadsList
                 } else {
                     LeadsList(
@@ -198,6 +266,8 @@ class AddLeadFragment : Fragment() {
                         createdby = prefmanager.userData?.UserName.toString(),
                         assignto = if (prefmanager.userData?.IsAdmin == "1") "" else prefmanager.userData?.UserName.toString(),
                         updatedon = currentdate(),
+                        countrycode = binding.prefixNumber.text.toString(),
+                        lookingfor = lookingFor,
                         update = null
                     )
                 }
@@ -223,7 +293,67 @@ class AddLeadFragment : Fragment() {
 
             }
         }
+        binding.prefixNumber.setOnClickListener {
+            showCountryCodeDialog { countryCode ->
+                if (countryCode == "+91") {
+                    binding.prefixNumber.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_india,
+                        0,
+                        0,
+                        0
+                    )
+                } else if (countryCode == "+971") {
+                    binding.prefixNumber.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_uae,
+                        0,
+                        0,
+                        0
+                    )
+                }
+                binding.prefixNumber.setText(countryCode)
+            }
+        }
         return root
+    }
+
+    fun showCountryCodeDialog(
+        clickListener: (String) -> Unit
+    ) {
+        val countryCodeList = arrayListOf("+91", "+971")
+        val dialog = Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_employee);
+        dialog.findViewById<AppCompatTextView>(R.id.titleHeader).apply {
+            text = "Country Code"
+        }
+        val linearlayout = dialog.findViewById<LinearLayout>(R.id.employeeList)
+        linearlayout.removeAllViews()
+        countryCodeList.forEachIndexed { index, userDetailsList ->
+            linearlayout.addView(
+                layoutInflater.inflate(R.layout.item_employee, null)?.apply {
+                    this.findViewById<AppCompatTextView>(R.id.textName).apply {
+                        if (userDetailsList == "+91") {
+                            setCompoundDrawablesWithIntrinsicBounds(
+                                R.drawable.ic_india, 0, 0, 0
+                            )
+                        } else if (userDetailsList == "+971") {
+                            setCompoundDrawablesWithIntrinsicBounds(
+                                R.drawable.ic_uae, 0, 0, 0
+                            )
+                        }
+                        text = userDetailsList
+                        setOnClickListener {
+                            clickListener.invoke(userDetailsList)
+                            dialog.dismiss()
+                        }
+                    }
+
+                }
+            )
+        }
+        dialog.setCancelable(true)
+        dialog.show();
+
     }
 
     private fun handleToggles() {

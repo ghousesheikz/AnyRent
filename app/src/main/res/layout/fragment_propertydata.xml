@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        app:layout_constraintGuide_percent="0.03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        app:layout_constraintGuide_percent="0.97"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <ToggleButton
+        android:id="@+id/buyToggle"
+        app:layout_constraintStart_toEndOf="@id/rentToggle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.3"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Buy"
+        android:textOn="Buy"
+        android:visibility="gone" />
+
+    <ToggleButton
+        android:id="@+id/rentToggle"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.3"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Rent"
+        android:textOn="Rent"
+        android:visibility="gone" />
+
+    <ToggleButton
+        android:id="@+id/sellToggle"
+        app:layout_constraintStart_toEndOf="@id/buyToggle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.3"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Sell"
+        android:textOn="Sell"
+        android:textSize="@dimen/font_12sp"
+        android:visibility="gone" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/toggleGroup"
+        app:constraint_referenced_ids="rentToggle,buyToggle,sellToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeEmployee"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/buyToggle"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_0dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/employeeList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

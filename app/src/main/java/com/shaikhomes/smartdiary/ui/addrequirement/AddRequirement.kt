@@ -6,18 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import com.shaikhomes.smartdiary.R
 import com.shaikhomes.smartdiary.databinding.FragmentAddrequirementBinding
-import com.shaikhomes.smartdiary.ui.addlead.AddLeadViewModel
 import com.shaikhomes.smartdiary.ui.customviews.SafeClickListener
 import com.shaikhomes.smartdiary.ui.models.LeadsList
-import com.shaikhomes.smartdiary.ui.models.PropertyData
 import com.shaikhomes.smartdiary.ui.models.PropertyList
+import com.shaikhomes.smartdiary.ui.utils.ADD_PROPERTY
 import com.shaikhomes.smartdiary.ui.utils.LEAD_DATA
 import com.shaikhomes.smartdiary.ui.utils.PROPERTY_DATA
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
@@ -46,6 +43,7 @@ class AddRequirement : Fragment() {
     private var subPropertyType: String = ""
     private var propertyType: String = ""
     private var noOfBedRooms: String = ""
+    private var addProperty: Boolean? = false
 
 
     override fun onCreateView(
@@ -58,6 +56,7 @@ class AddRequirement : Fragment() {
         if (!arguments?.getString(LEAD_DATA).isNullOrEmpty()) {
             leadsList = Gson().fromJson(arguments?.getString(LEAD_DATA), LeadsList::class.java)
         }
+        addProperty = arguments?.getBoolean(ADD_PROPERTY, false)
         if (!arguments?.getString(PROPERTY_DATA).isNullOrEmpty()) {
             propertyData =
                 Gson().fromJson(arguments?.getString(PROPERTY_DATA), PropertyList::class.java)
@@ -121,19 +120,19 @@ class AddRequirement : Fragment() {
 
     private fun saveData() {
         val propertyList = PropertyList(
-            contactnumber = leadsList?.contactnumber,
+            contactnumber = if(addProperty==true) "" else leadsList?.contactnumber,
             subpropertytype = subPropertyType,
             typeoflead = typeOfLead,
             propertytype = propertyType,
-            leadsname = leadsList?.leadsname,
+            leadsname =if(addProperty==true) "" else leadsList?.leadsname,
             noofbedrooms = noOfBedRooms,
             leadrole = "",
             project = binding.edtSpecifyProject.text.toString().trim(),
-            priority = leadsList?.priority,
+            priority = if(addProperty==true) "" else leadsList?.priority,
             locations = binding.edtSpecifyLocality.text.toString(),
-            leadid = leadsList?.ID,
-            assignto = leadsList?.assignto,
-            leadstatus = leadsList?.leadstatus,
+            leadid = if(addProperty==true) 0 else leadsList?.ID,
+            assignto = if(addProperty==true) "" else leadsList?.assignto,
+            leadstatus = if(addProperty==true) "" else leadsList?.leadstatus,
             createdby = prefmanager.userData?.UserName,
             updatedon = currentdate(),
             maxamount = maxAmount,

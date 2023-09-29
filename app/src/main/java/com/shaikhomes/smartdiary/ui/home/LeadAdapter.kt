@@ -58,7 +58,7 @@ class LeadAdapter(
 
     override fun onBindViewHolder(holder: LeadViewHolder, position: Int) {
         holder.leadName.text =
-            leadsList[position].leadsname.plus(" (${leadsList[position].contactnumber})")
+            leadsList[position].leadsname.plus(" (${(if (!leadsList[position].countrycode.isNullOrEmpty()) leadsList[position].countrycode else "").plus(leadsList[position].contactnumber)})")
         holder.dateTime.text =
             if (!leadsList[position].updatedon.isNullOrEmpty()) leadsList[position].updatedon?.dateFormat(
                 "dd-MM-yyyy HH:mm:ss",
@@ -166,6 +166,8 @@ class LeadAdapter(
                             this.text =
                                 "For ${data.typeoflead} ${data.subpropertytype} in ${data.locations}. \nBudget ₹${data.minamount} - ₹${data.maxamount}"
                         }
+                    }else{
+                        holder.propertyData.visibility = View.GONE
                     }
                 }
         }

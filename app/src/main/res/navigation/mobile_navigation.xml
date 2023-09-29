@@ -69,6 +69,16 @@
             app:popUpTo="@id/nav_home"
             app:popUpToInclusive="false" />
 
+        <action
+            android:id="@+id/action_homeFragment_to_propertylist"
+            app:destination="@id/nav_propertylist"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="false" />
+
     </fragment>
 
     <fragment
@@ -99,6 +109,11 @@
         android:name="com.shaikhomes.smartdiary.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_propertylist"
+        android:name="com.shaikhomes.smartdiary.ui.propertylist.PropertyDataFragment"
+        android:label="@string/property_list"
+        tools:layout="@layout/fragment_propertydata" />
     <fragment
         android:id="@+id/nav_manageLeads"
         android:name="com.shaikhomes.smartdiary.ui.manageleads.ManageLeadsFragment"

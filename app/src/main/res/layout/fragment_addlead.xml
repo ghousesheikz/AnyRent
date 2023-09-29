@@ -107,9 +107,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_8dp"
-        android:text="+ 91"
+        android:text="+91"
         android:textColor="@color/c_black_1"
         android:textSize="@dimen/font_24sp"
+        android:drawablePadding="@dimen/size_8dp"
+        android:drawableStart="@drawable/ic_india"
         app:layout_constraintBottom_toBottomOf="@id/txtMobileNumber"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@id/txtCountry"
@@ -275,6 +277,83 @@
         android:visibility="gone"
         app:constraint_referenced_ids="txtLeadPriority,highToggle,mediumToggle,lowToggle" />
 
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtLookingFor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_20dp"
+        android:layout_marginBottom="@dimen/size_8dp"
+        android:text="Looking For"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/highToggle" />
+
+    <ToggleButton
+        android:id="@+id/maleToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Male"
+        android:textOn="Male"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtLookingFor"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <ToggleButton
+        android:id="@+id/femaleToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Female"
+        android:textOn="Female"
+        app:layout_constraintStart_toEndOf="@id/maleToggle"
+        app:layout_constraintTop_toBottomOf="@id/txtLookingFor"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <ToggleButton
+        android:id="@+id/familyToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Family"
+        android:textOn="Family"
+        app:layout_constraintStart_toEndOf="@id/femaleToggle"
+        app:layout_constraintTop_toBottomOf="@id/txtLookingFor"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <ToggleButton
+        android:id="@+id/couplesToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Couples"
+        android:textOn="Couples"
+        app:layout_constraintStart_toEndOf="@id/familyToggle"
+        app:layout_constraintTop_toBottomOf="@id/txtLookingFor"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/lookingforGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="txtLookingFor,maleToggle,femaleToggle,familyToggle" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnNext"
         android:layout_width="@dimen/size_0dp"
@@ -285,5 +364,5 @@
         android:textColor="@color/c_white_1"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/highToggle" />
+        app:layout_constraintTop_toBottomOf="@id/maleToggle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

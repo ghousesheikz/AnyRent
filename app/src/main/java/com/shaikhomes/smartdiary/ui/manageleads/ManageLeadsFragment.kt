@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.shaikhomes.smartdiary.R
 import com.shaikhomes.smartdiary.databinding.FragmentManageleadsBinding
-import com.shaikhomes.smartdiary.databinding.FragmentViewleadsBinding
 import com.shaikhomes.smartdiary.ui.home.LeadAdapter
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.models.PropertyData
@@ -197,7 +196,7 @@ class ManageLeadsFragment : Fragment() {
             }
         }
         //update recyclerview
-        leadAdapter?.updateList(temp as List<LeadsList>,propertyData?.propertyList ?: emptyList())
+        leadAdapter?.updateList(temp as List<LeadsList>, propertyData?.propertyList ?: emptyList())
     }
 
     private fun getProperties() {
@@ -284,7 +283,7 @@ class ManageLeadsFragment : Fragment() {
             try {
                 /*${lead.contactnumber}*/
                 val url =
-                    "https://api.whatsapp.com/send?phone=${lead.contactnumber}" + "&text=" + URLEncoder.encode(
+                    "https://api.whatsapp.com/send?phone=${(if (!lead.countrycode.isNullOrEmpty()) lead.countrycode else "+91") + lead.contactnumber}" + "&text=" + URLEncoder.encode(
                         "${message} \uD83D\uDE0A",
                         "UTF-8"
                     )

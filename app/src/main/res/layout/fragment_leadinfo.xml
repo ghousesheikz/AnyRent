@@ -168,6 +168,27 @@
             app:layout_constraintWidth_percent="0.5" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtLookingfor"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_5dp"
+            android:text="@string/looking_for"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/txtcontactNo"
+            app:layout_constraintWidth_percent="0.4" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/LookingFor"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_5dp"
+            android:text=""
+            app:layout_constraintStart_toEndOf="@id/txtLookingfor"
+            app:layout_constraintTop_toBottomOf="@id/contactNo"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtsource"
             android:layout_width="@dimen/size_0dp"
             android:layout_height="wrap_content"
@@ -175,7 +196,7 @@
             android:text="@string/source"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/txtcontactNo"
+            app:layout_constraintTop_toBottomOf="@id/txtLookingfor"
             app:layout_constraintWidth_percent="0.4" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -185,7 +206,7 @@
             android:padding="@dimen/size_5dp"
             android:text=""
             app:layout_constraintStart_toEndOf="@id/txtsource"
-            app:layout_constraintTop_toBottomOf="@id/txtcontactNo"
+            app:layout_constraintTop_toBottomOf="@id/txtLookingfor"
             app:layout_constraintWidth_percent="0.5" />
 
         <androidx.appcompat.widget.AppCompatTextView

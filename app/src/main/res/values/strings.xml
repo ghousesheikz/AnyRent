@@ -37,4 +37,6 @@
     <string name="hot_leads">Hot Leads</string>
     <string name="menu_manageleads">Manage Leads</string>
     <string name="menu_employee">Employee Tracking</string>
+    <string name="looking_for">Looking For</string>
+    <string name="property_list">Property List</string>
 </resources>
