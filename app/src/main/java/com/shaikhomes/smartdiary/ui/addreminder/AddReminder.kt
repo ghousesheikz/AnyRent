@@ -18,6 +18,7 @@ import com.shaikhomes.smartdiary.ui.models.LeadscheduleList
 import com.shaikhomes.smartdiary.ui.utils.LEAD_DATA
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.currentdate
+import com.shaikhomes.smartdiary.ui.utils.formatDate
 import java.util.Calendar
 
 
@@ -56,6 +57,8 @@ class AddReminder : Fragment() {
             binding.edtLeadNumber.setText(leadsList?.contactnumber)
         }
         binding.btmAddReminder.setOnClickListener(clickListener)
+        binding.currentDate.setText(formatDate("dd MMM, yyyy"))
+        binding.currentTime.setText(formatDate("hh:mm aa"))
         return root
     }
 

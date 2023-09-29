@@ -21,6 +21,11 @@ fun currentonlydate(): String {
     return sdf.format(Date())
 }
 
+fun formatDate(format:String): String {
+    val sdf = SimpleDateFormat(format)
+    return sdf.format(Date())
+}
+
 fun String.dateFormat(fromFormat: String, toFormat: String): String {
     val parser = SimpleDateFormat(fromFormat)
     val formatter = SimpleDateFormat(toFormat)
