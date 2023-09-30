@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/size_8dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/size_5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/size_8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/leadName"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:text="Lead Name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/leadnumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:gravity="start"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/leadName" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:gravity="start"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/leadnumber" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/createdBy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:gravity="start"
+            android:textSize="@dimen/font_12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dateTime" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtAssignTo"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/arrow_down"
+            android:gravity="center_vertical"
+            android:padding="@dimen/size_5dp"
+            android:text="@string/add_assignee"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/createdBy" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

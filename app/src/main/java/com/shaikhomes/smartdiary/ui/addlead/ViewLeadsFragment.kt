@@ -87,7 +87,7 @@ class ViewLeadsFragment : Fragment() {
                 arrayListOf(),
                 isAdmin = PrefManager(requireContext()).userData?.IsAdmin == "1"
             )
-            leadAdapter?.setLeadClickListener {
+            leadAdapter?.setLeadClickListener {it,pos->
                 val bundle = Bundle()
                 bundle.putString(LEAD_DATA, Gson().toJson(it))
                 findNavController().navigate(R.id.action_viewleadFragment_to_leadinfo, bundle)

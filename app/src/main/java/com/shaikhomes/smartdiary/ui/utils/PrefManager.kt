@@ -52,4 +52,10 @@ class PrefManager(private val context: Context) {
         set(value) {
             editor.putBoolean(IS_LOGGED_IN, value).apply()
         }
+
+    var listPos: Int
+        get() = preference.getInt(LIST_POS, 0)
+        set(value) {
+            editor.putInt(LIST_POS, value).apply()
+        }
 }

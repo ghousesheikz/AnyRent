@@ -18,6 +18,10 @@
             android:id="@+id/nav_employeeData"
             android:icon="@drawable/ic_employee"
             android:title="@string/menu_employee" />
+        <item
+            android:id="@+id/nav_scheduleOn"
+            android:icon="@drawable/ic_reminder_logo"
+            android:title="@string/menu_schedule" />
 
     </group>
 </menu>

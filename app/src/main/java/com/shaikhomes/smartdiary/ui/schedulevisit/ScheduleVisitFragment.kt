@@ -1,8 +1,7 @@
-package com.shaikhomes.smartdiary.ui.manageleads
+package com.shaikhomes.smartdiary.ui.schedulevisit
 
 import android.app.Dialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.text.Editable
@@ -15,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
@@ -23,38 +23,37 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.shaikhomes.smartdiary.R
-import com.shaikhomes.smartdiary.databinding.FragmentManageleadsBinding
-import com.shaikhomes.smartdiary.ui.home.LeadAdapter
-import com.shaikhomes.smartdiary.ui.models.LeadsList
+import com.shaikhomes.smartdiary.databinding.FragmentSchedulevisitBinding
+import com.shaikhomes.smartdiary.ui.models.LeadscheduleList
 import com.shaikhomes.smartdiary.ui.models.PropertyData
 import com.shaikhomes.smartdiary.ui.models.UserDetailsList
 import com.shaikhomes.smartdiary.ui.utils.LEAD_DATA
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.WhatsappAccessibilityService
 import com.shaikhomes.smartdiary.ui.utils.currentdate
+import com.shaikhomes.smartdiary.ui.utils.currentonlydate
 import com.shaikhomes.smartdiary.ui.utils.isAccessibilityOn
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.net.URLEncoder
 
-class ManageLeadsFragment : Fragment() {
-    private var _binding: FragmentManageleadsBinding? = null
+class ScheduleVisitFragment : Fragment() {
+    private var _binding: FragmentSchedulevisitBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private var leadType: String? = ""
+    private var scheduleon: String? = currentonlydate()
     protected val prefmanager: PrefManager by lazy {
         PrefManager(requireContext())
     }
-    var tempLeadList: List<LeadsList>? = emptyList()
-    private var viewLeadsViewModel: ManageLeadsViewModel? = null
-    private var leadAdapter: LeadAdapter? = null
+    var tempLeadList: List<LeadscheduleList>? = emptyList()
+    private var viewLeadsViewModel: ScheduleVisitViewModel? = null
+    private var leadAdapter: ScheduleVisitAdapter? = null
     var propertyData: PropertyData? = null
+    var assignTo: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,105 +65,67 @@ class ManageLeadsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentManageleadsBinding.inflate(inflater, container, false)
+        _binding = FragmentSchedulevisitBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        viewLeadsViewModel = ViewModelProvider(this).get(ManageLeadsViewModel::class.java)
+        viewLeadsViewModel = ViewModelProvider(this).get(ScheduleVisitViewModel::class.java)
         getProperties()
-        binding.leadsList.apply {
+        assignTo = if (prefmanager.userData?.IsAdmin == "2") {
+            binding.toggleGroup.visibility = View.GONE
+            prefmanager.userData?.UserName
+        } else ""
+        binding.visitList.apply {
             this.layoutManager = LinearLayoutManager(requireContext())
-            leadAdapter = LeadAdapter(
+            leadAdapter = ScheduleVisitAdapter(
                 requireContext(),
                 arrayListOf(),
                 isAdmin = PrefManager(requireContext()).userData?.IsAdmin == "1"
             )
-            leadAdapter?.setLeadClickListener {it,pos->
-                val bundle = Bundle()
-                bundle.putString(LEAD_DATA, Gson().toJson(it))
-                findNavController().navigate(R.id.action_viewleadFragment_to_leadinfo, bundle)
+            leadAdapter?.setLeadClickListener {
+                viewLeadsViewModel?.getLeadData(it.contactnumber!!, success = {
+                    if (it.leadsList.isNotEmpty()) {
+                        val bundle = Bundle()
+                        bundle.putString(LEAD_DATA, Gson().toJson(it.leadsList.first()))
+                        findNavController().navigate(
+                            R.id.action_scheduleFragment_to_leadinfo,
+                            bundle
+                        )
+                    }else{
+                        showToast(requireContext(),"No lead registered with this number")
+                    }
+                }, error = {})
+
             }
             leadAdapter?.setAssignToClickListener {
                 it.updatedon = currentdate()
                 it.update = "update"
                 getUsers(it)
             }
-            leadAdapter?.setRequirementClickListener {
-                val bundle = Bundle()
-                bundle.putString(LEAD_DATA, Gson().toJson(it))
-                findNavController().navigate(R.id.action_viewleadFragment_to_addrequirement, bundle)
-            }
-            leadAdapter?.setPriorityClickListener {
-                it.updatedon = currentdate()
-                //it.createdby = PrefManager(requireContext()).userData?.UserName
-                it.update = "update"
-                viewLeadsViewModel?.updateLead(leadsList = it, success = {
-                    getLeads(leadType)
-                }, error = {
-
-                })
-            }
             this.adapter = leadAdapter
-            this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    /*if (dy > 0) {
-                        binding.layoutHeader.visibility = View.GONE
-                    } else {
-                        binding.layoutHeader.visibility = View.VISIBLE
-                    }*/
-                }
-            })
         }
-        binding.allToggle.isChecked = true
-        binding.allToggle.setTextColor(resources.getColor(R.color.c_white_1))
+        binding.todayToggle.isChecked = true
+        binding.todayToggle.setTextColor(resources.getColor(R.color.c_white_1))
         binding.allToggle.setOnCheckedChangeListener { _, checked ->
             if (checked) {
-                leadType = ""
+                scheduleon = ""
                 binding.allToggle.setTextColor(resources.getColor(R.color.c_white_1))
-                binding.highToggle.isChecked = false
-                binding.mediumToggle.isChecked = false
-                binding.lowToggle.isChecked = false
-                getLeads(leadType)
+                binding.todayToggle.isChecked = false
+                getLeads(assignTo, scheduleon)
             } else {
                 binding.allToggle.setTextColor(resources.getColor(R.color.c_black_1))
             }
         }
-        binding.mediumToggle.setOnCheckedChangeListener { _, checked ->
+        binding.todayToggle.setOnCheckedChangeListener { _, checked ->
             if (checked) {
-                leadType = "Medium"
-                binding.mediumToggle.setTextColor(resources.getColor(R.color.c_white_1))
-                binding.highToggle.isChecked = false
+                scheduleon = currentonlydate()
+                binding.todayToggle.setTextColor(resources.getColor(R.color.c_white_1))
                 binding.allToggle.isChecked = false
-                binding.lowToggle.isChecked = false
-                getLeads(leadType)
+                getLeads(assignTo, scheduleon)
             } else {
-                binding.mediumToggle.setTextColor(resources.getColor(R.color.c_black_1))
+                binding.todayToggle.setTextColor(resources.getColor(R.color.c_black_1))
             }
         }
 
-        binding.highToggle.setOnCheckedChangeListener { _, checked ->
-            if (checked) {
-                leadType = "High"
-                binding.highToggle.setTextColor(resources.getColor(R.color.c_white_1))
-                binding.mediumToggle.isChecked = false
-                binding.allToggle.isChecked = false
-                binding.lowToggle.isChecked = false
-                getLeads(leadType)
-            } else {
-                binding.highToggle.setTextColor(resources.getColor(R.color.c_black_1))
-            }
-        }
-        binding.lowToggle.setOnCheckedChangeListener { _, checked ->
-            if (checked) {
-                leadType = "Low"
-                binding.mediumToggle.isChecked = false
-                binding.highToggle.isChecked = false
-                binding.allToggle.isChecked = false
-                binding.lowToggle.setTextColor(resources.getColor(R.color.c_white_1))
-                getLeads(leadType)
-            } else {
-                binding.lowToggle.setTextColor(resources.getColor(R.color.c_black_1))
-            }
-        }
+
         binding.edtSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -179,15 +140,15 @@ class ManageLeadsFragment : Fragment() {
             }
 
         })
-        getLeads(leadType)
+        getLeads(assignTo, scheduleon)
         binding.swipeLead.setOnRefreshListener {
-            getLeads(leadType)
+            getLeads(assignTo, scheduleon)
         }
         return root
     }
 
     fun filter(text: String) {
-        val temp: MutableList<LeadsList?> = ArrayList<LeadsList?>()
+        val temp: MutableList<LeadscheduleList?> = ArrayList<LeadscheduleList?>()
         for (d in tempLeadList!!) {
             //or use .equal(text) with you want equal match
             //use .toLowerCase() for better matches
@@ -196,7 +157,7 @@ class ManageLeadsFragment : Fragment() {
             }
         }
         //update recyclerview
-        leadAdapter?.updateList(temp as List<LeadsList>, propertyData?.propertyList ?: emptyList())
+        leadAdapter?.updateList(temp as List<LeadscheduleList>)
     }
 
     private fun getProperties() {
@@ -205,34 +166,15 @@ class ManageLeadsFragment : Fragment() {
         }, error = {})
     }
 
-    private fun getLeads(leadType: String?) {
-        viewLeadsViewModel?.getLeads(leadType!!, leadType!!, success = {
+    private fun getLeads(assignto: String?, scheduleon: String?) {
+        viewLeadsViewModel?.getLeadSchedule(assignto!!, scheduleon!!, success = {
             viewLifecycleOwner.lifecycleScope.launch {
                 delay(1000)
-                if (binding.swipeLead.isRefreshing) binding.swipeLead.isRefreshing = false
-                if (it.leadsList.isNotEmpty()) {
-                    if (leadType.isEmpty()) {
-                        binding.allToggle.setText("All (${it.leadsList.size})")
-                    } else if (leadType == "High") {
-                        binding.highToggle.setText("High (${it.leadsList.size})")
-                    } else if (leadType == "Medium") {
-                        binding.mediumToggle.setText("Medium (${it.leadsList.size})")
-                    } else if (leadType == "Low") {
-                        binding.lowToggle.setText("Low (${it.leadsList.size})")
-                    }
-                    if (prefmanager.userData?.IsAdmin == "1") {
-                        tempLeadList = it.leadsList
-                        leadAdapter?.updateList(
-                            it.leadsList,
-                            propertyData?.propertyList ?: emptyList()
-                        )
-                    } else {
-                        val filter =
-                            it.leadsList.filter { it.assignto == prefmanager.userData?.UserName }
-                        tempLeadList = filter
-                        leadAdapter?.updateList(filter, propertyData?.propertyList ?: emptyList())
-                    }
-                } else leadAdapter?.updateList(emptyList(), emptyList())
+                if (it.leadscheduleList.isNotEmpty()) {
+                    tempLeadList = it.leadscheduleList
+                    if (binding.swipeLead.isRefreshing) binding.swipeLead.isRefreshing = false
+                    leadAdapter?.updateList(it.leadscheduleList)
+                }
             }
         }, error = {
             if (binding.swipeLead.isRefreshing) binding.swipeLead.isRefreshing = false
@@ -242,7 +184,7 @@ class ManageLeadsFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main, menu)
         menu.findItem(R.id.action_logout).setVisible(false)
-        menu.findItem(R.id.action_broadcast).setVisible(true)
+        menu.findItem(R.id.action_broadcast).setVisible(false)
         menu.findItem(R.id.action_logout).actionView?.visibility = View.GONE
         menu.findItem(R.id.action_delete).actionView?.visibility = View.GONE
         menu.findItem(R.id.action_delete).setVisible(false)
@@ -271,40 +213,20 @@ class ManageLeadsFragment : Fragment() {
         btnSend.setOnClickListener {
             if (edtMsg.text.toString().isNotEmpty()) {
                 dialog.dismiss()
-                sendBroadcastMessage(edtMsg.text.toString().trim())
             } else showToast(requireContext(), "Please enter message")
         }
         dialog.show()
     }
 
-    private fun sendBroadcastMessage(message: String) {
-        leadAdapter?.getList()?.forEach { lead ->
-            val i = Intent(Intent.ACTION_VIEW)
-            try {
-                /*${lead.contactnumber}*/
-                val url =
-                    "https://api.whatsapp.com/send?phone=${(if (!lead.countrycode.isNullOrEmpty()) lead.countrycode else "+91") + lead.contactnumber}" + "&text=" + URLEncoder.encode(
-                        "${message} \uD83D\uDE0A",
-                        "UTF-8"
-                    )
-                i.setPackage("com.whatsapp")
-                i.data = Uri.parse(url)
-                startActivity(i)
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
 
-
-    private fun getUsers(leadData: LeadsList) {
+    private fun getUsers(leadData: LeadscheduleList) {
         viewLeadsViewModel?.getUsers(success = {
             it.userDetailsList.let { usersList ->
                 val employeeList = usersList.filter { it.IsAdmin == "2" }
                 showEmployeeDialog(employeeList) {
                     leadData.assignto = it.UserName
                     viewLeadsViewModel?.updateLead(leadsList = leadData, success = {
-                        getLeads(leadType)
+                        getLeads(assignTo, scheduleon)
                     }, error = {
 
                     })

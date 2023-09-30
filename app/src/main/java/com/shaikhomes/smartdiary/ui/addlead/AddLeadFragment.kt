@@ -200,7 +200,7 @@ class AddLeadFragment : Fragment() {
             }
         }
 
-        binding.rentToggle.setOnCheckedChangeListener { _, checked ->
+        binding.femaleToggle.setOnCheckedChangeListener { _, checked ->
             if (checked) {
                 lookingFor = "Female"
                 leadsList?.lookingfor = "Female"

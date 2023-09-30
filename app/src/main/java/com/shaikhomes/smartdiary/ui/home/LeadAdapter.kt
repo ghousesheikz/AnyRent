@@ -35,12 +35,12 @@ class LeadAdapter(
         return LeadViewHolder(view)
     }
 
-    private var leadClickListener: ((LeadsList) -> Unit)? = null
+    private var leadClickListener: ((LeadsList,Int) -> Unit)? = null
     private var requirementClickListener: ((LeadsList) -> Unit)? = null
     private var priorityClickListener: ((LeadsList) -> Unit)? = null
     private var assignToClickListener: ((LeadsList) -> Unit)? = null
 
-    fun setLeadClickListener(leadList: (LeadsList) -> Unit) {
+    fun setLeadClickListener(leadList: (LeadsList,Int) -> Unit) {
         this.leadClickListener = leadList
     }
 
@@ -148,7 +148,7 @@ class LeadAdapter(
             }
         }
         holder.itemView.setOnClickListener {
-            leadClickListener?.invoke(leadsList[position])
+            leadClickListener?.invoke(leadsList[position],position)
         }
         holder.assignTo.setOnClickListener {
             assignToClickListener?.invoke(leadsList[position])

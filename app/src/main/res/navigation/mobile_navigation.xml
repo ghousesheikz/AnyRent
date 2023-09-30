@@ -119,6 +119,21 @@
         android:name="com.shaikhomes.smartdiary.ui.manageleads.ManageLeadsFragment"
         android:label="@string/menu_manageleads"
         tools:layout="@layout/fragment_manageleads" />
+    <fragment
+        android:id="@+id/nav_scheduleOn"
+        android:name="com.shaikhomes.smartdiary.ui.schedulevisit.ScheduleVisitFragment"
+        android:label="@string/menu_schedule"
+        tools:layout="@layout/fragment_schedulevisit">
+        <action
+            android:id="@+id/action_scheduleFragment_to_leadinfo"
+            app:destination="@id/nav_leadinfo"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_scheduleOn"
+            app:popUpToInclusive="false" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_employeeData"

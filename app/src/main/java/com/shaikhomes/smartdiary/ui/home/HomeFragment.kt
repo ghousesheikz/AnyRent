@@ -79,7 +79,8 @@ class HomeFragment : Fragment() {
                 arrayListOf(),
                 isAdmin = PrefManager(requireContext()).userData?.IsAdmin == "1"
             )
-            leadAdapter?.setLeadClickListener {
+            leadAdapter?.setLeadClickListener {it,pos->
+                prefmanager.listPos = pos
                 val bundle = Bundle()
                 bundle.putString(LEAD_DATA, Gson().toJson(it))
                 findNavController().navigate(R.id.action_homeFragment_to_leadinfo, bundle)
@@ -265,13 +266,19 @@ class HomeFragment : Fragment() {
         homeViewModel?.getLeads(assignTo!!, success = {
             viewLifecycleOwner.lifecycleScope.launch {
                 if (binding.swipeLead.isRefreshing) binding.swipeLead.isRefreshing = false
-                delay(3000)
+                delay(1500)
                 binding.animationView.visibility = View.GONE
                 binding.leadsList.visibility = View.VISIBLE
                 if (it.leadsList.isNotEmpty()) {
                     binding.txtLeadsCount.setText(it.leadsList.size.toString())
                     leadAdapter?.updateList(it.leadsList, propertyData?.propertyList ?: emptyList())
                 } else leadAdapter?.updateList(emptyList(), emptyList())
+                try{
+                    binding.leadsList.smoothScrollToPosition(prefmanager.listPos)
+                    prefmanager.listPos = 0
+                }catch (exp:Exception){
+                    //do nothing
+                }
             }
         }, error = {
             if (binding.swipeLead.isRefreshing) binding.swipeLead.isRefreshing = false
