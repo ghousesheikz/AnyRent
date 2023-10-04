@@ -35,7 +35,7 @@ class HomeViewModel : ViewModel() {
             })
     }
     fun getLeads(assignto:String,success: (LeadsData) -> Unit, error: (String) -> Unit) {
-        RetrofitInstance.api.getleadsData(assignto, "", "", "")
+        RetrofitInstance.api.getleadsData(assignto, "", "", "","")
             .enqueue(object : Callback<LeadsData> {
                 override fun onResponse(
                     call: Call<LeadsData>,
@@ -143,7 +143,7 @@ class HomeViewModel : ViewModel() {
         success: (LeadsData) -> Unit,
         error: (String) -> Unit
     ) {
-        RetrofitInstance.api.getleadsData("", "", "", contactno)
+        RetrofitInstance.api.getleadsData("", "", "", contactno,"")
             .enqueue(object : Callback<LeadsData> {
                 override fun onResponse(
                     call: Call<LeadsData>,

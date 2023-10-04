@@ -409,6 +409,10 @@ class AddLeadFragment : Fragment() {
             flag = false
             Toast.makeText(requireContext(), "Enter Leads Contact number", Toast.LENGTH_SHORT)
                 .show()
+        } else if (binding.edtContactNumber.text.toString().length != 10) {
+            flag = false
+            Toast.makeText(requireContext(), "Enter valid Contact number", Toast.LENGTH_SHORT)
+                .show()
         } else if (binding.edtEmail.text.toString().isNotEmpty()) {
             if (!isValidEmail(binding.edtEmail.text.toString().trim())) flag = false
             Toast.makeText(requireContext(), "Enter valid email", Toast.LENGTH_SHORT).show()

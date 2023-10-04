@@ -28,7 +28,8 @@ interface NetworkApi {
         @Query("assignto") assignto: String,
         @Query("priority") priority: String,
         @Query("typeoflead") typeoflead: String,
-        @Query("contactno") contactno: String
+        @Query("contactno") contactno: String,
+        @Query("status") status: String
     ): Call<LeadsData>
 
     @GET("LeadSchedule?")

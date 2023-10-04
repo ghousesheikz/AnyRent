@@ -19,7 +19,7 @@ class ViewLeadsViewModel : ViewModel() {
         success: (LeadsData) -> Unit,
         error: (String) -> Unit
     ) {
-        RetrofitInstance.api.getleadsData(assignto, "", typeoflead, "")
+        RetrofitInstance.api.getleadsData(assignto, "", typeoflead, "","")
             .enqueue(object : Callback<LeadsData> {
                 override fun onResponse(
                     call: Call<LeadsData>,

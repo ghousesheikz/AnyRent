@@ -136,5 +136,11 @@
     <color name="c_violet_2">#FF7C8E</color>
     <color name="c_violet_3">#ED2658</color>
     <color name="c_violet_4">#cd154e</color>
+    <color name="c_interested">#F89576</color>
+    <color name="c_not_interested">#FF0000</color>
+    <color name="c_low_budget">#FDD4C6</color>
+    <color name="c_junk_lead">#F8B6CA</color>
+    <color name="c_confirmed">#BEFDF7</color>
+    <color name="c_site_visit_done">#DCFAB9</color>
 
 </resources>

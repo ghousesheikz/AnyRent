@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
@@ -89,8 +88,8 @@ class ScheduleVisitFragment : Fragment() {
                             R.id.action_scheduleFragment_to_leadinfo,
                             bundle
                         )
-                    }else{
-                        showToast(requireContext(),"No lead registered with this number")
+                    } else {
+                        showToast(requireContext(), "No lead registered with this number")
                     }
                 }, error = {})
 
@@ -171,6 +170,11 @@ class ScheduleVisitFragment : Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 delay(1000)
                 if (it.leadscheduleList.isNotEmpty()) {
+                    if (scheduleon == "") {
+                        binding.allToggle.setText("All (${it.leadscheduleList.size})")
+                    } else {
+                        binding.todayToggle.setText("Today (${it.leadscheduleList.size})")
+                    }
                     tempLeadList = it.leadscheduleList
                     if (binding.swipeLead.isRefreshing) binding.swipeLead.isRefreshing = false
                     leadAdapter?.updateList(it.leadscheduleList)

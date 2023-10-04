@@ -73,7 +73,16 @@ class LeadInfoFragment : Fragment() {
             if (!leadData?.contactnumber.isNullOrEmpty()) {
                 binding.txtLeadNameName.setText(leadData?.leadsname)
                 binding.leadName.setText(leadData?.leadsname)
-                binding.LookingFor.setText(leadData?.lookingfor)
+                val lookingfor = if (leadData?.lookingfor?.toLowerCase() == "male") {
+                    Html.fromHtml("<font color='#0a45d0'>${leadData.lookingfor}</font>")
+                } else if (leadData?.lookingfor?.toLowerCase() == "female") {
+                    Html.fromHtml("<font color='#e75480'>${leadData.lookingfor}</font>")
+                } else if (leadData?.lookingfor?.toLowerCase() == "family") {
+                    Html.fromHtml("<font color='#644117'>${leadData.lookingfor}</font>")
+                } else if (leadData?.lookingfor?.toLowerCase() == "couples") {
+                    Html.fromHtml("<font color='#FF0000'>${leadData.lookingfor}</font>")
+                } else ""
+                binding.LookingFor.setText(lookingfor, TextView.BufferType.SPANNABLE)
                 binding.contactNo.setText(
                     (if (!leadData?.countrycode.isNullOrEmpty()) leadData?.countrycode else "").plus(
                         leadData?.contactnumber
@@ -117,6 +126,24 @@ class LeadInfoFragment : Fragment() {
                         val url =
                             "https://api.whatsapp.com/send?phone=${(if (!leadData?.countrycode.isNullOrEmpty()) leadData?.countrycode else "+91") + leadData?.contactnumber}" + "&text=" + URLEncoder.encode(
                                 "",
+                                "UTF-8"
+                            )
+                        i.setPackage("com.whatsapp")
+                        i.data = Uri.parse(url)
+                        requireActivity().startActivity(i)
+                    } catch (e: java.lang.Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                binding.shareImg.setOnClickListener {
+                    val packageManager = requireActivity().packageManager
+                    val i = Intent(Intent.ACTION_VIEW)
+
+                    try {
+                        val url =
+                            "https://api.whatsapp.com/send?phone=${(if (!leadData?.countrycode.isNullOrEmpty()) leadData?.countrycode else "+91") + leadData?.contactnumber}" + "&text=" + URLEncoder.encode(
+                                "Kindly schedule your visit!!\n" +
+                                        "https://shaikhomes.com/addreminder/schedule.html",
                                 "UTF-8"
                             )
                         i.setPackage("com.whatsapp")

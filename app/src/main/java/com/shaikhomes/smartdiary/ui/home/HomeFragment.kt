@@ -8,7 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +32,7 @@ import com.shaikhomes.smartdiary.ui.utils.LEAD_DATA
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.currentonlydate
+import com.shaikhomes.smartdiary.ui.utils.showToast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -84,6 +88,10 @@ class HomeFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putString(LEAD_DATA, Gson().toJson(it))
                 findNavController().navigate(R.id.action_homeFragment_to_leadinfo, bundle)
+            }
+            leadAdapter?.setStatusClickListener {
+                it.update = "status"
+                setStatus(it)
             }
             leadAdapter?.setAssignToClickListener {
                 it.updatedon = currentdate()
@@ -298,6 +306,77 @@ class HomeFragment : Fragment() {
 
     private fun LeadscheduleList.getData(): String? {
         return "Name : ${this.leadsname}\nNumber : ${this.contactnumber}"
+    }
+
+    private fun setStatus(leadData: LeadsList) {
+        showStatusDialog(leadData) {it,feedback->
+            leadData.status = it
+            leadData.feedback = feedback
+            homeViewModel?.updateLead(leadData, success = {
+                getLeads(assignTo)
+            }, error = {})
+        }
+    }
+
+    fun showStatusDialog(
+        leadData: LeadsList,
+        clickListener: (String,String) -> Unit
+    ) {
+        var selectedStatus = ""
+        val statusList = arrayListOf<String>(
+            "Interested",
+            "Not Interested",
+            "Low Budget",
+            "Junk Lead",
+            "Confirmed",
+            "Site Visit Done"
+        )
+        val dialog = Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_employee);
+        val titleHeader = dialog.findViewById<AppCompatTextView>(R.id.titleHeader)
+        val edtAddNotes = dialog.findViewById<AppCompatEditText>(R.id.edtAddNotes)
+        val btnUpdate = dialog.findViewById<AppCompatButton>(R.id.btnUpdate)
+        titleHeader.setText("Select Status")
+        edtAddNotes.visibility = View.VISIBLE
+        btnUpdate.visibility = View.VISIBLE
+        val linearlayout = dialog.findViewById<LinearLayout>(R.id.employeeList)
+        linearlayout.removeAllViews()
+        statusList.forEachIndexed { index, userDetailsList ->
+            linearlayout.addView(
+                layoutInflater.inflate(R.layout.item_employee, null)?.apply {
+                    this.findViewById<AppCompatTextView>(R.id.textName).apply {
+                        text = userDetailsList
+                        setOnClickListener {
+                            linearlayout.updateViews(index)
+                            selectedStatus = userDetailsList
+                        }
+                    }
+
+                }
+            )
+        }
+        btnUpdate.setOnClickListener {
+            if(!selectedStatus.isNullOrEmpty()) {
+                clickListener.invoke(selectedStatus,edtAddNotes.text.toString().trim())
+                dialog.dismiss()
+            }else showToast(requireContext(),"please select status")
+        }
+        dialog.setCancelable(true)
+        dialog.show();
+
+    }
+
+    fun LinearLayout.updateViews(selectedindex: Int) {
+        this.children.forEachIndexed { index, view ->
+            view.findViewById<AppCompatTextView>(R.id.textName).apply {
+                if (index == selectedindex) {
+                    this.setBackgroundColor(resources.getColor(R.color.c_site_visit_done))
+                } else {
+                    this.setBackgroundColor(resources.getColor(R.color.white))
+                }
+            }
+        }
     }
 }
 

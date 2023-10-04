@@ -117,6 +117,9 @@ class AddReminder : Fragment() {
         if (binding.edtLeadNumber.text.toString().isEmpty()) {
             flag = false
             Toast.makeText(requireContext(), "Enter Leads Number", Toast.LENGTH_SHORT).show()
+        } else if (binding.edtLeadNumber.text.toString().length != 10) {
+            flag = false
+            Toast.makeText(requireContext(), "Enter valid contact Number", Toast.LENGTH_SHORT).show()
         } else if (leadActivity?.isEmpty() == true) {
             flag = false
             Toast.makeText(requireContext(), "Please select lead activity", Toast.LENGTH_SHORT)

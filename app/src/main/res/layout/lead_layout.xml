@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/size_8dp"
+    android:id="@+id/cardView"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="@dimen/size_5dp">
 
@@ -66,6 +67,17 @@
             app:layout_constraintEnd_toStartOf="@id/Imgcall"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/propertyData" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/feedback"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:gravity="start"
+            android:textSize="@dimen/font_12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/Imgcall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/createdBy" />
 
         <ToggleButton
             android:id="@+id/highToggle"
@@ -78,7 +90,7 @@
             android:textOff="High"
             android:textOn="High"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/createdBy"
+            app:layout_constraintTop_toBottomOf="@id/feedback"
             app:layout_constraintWidth_percent="0.3" />
 
         <ToggleButton
@@ -93,7 +105,7 @@
             android:textOff="Medium"
             android:textOn="Medium"
             app:layout_constraintStart_toEndOf="@id/highToggle"
-            app:layout_constraintTop_toBottomOf="@id/createdBy"
+            app:layout_constraintTop_toBottomOf="@id/feedback"
             app:layout_constraintWidth_percent="0.3" />
 
         <ToggleButton
@@ -107,7 +119,7 @@
             android:textOff="Low"
             android:textOn="Low"
             app:layout_constraintStart_toEndOf="@id/mediumToggle"
-            app:layout_constraintTop_toBottomOf="@id/createdBy"
+            app:layout_constraintTop_toBottomOf="@id/feedback"
             app:layout_constraintWidth_percent="0.3" />
 
         <androidx.constraintlayout.widget.Group
@@ -154,7 +166,18 @@
                 android:textColor="@color/purple_500"
                 android:textSize="@dimen/font_12sp" />
         </LinearLayout>
-
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtStatus"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_border"
+            android:gravity="center_vertical"
+            android:padding="@dimen/size_5dp"
+            android:text="@string/add_status"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutReminder" />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtAssignTo"
             android:layout_width="@dimen/size_0dp"
@@ -166,6 +189,6 @@
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutReminder" />
+            app:layout_constraintTop_toBottomOf="@id/txtStatus" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

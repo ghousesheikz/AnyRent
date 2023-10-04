@@ -14,7 +14,7 @@ object RetrofitInstance {
     }.build()
     val api: NetworkApi by lazy {
         Retrofit.Builder()
-            .baseUrl("https://smapitest.shaikhomes.com/api/")
+            .baseUrl("https://smapi.shaikhomes.com/api/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

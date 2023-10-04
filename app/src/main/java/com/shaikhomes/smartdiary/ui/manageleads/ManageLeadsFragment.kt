@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -48,6 +49,7 @@ class ManageLeadsFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private var leadType: String? = ""
+    private var status: String? = ""
     protected val prefmanager: PrefManager by lazy {
         PrefManager(requireContext())
     }
@@ -77,7 +79,7 @@ class ManageLeadsFragment : Fragment() {
                 arrayListOf(),
                 isAdmin = PrefManager(requireContext()).userData?.IsAdmin == "1"
             )
-            leadAdapter?.setLeadClickListener {it,pos->
+            leadAdapter?.setLeadClickListener { it, pos ->
                 val bundle = Bundle()
                 bundle.putString(LEAD_DATA, Gson().toJson(it))
                 findNavController().navigate(R.id.action_viewleadFragment_to_leadinfo, bundle)
@@ -86,6 +88,10 @@ class ManageLeadsFragment : Fragment() {
                 it.updatedon = currentdate()
                 it.update = "update"
                 getUsers(it)
+            }
+            leadAdapter?.setStatusClickListener {
+                it.update = "status"
+                setStatus(it)
             }
             leadAdapter?.setRequirementClickListener {
                 val bundle = Bundle()
@@ -97,7 +103,7 @@ class ManageLeadsFragment : Fragment() {
                 //it.createdby = PrefManager(requireContext()).userData?.UserName
                 it.update = "update"
                 viewLeadsViewModel?.updateLead(leadsList = it, success = {
-                    getLeads(leadType)
+                    getLeads(leadType, status)
                 }, error = {
 
                 })
@@ -119,11 +125,18 @@ class ManageLeadsFragment : Fragment() {
         binding.allToggle.setOnCheckedChangeListener { _, checked ->
             if (checked) {
                 leadType = ""
+                status = ""
                 binding.allToggle.setTextColor(resources.getColor(R.color.c_white_1))
                 binding.highToggle.isChecked = false
                 binding.mediumToggle.isChecked = false
                 binding.lowToggle.isChecked = false
-                getLeads(leadType)
+                binding.interestedToggle.isChecked = false
+                binding.notInterestedToggle.isChecked = false
+                binding.lowBudgetToggle.isChecked = false
+                binding.junkLeadToggle.isChecked = false
+                binding.confirmedToggle.isChecked = false
+                binding.siteVisitDoneToggle.isChecked = false
+                getLeads(leadType, status)
             } else {
                 binding.allToggle.setTextColor(resources.getColor(R.color.c_black_1))
             }
@@ -131,11 +144,18 @@ class ManageLeadsFragment : Fragment() {
         binding.mediumToggle.setOnCheckedChangeListener { _, checked ->
             if (checked) {
                 leadType = "Medium"
+                status = ""
                 binding.mediumToggle.setTextColor(resources.getColor(R.color.c_white_1))
                 binding.highToggle.isChecked = false
                 binding.allToggle.isChecked = false
                 binding.lowToggle.isChecked = false
-                getLeads(leadType)
+                binding.interestedToggle.isChecked = false
+                binding.notInterestedToggle.isChecked = false
+                binding.lowBudgetToggle.isChecked = false
+                binding.junkLeadToggle.isChecked = false
+                binding.confirmedToggle.isChecked = false
+                binding.siteVisitDoneToggle.isChecked = false
+                getLeads(leadType, status)
             } else {
                 binding.mediumToggle.setTextColor(resources.getColor(R.color.c_black_1))
             }
@@ -144,11 +164,18 @@ class ManageLeadsFragment : Fragment() {
         binding.highToggle.setOnCheckedChangeListener { _, checked ->
             if (checked) {
                 leadType = "High"
+                status = ""
                 binding.highToggle.setTextColor(resources.getColor(R.color.c_white_1))
                 binding.mediumToggle.isChecked = false
                 binding.allToggle.isChecked = false
                 binding.lowToggle.isChecked = false
-                getLeads(leadType)
+                binding.interestedToggle.isChecked = false
+                binding.notInterestedToggle.isChecked = false
+                binding.lowBudgetToggle.isChecked = false
+                binding.junkLeadToggle.isChecked = false
+                binding.confirmedToggle.isChecked = false
+                binding.siteVisitDoneToggle.isChecked = false
+                getLeads(leadType, status)
             } else {
                 binding.highToggle.setTextColor(resources.getColor(R.color.c_black_1))
             }
@@ -156,13 +183,134 @@ class ManageLeadsFragment : Fragment() {
         binding.lowToggle.setOnCheckedChangeListener { _, checked ->
             if (checked) {
                 leadType = "Low"
+                status = ""
                 binding.mediumToggle.isChecked = false
                 binding.highToggle.isChecked = false
                 binding.allToggle.isChecked = false
+                binding.interestedToggle.isChecked = false
+                binding.notInterestedToggle.isChecked = false
+                binding.lowBudgetToggle.isChecked = false
+                binding.junkLeadToggle.isChecked = false
+                binding.confirmedToggle.isChecked = false
+                binding.siteVisitDoneToggle.isChecked = false
                 binding.lowToggle.setTextColor(resources.getColor(R.color.c_white_1))
-                getLeads(leadType)
+                getLeads(leadType, status)
             } else {
                 binding.lowToggle.setTextColor(resources.getColor(R.color.c_black_1))
+            }
+        }
+        binding.interestedToggle.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                leadType = ""
+                status = "Interested"
+                binding.mediumToggle.isChecked = false
+                binding.highToggle.isChecked = false
+                binding.allToggle.isChecked = false
+                binding.lowToggle.isChecked = false
+                binding.notInterestedToggle.isChecked = false
+                binding.lowBudgetToggle.isChecked = false
+                binding.junkLeadToggle.isChecked = false
+                binding.confirmedToggle.isChecked = false
+                binding.siteVisitDoneToggle.isChecked = false
+                binding.interestedToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                getLeads(leadType, status)
+            } else {
+                binding.interestedToggle.setTextColor(resources.getColor(R.color.c_black_1))
+            }
+        }
+        binding.notInterestedToggle.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                leadType = ""
+                status = "Not Interested"
+                binding.mediumToggle.isChecked = false
+                binding.highToggle.isChecked = false
+                binding.allToggle.isChecked = false
+                binding.lowToggle.isChecked = false
+                binding.interestedToggle.isChecked = false
+                binding.lowBudgetToggle.isChecked = false
+                binding.junkLeadToggle.isChecked = false
+                binding.confirmedToggle.isChecked = false
+                binding.siteVisitDoneToggle.isChecked = false
+                binding.notInterestedToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                getLeads(leadType, status)
+            } else {
+                binding.notInterestedToggle.setTextColor(resources.getColor(R.color.c_black_1))
+            }
+        }
+        binding.lowBudgetToggle.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                leadType = ""
+                status = "Low Budget"
+                binding.mediumToggle.isChecked = false
+                binding.highToggle.isChecked = false
+                binding.allToggle.isChecked = false
+                binding.lowToggle.isChecked = false
+                binding.interestedToggle.isChecked = false
+                binding.notInterestedToggle.isChecked = false
+                binding.junkLeadToggle.isChecked = false
+                binding.confirmedToggle.isChecked = false
+                binding.siteVisitDoneToggle.isChecked = false
+                binding.lowBudgetToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                getLeads(leadType, status)
+            } else {
+                binding.lowBudgetToggle.setTextColor(resources.getColor(R.color.c_black_1))
+            }
+        }
+        binding.junkLeadToggle.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                leadType = ""
+                status = "Junk Lead"
+                binding.mediumToggle.isChecked = false
+                binding.highToggle.isChecked = false
+                binding.allToggle.isChecked = false
+                binding.lowToggle.isChecked = false
+                binding.interestedToggle.isChecked = false
+                binding.notInterestedToggle.isChecked = false
+                binding.lowBudgetToggle.isChecked = false
+                binding.confirmedToggle.isChecked = false
+                binding.siteVisitDoneToggle.isChecked = false
+                binding.junkLeadToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                getLeads(leadType, status)
+            } else {
+                binding.junkLeadToggle.setTextColor(resources.getColor(R.color.c_black_1))
+            }
+        }
+        binding.confirmedToggle.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                leadType = ""
+                status = "Confirmed"
+                binding.mediumToggle.isChecked = false
+                binding.highToggle.isChecked = false
+                binding.allToggle.isChecked = false
+                binding.lowToggle.isChecked = false
+                binding.interestedToggle.isChecked = false
+                binding.notInterestedToggle.isChecked = false
+                binding.lowBudgetToggle.isChecked = false
+                binding.junkLeadToggle.isChecked = false
+                binding.siteVisitDoneToggle.isChecked = false
+                binding.confirmedToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                getLeads(leadType, status)
+            } else {
+                binding.confirmedToggle.setTextColor(resources.getColor(R.color.c_black_1))
+            }
+        }
+        binding.siteVisitDoneToggle.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                leadType = ""
+                status = "Site Visit Done"
+                binding.mediumToggle.isChecked = false
+                binding.highToggle.isChecked = false
+                binding.allToggle.isChecked = false
+                binding.lowToggle.isChecked = false
+                binding.interestedToggle.isChecked = false
+                binding.notInterestedToggle.isChecked = false
+                binding.lowBudgetToggle.isChecked = false
+                binding.junkLeadToggle.isChecked = false
+                binding.confirmedToggle.isChecked = false
+                binding.siteVisitDoneToggle.setTextColor(resources.getColor(R.color.c_white_1))
+                getLeads(leadType, status)
+            } else {
+                binding.siteVisitDoneToggle.setTextColor(resources.getColor(R.color.c_black_1))
             }
         }
         binding.edtSearch.addTextChangedListener(object : TextWatcher {
@@ -179,9 +327,9 @@ class ManageLeadsFragment : Fragment() {
             }
 
         })
-        getLeads(leadType)
+        getLeads(leadType, status)
         binding.swipeLead.setOnRefreshListener {
-            getLeads(leadType)
+            getLeads(leadType, status)
         }
         return root
     }
@@ -205,13 +353,13 @@ class ManageLeadsFragment : Fragment() {
         }, error = {})
     }
 
-    private fun getLeads(leadType: String?) {
-        viewLeadsViewModel?.getLeads(leadType!!, leadType!!, success = {
+    private fun getLeads(leadType: String?, status: String?) {
+        viewLeadsViewModel?.getLeads(leadType!!, leadType!!, status!!, success = {
             viewLifecycleOwner.lifecycleScope.launch {
                 delay(1000)
                 if (binding.swipeLead.isRefreshing) binding.swipeLead.isRefreshing = false
                 if (it.leadsList.isNotEmpty()) {
-                    if (leadType.isEmpty()) {
+                    if (leadType.isEmpty() && status.isEmpty()) {
                         binding.allToggle.setText("All (${it.leadsList.size})")
                     } else if (leadType == "High") {
                         binding.highToggle.setText("High (${it.leadsList.size})")
@@ -219,6 +367,18 @@ class ManageLeadsFragment : Fragment() {
                         binding.mediumToggle.setText("Medium (${it.leadsList.size})")
                     } else if (leadType == "Low") {
                         binding.lowToggle.setText("Low (${it.leadsList.size})")
+                    } else if (status == "Interested") {
+                        binding.interestedToggle.setText("Interested (${it.leadsList.size})")
+                    } else if (status == "Not Interested") {
+                        binding.notInterestedToggle.setText("Not Interested (${it.leadsList.size})")
+                    } else if (status == "Low Budget") {
+                        binding.lowBudgetToggle.setText("Low Budget (${it.leadsList.size})")
+                    } else if (status == "Junk Lead") {
+                        binding.junkLeadToggle.setText("Junk Lead (${it.leadsList.size})")
+                    } else if (status == "Confirmed") {
+                        binding.confirmedToggle.setText("Confirmed (${it.leadsList.size})")
+                    } else if (status == "Site Visit Done") {
+                        binding.siteVisitDoneToggle.setText("Site Visit Done (${it.leadsList.size})")
                     }
                     if (prefmanager.userData?.IsAdmin == "1") {
                         tempLeadList = it.leadsList
@@ -304,7 +464,7 @@ class ManageLeadsFragment : Fragment() {
                 showEmployeeDialog(employeeList) {
                     leadData.assignto = it.UserName
                     viewLeadsViewModel?.updateLead(leadsList = leadData, success = {
-                        getLeads(leadType)
+                        getLeads(leadType, status)
                     }, error = {
 
                     })
@@ -343,5 +503,75 @@ class ManageLeadsFragment : Fragment() {
         dialog.setCancelable(true)
         dialog.show();
 
+    }
+
+    private fun setStatus(leadData: LeadsList) {
+        showStatusDialog(leadData) {it,feedback->
+            leadData.status = it
+            leadData.feedback = feedback
+            viewLeadsViewModel?.updateLead(leadData, success = {
+                getLeads(leadType, status)
+            }, error = {})
+        }
+    }
+
+    fun showStatusDialog(
+        leadData: LeadsList,
+        clickListener: (String,String) -> Unit
+    ) {
+        var selectedStatus = ""
+        val statusList = arrayListOf<String>(
+            "Interested",
+            "Not Interested",
+            "Low Budget",
+            "Junk Lead",
+            "Confirmed",
+            "Site Visit Done"
+        )
+        val dialog = Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_employee);
+        val titleHeader = dialog.findViewById<AppCompatTextView>(R.id.titleHeader)
+        val edtAddNotes = dialog.findViewById<AppCompatEditText>(R.id.edtAddNotes)
+        val btnUpdate = dialog.findViewById<AppCompatButton>(R.id.btnUpdate)
+        titleHeader.setText("Select Status")
+        edtAddNotes.visibility = View.VISIBLE
+        btnUpdate.visibility = View.VISIBLE
+        val linearlayout = dialog.findViewById<LinearLayout>(R.id.employeeList)
+        linearlayout.removeAllViews()
+        statusList.forEachIndexed { index, userDetailsList ->
+            linearlayout.addView(
+                layoutInflater.inflate(R.layout.item_employee, null)?.apply {
+                    this.findViewById<AppCompatTextView>(R.id.textName).apply {
+                        text = userDetailsList
+                        setOnClickListener {
+                            linearlayout.updateViews(index)
+                            selectedStatus = userDetailsList
+                        }
+                    }
+
+                }
+            )
+        }
+        btnUpdate.setOnClickListener {
+            if(!selectedStatus.isNullOrEmpty()) {
+                clickListener.invoke(selectedStatus,edtAddNotes.text.toString().trim())
+                dialog.dismiss()
+            }else showToast(requireContext(),"please select status")
+        }
+        dialog.setCancelable(true)
+        dialog.show();
+    }
+
+    fun LinearLayout.updateViews(selectedindex: Int) {
+        this.children.forEachIndexed { index, view ->
+            view.findViewById<AppCompatTextView>(R.id.textName).apply {
+                if (index == selectedindex) {
+                    this.setBackgroundColor(resources.getColor(R.color.c_site_visit_done))
+                } else {
+                    this.setBackgroundColor(resources.getColor(R.color.white))
+                }
+            }
+        }
     }
 }

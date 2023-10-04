@@ -16,10 +16,11 @@ class ManageLeadsViewModel : ViewModel() {
     fun getLeads(
         priority: String,
         typeoflead: String,
+        status:String,
         success: (LeadsData) -> Unit,
         error: (String) -> Unit
     ) {
-        RetrofitInstance.api.getleadsData("", priority, typeoflead, "")
+        RetrofitInstance.api.getleadsData("", priority, typeoflead, "",status)
             .enqueue(object : Callback<LeadsData> {
                 override fun onResponse(
                     call: Call<LeadsData>,

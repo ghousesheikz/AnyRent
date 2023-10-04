@@ -21,7 +21,7 @@ class ScheduleVisitViewModel : ViewModel() {
         success: (LeadsData) -> Unit,
         error: (String) -> Unit
     ) {
-        RetrofitInstance.api.getleadsData("", priority, typeoflead, "")
+        RetrofitInstance.api.getleadsData("", priority, typeoflead, "","")
             .enqueue(object : Callback<LeadsData> {
                 override fun onResponse(
                     call: Call<LeadsData>,
@@ -65,7 +65,7 @@ class ScheduleVisitViewModel : ViewModel() {
         success: (LeadsData) -> Unit,
         error: (String) -> Unit
     ) {
-        RetrofitInstance.api.getleadsData("", "", "", contactno)
+        RetrofitInstance.api.getleadsData("", "", "", contactno,"")
             .enqueue(object : Callback<LeadsData> {
                 override fun onResponse(
                     call: Call<LeadsData>,

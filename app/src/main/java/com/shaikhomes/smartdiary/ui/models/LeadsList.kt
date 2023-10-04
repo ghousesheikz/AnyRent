@@ -23,6 +23,8 @@ data class LeadsList(
     @SerializedName("updatedon") var updatedon: String? = null,
     @SerializedName("countrycode") var countrycode: String? = null,
     @SerializedName("lookingfor") var lookingfor: String? = null,
+    @SerializedName("status") var status: String? = null,
+    @SerializedName("feedback") var feedback: String? = null,
     @SerializedName("update") var update: String? = null,
     @SerializedName("delete") var delete: String? = null,
     var propertyData: String? = ""

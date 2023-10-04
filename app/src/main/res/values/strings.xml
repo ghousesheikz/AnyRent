@@ -40,4 +40,6 @@
     <string name="looking_for">Looking For</string>
     <string name="property_list">Property List</string>
     <string name="menu_schedule">Schedule visiting</string>
+    <string name="add_status">Add Status</string>
+    <string name="update">Update</string>
 </resources>

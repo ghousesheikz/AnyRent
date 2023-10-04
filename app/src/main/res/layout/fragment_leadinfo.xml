@@ -82,6 +82,15 @@
                     app:layout_constraintTop_toBottomOf="@id/txtLeadNameName"
                     app:srcCompat="@drawable/ic_msg_icon" />
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/shareImg"
+                    android:layout_width="@dimen/size_30dp"
+                    android:layout_height="@dimen/size_30dp"
+                    android:layout_margin="@dimen/size_12dp"
+                    app:layout_constraintStart_toEndOf="@id/msgImg"
+                    app:layout_constraintTop_toBottomOf="@id/txtLeadNameName"
+                    app:srcCompat="@drawable/ic_share_info" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -441,8 +450,8 @@
             android:layout_width="@dimen/size_0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_15dp"
-            android:orientation="vertical"
             android:background="#d3d3d3"
+            android:orientation="vertical"
             android:padding="@dimen/size_8dp"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"

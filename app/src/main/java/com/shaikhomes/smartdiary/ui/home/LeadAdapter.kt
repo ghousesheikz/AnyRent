@@ -12,14 +12,12 @@ import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.Group
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.shaikhomes.smartdiary.R
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.models.PropertyList
-import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.dateFormat
 
 
@@ -35,12 +33,13 @@ class LeadAdapter(
         return LeadViewHolder(view)
     }
 
-    private var leadClickListener: ((LeadsList,Int) -> Unit)? = null
+    private var leadClickListener: ((LeadsList, Int) -> Unit)? = null
     private var requirementClickListener: ((LeadsList) -> Unit)? = null
     private var priorityClickListener: ((LeadsList) -> Unit)? = null
     private var assignToClickListener: ((LeadsList) -> Unit)? = null
+    private var statusClickListener: ((LeadsList) -> Unit)? = null
 
-    fun setLeadClickListener(leadList: (LeadsList,Int) -> Unit) {
+    fun setLeadClickListener(leadList: (LeadsList, Int) -> Unit) {
         this.leadClickListener = leadList
     }
 
@@ -52,13 +51,23 @@ class LeadAdapter(
         this.assignToClickListener = leadList
     }
 
+    fun setStatusClickListener(leadList: (LeadsList) -> Unit) {
+        this.statusClickListener = leadList
+    }
+
     fun setPriorityClickListener(priority: (LeadsList) -> Unit) {
         this.priorityClickListener = priority
     }
 
     override fun onBindViewHolder(holder: LeadViewHolder, position: Int) {
         holder.leadName.text =
-            leadsList[position].leadsname.plus(" (${(if (!leadsList[position].countrycode.isNullOrEmpty()) leadsList[position].countrycode else "").plus(leadsList[position].contactnumber)})")
+            leadsList[position].leadsname.plus(
+                " (${
+                    (if (!leadsList[position].countrycode.isNullOrEmpty()) leadsList[position].countrycode else "").plus(
+                        leadsList[position].contactnumber
+                    )
+                })"
+            )
         holder.dateTime.text =
             if (!leadsList[position].updatedon.isNullOrEmpty()) leadsList[position].updatedon?.dateFormat(
                 "dd-MM-yyyy HH:mm:ss",
@@ -78,11 +87,29 @@ class LeadAdapter(
             }
         }
         if (isAdmin == true) {
-            holder.createdBy.text = "Source: ${leadsList[position].createdby}"
+            val lookingfor = if (leadsList[position].lookingfor?.toLowerCase() == "male") {
+                Html.fromHtml("Source: ${leadsList[position].createdby}    LookingFor: <font color='#0a45d0'>${leadsList[position].lookingfor}</font>")
+            } else if (leadsList[position].lookingfor?.toLowerCase() == "female") {
+                Html.fromHtml("Source: ${leadsList[position].createdby}    LookingFor: <font color='#e75480'>${leadsList[position].lookingfor}</font>")
+            } else if (leadsList[position].lookingfor?.toLowerCase() == "family") {
+                Html.fromHtml("Source: ${leadsList[position].createdby}    LookingFor: <font color='#644117'>${leadsList[position].lookingfor}</font>")
+            } else if (leadsList[position].lookingfor?.toLowerCase() == "couples") {
+                Html.fromHtml("Source: ${leadsList[position].createdby}    LookingFor: <font color='#FF0000'>${leadsList[position].lookingfor}</font>")
+            } else ""
+            holder.createdBy.setText(lookingfor, TextView.BufferType.SPANNABLE)
             holder.assignTo.visibility = View.VISIBLE
             holder.createdBy.visibility = View.VISIBLE
         } else {
-            holder.createdBy.visibility = View.GONE
+            val lookingfor = if (leadsList[position].lookingfor?.toLowerCase() == "male") {
+                Html.fromHtml("LookingFor: <font color='#0a45d0'>${leadsList[position].lookingfor}</font>")
+            } else if (leadsList[position].lookingfor?.toLowerCase() == "female") {
+                Html.fromHtml("LookingFor: <font color='#e75480'>${leadsList[position].lookingfor}</font>")
+            } else if (leadsList[position].lookingfor?.toLowerCase() == "family") {
+                Html.fromHtml("LookingFor: <font color='#644117'>${leadsList[position].lookingfor}</font>")
+            } else if (leadsList[position].lookingfor?.toLowerCase() == "couples") {
+                Html.fromHtml("LookingFor: <font color='#FF0000'>${leadsList[position].lookingfor}</font>")
+            } else ""
+            holder.createdBy.setText(lookingfor, TextView.BufferType.SPANNABLE)
             holder.assignTo.visibility = View.GONE
         }
         if (!leadsList[position].assignto.isNullOrEmpty()) {
@@ -91,6 +118,40 @@ class LeadAdapter(
         } else {
             holder.assignTo.setTextColor(Color.BLACK)
             holder.assignTo.setText(context.getText(R.string.add_assignee))
+        }
+        assignStatus(holder.status, leadsList[position].status, context)
+        when (leadsList[position].status) {
+            "Interested" -> {
+                holder.status.setBackgroundDrawable(context.resources.getDrawable(R.drawable.interested_border))
+            }
+
+            "Not Interested" -> {
+                holder.status.setBackgroundDrawable(context.resources.getDrawable(R.drawable.not_interested_border))
+            }
+
+            "Low Budget" -> {
+                holder.status.setBackgroundDrawable(context.resources.getDrawable(R.drawable.low_budget_border))
+            }
+
+            "Junk Lead" -> {
+                holder.status.setBackgroundDrawable(context.resources.getDrawable(R.drawable.junk_lead_border))
+            }
+
+            "Confirmed" -> {
+                holder.status.setBackgroundDrawable(context.resources.getDrawable(R.drawable.confirmed_border))
+            }
+
+            "Site Visit Done" -> {
+                holder.status.setBackgroundDrawable(context.resources.getDrawable(R.drawable.site_visit_done_border))
+            }
+
+            null -> {
+                holder.status.setBackgroundDrawable(context.resources.getDrawable(R.drawable.layout_border))
+            }
+
+            "" -> {
+                holder.status.setBackgroundDrawable(context.resources.getDrawable(R.drawable.layout_border))
+            }
         }
         if (leadsList[position].priority.isNullOrEmpty()) {
             holder.priorityGroup.visibility = View.VISIBLE
@@ -148,13 +209,22 @@ class LeadAdapter(
             }
         }
         holder.itemView.setOnClickListener {
-            leadClickListener?.invoke(leadsList[position],position)
+            leadClickListener?.invoke(leadsList[position], position)
         }
         holder.assignTo.setOnClickListener {
             assignToClickListener?.invoke(leadsList[position])
         }
+        holder.status.setOnClickListener {
+            statusClickListener?.invoke(leadsList[position])
+        }
         holder.addRequirement.setOnClickListener {
             requirementClickListener?.invoke(leadsList[position])
+        }
+        if (!leadsList[position].feedback.isNullOrEmpty()) {
+            holder.feedback.apply {
+                this.visibility = View.VISIBLE
+                this.text = "Feedback : ${leadsList[position].feedback}"
+            }
         }
         if (propertyDataList.isNotEmpty()) {
             propertyDataList.filter { it.contactnumber == leadsList[position].contactnumber }
@@ -166,10 +236,19 @@ class LeadAdapter(
                             this.text =
                                 "For ${data.typeoflead} ${data.subpropertytype} in ${data.locations}. \nBudget ₹${data.minamount} - ₹${data.maxamount}"
                         }
-                    }else{
+                    } else {
                         holder.propertyData.visibility = View.GONE
                     }
                 }
+        }
+    }
+
+    private fun assignStatus(txtStatus: AppCompatTextView, status: String?, context: Context) {
+        if (status.isNullOrEmpty()) {
+            txtStatus.setHint(context.getString(R.string.add_status))
+            txtStatus.setText("")
+        } else {
+            txtStatus.setText(status)
         }
     }
 
@@ -195,8 +274,11 @@ class LeadAdapter(
         var dateTime: AppCompatTextView
         var propertyData: AppCompatTextView
         var callLead: AppCompatImageView
+        var cardView: CardView
         var createdBy: AppCompatTextView
         var assignTo: AppCompatTextView
+        var status: AppCompatTextView
+        var feedback: AppCompatTextView
         var addRequirement: AppCompatTextView
         var highToggle: ToggleButton
         var mediumToggle: ToggleButton
@@ -208,12 +290,15 @@ class LeadAdapter(
             dateTime = itemView.findViewById<AppCompatTextView>(R.id.dateTime)
             propertyData = itemView.findViewById<AppCompatTextView>(R.id.propertyData)
             callLead = itemView.findViewById(R.id.Imgcall)
+            cardView = itemView.findViewById(R.id.cardView)
             createdBy = itemView.findViewById(R.id.createdBy)
             highToggle = itemView.findViewById(R.id.highToggle)
             mediumToggle = itemView.findViewById(R.id.mediumToggle)
             lowToggle = itemView.findViewById(R.id.lowToggle)
             priorityGroup = itemView.findViewById(R.id.priorityGroup)
             assignTo = itemView.findViewById(R.id.txtAssignTo)
+            status = itemView.findViewById(R.id.txtStatus)
+            feedback = itemView.findViewById(R.id.feedback)
             addRequirement = itemView.findViewById(R.id.addRequirement)
         }
     }
