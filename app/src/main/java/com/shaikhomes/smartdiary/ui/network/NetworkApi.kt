@@ -1,6 +1,10 @@
 package com.shaikhomes.smartdiary.ui.network
 
 import com.shaikhomes.smartdiary.ui.models.AddReminderData
+import com.shaikhomes.smartdiary.ui.models.ApartmentData
+import com.shaikhomes.smartdiary.ui.models.ApartmentList
+import com.shaikhomes.smartdiary.ui.models.AvailabilityData
+import com.shaikhomes.smartdiary.ui.models.AvailabilityList
 import com.shaikhomes.smartdiary.ui.models.LeadsData
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.models.LeadscheduleList
@@ -39,6 +43,16 @@ interface NetworkApi {
         @Query("contactno") contactno: String
     ): Call<AddReminderData>
 
+    @GET("Availability?")
+    fun getAvailability(
+        @Query("apartmentid") apartmentid: String
+    ): Call<AvailabilityData>
+
+
+    @GET("Apartment?")
+    fun getApartments(
+    ): Call<ApartmentData>
+
     @POST("Property?")
     fun postProperty(@Body propertyList: PropertyList): Call<ResponseData>
 
@@ -47,6 +61,13 @@ interface NetworkApi {
 
     @POST("Leads?")
     fun postLead(@Body leadData: LeadsList): Call<ResponseData>
+
+
+    @POST("Apartment?")
+    fun postApartment(@Body apartmentlist: ApartmentList): Call<ResponseData>
+
+    @POST("Availability?")
+    fun postAvailability(@Body availabilityList: AvailabilityList): Call<ResponseData>
 
     @POST("UserRegister?")
     fun postUser(@Body userData: UserDetailsList): Call<ResponseData>

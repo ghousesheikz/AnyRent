@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.03" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.97" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtApartmentName"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_8dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_18sp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtFlat"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_50dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_5dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:hint="@string/flat_no"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtApartmentName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtFlat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/c_white_1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtLookingFor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_5dp"
+        android:layout_marginBottom="@dimen/size_8dp"
+        android:text="Apartment For"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtFlat" />
+
+    <ToggleButton
+        android:id="@+id/maleToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginStart="@dimen/size_15dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Male"
+        android:textOn="Male"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/txtLookingFor"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <ToggleButton
+        android:id="@+id/femaleToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_marginEnd="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Female"
+        android:textOn="Female"
+        app:layout_constraintStart_toEndOf="@id/maleToggle"
+        app:layout_constraintTop_toBottomOf="@id/txtLookingFor"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <ToggleButton
+        android:id="@+id/familyToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Family"
+        android:textOn="Family"
+        app:layout_constraintStart_toEndOf="@id/femaleToggle"
+        app:layout_constraintTop_toBottomOf="@id/txtLookingFor"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <ToggleButton
+        android:id="@+id/couplesToggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/toggle_background"
+        android:textAllCaps="false"
+        android:textOff="Couples"
+        android:textOn="Couples"
+        app:layout_constraintStart_toEndOf="@id/familyToggle"
+        app:layout_constraintTop_toBottomOf="@id/txtLookingFor"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/lookingforGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="txtLookingFor,maleToggle,femaleToggle,familyToggle" />
+
+    <ToggleButton
+        android:id="@+id/room1Toggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/toggle_flat_availability"
+        android:enabled="false"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textOff="Room1"
+        android:textOn="Room1"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/maleToggle"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <ToggleButton
+        android:id="@+id/room2Toggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/toggle_flat_availability"
+        android:enabled="false"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textOff="Room2"
+        android:textOn="Room2"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toEndOf="@id/room1Toggle"
+        app:layout_constraintTop_toBottomOf="@id/maleToggle"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <ToggleButton
+        android:id="@+id/room3Toggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/toggle_flat_availability"
+        android:enabled="false"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textOff="Room3"
+        android:textOn="Room3"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/room1Toggle"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <ToggleButton
+        android:id="@+id/room4Toggle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/size_30dp"
+        android:layout_marginStart="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:background="@drawable/toggle_flat_availability"
+        android:enabled="false"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textOff="Room4"
+        android:textOn="Room4"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toEndOf="@id/room3Toggle"
+        app:layout_constraintTop_toBottomOf="@id/room2Toggle"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSave"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_40dp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@color/purple_500"
+        android:text="@string/save"
+        android:textColor="@color/c_white_1"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/room3Toggle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_1dp"
+        android:background="@color/black"
+        android:layout_marginTop="@dimen/size_3dp"
+        app:layout_constraintTop_toBottomOf="@id/btnSave" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/availabilityList"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_0dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/btnSave" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

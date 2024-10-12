@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Random
 
 fun currentdate(): String {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -70,4 +71,9 @@ fun isAccessibilityOn(
         }
     }
     return false
+}
+
+fun randomNumber(): Int {
+    val r = Random(System.currentTimeMillis())
+    return (1 + r.nextInt(2)) * 10000 + r.nextInt(10000)
 }

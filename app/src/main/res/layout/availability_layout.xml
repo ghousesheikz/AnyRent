@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/size_5dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/size_5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/size_5dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/apartmentName"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:text="Apartment Name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/apartmentFor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:gravity="start"
+            android:text="Apartment For"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/apartmentName" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/flatNo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:gravity="start"
+            android:text="Flat Number"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/apartmentFor"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <ToggleButton
+            android:id="@+id/room1Toggle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_marginStart="@dimen/size_8dp"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:background="@drawable/toggle_flat_availability"
+            android:enabled="false"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textOff="Room1"
+            android:textOn="Room1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flatNo"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/room2Toggle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_marginStart="@dimen/size_8dp"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:background="@drawable/toggle_flat_availability"
+            android:enabled="false"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textOff="Room2"
+            android:textOn="Room2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/room1Toggle"
+            app:layout_constraintTop_toBottomOf="@id/flatNo"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/room3Toggle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_marginStart="@dimen/size_8dp"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:background="@drawable/toggle_flat_availability"
+            android:enabled="false"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textOff="Room3"
+            android:textOn="Room3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/room1Toggle"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <ToggleButton
+            android:id="@+id/room4Toggle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_marginStart="@dimen/size_8dp"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:background="@drawable/toggle_flat_availability"
+            android:enabled="false"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textOff="Room4"
+            android:textOn="Room4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/room3Toggle"
+            app:layout_constraintTop_toBottomOf="@id/room2Toggle"
+            app:layout_constraintWidth_percent="0.45" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import com.shaikhomes.smartdiary.R
 import com.shaikhomes.smartdiary.databinding.FragmentAddleadBinding
+import com.shaikhomes.smartdiary.ui.customviews.SafeClickListener
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.utils.LEAD_DATA
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
@@ -39,6 +40,7 @@ class AddLeadFragment : Fragment() {
         PrefManager(requireContext())
     }
     private var leadsList: LeadsList? = null
+    private var addLeadViewModel: AddLeadViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +49,7 @@ class AddLeadFragment : Fragment() {
     ): View {
         _binding = FragmentAddleadBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val addLeadViewModel =
+        addLeadViewModel =
             ViewModelProvider(this).get(AddLeadViewModel::class.java)
         if (!arguments?.getString(LEAD_DATA).isNullOrEmpty()) {
             leadsList = Gson().fromJson(arguments?.getString(LEAD_DATA), LeadsList::class.java)
@@ -236,63 +238,7 @@ class AddLeadFragment : Fragment() {
                 binding.couplesToggle.setTextColor(resources.getColor(R.color.c_black_1))
             }
         }
-        binding.btnNext.setOnClickListener { view ->
-            if (validations()) {
-                requireActivity().hideKeyboard(view)
-                val leadsData = if (!leadsList?.leadsname.isNullOrEmpty()) {
-                    leadsList?.update = "update"
-                    leadsList?.date = currentdate()
-                    leadsList?.updatedon = currentdate()
-                    leadsList?.contactnumber = binding.edtContactNumber.text.toString().trim()
-                    leadsList?.leadsname = binding.edtLeadsName.text.toString().trim()
-                    leadsList?.countrycode = binding.prefixNumber.text.toString()
-                    leadsList
-                } else {
-                    LeadsList(
-                        contactnumber = binding.edtContactNumber.text.toString().trim(),
-                        date = currentdate(),
-                        email = binding.edtEmail.text.toString().trim(),
-                        leadsname = binding.edtLeadsName.text.toString().trim(),
-                        locations = "",
-                        maxamount = "0",
-                        minamount = "0",
-                        priority = "",
-                        project = "",
-                        registerno = "",
-                        typeoflead = leadType,
-                        calldetails = "",
-                        leadstatus = "Created",
-                        leadrole = leadRole,
-                        createdby = prefmanager.userData?.UserName.toString(),
-                        assignto = if (prefmanager.userData?.IsAdmin == "1") "" else prefmanager.userData?.UserName.toString(),
-                        updatedon = currentdate(),
-                        countrycode = binding.prefixNumber.text.toString(),
-                        lookingfor = lookingFor,
-                        update = null
-                    )
-                }
-                addLeadViewModel.addLead(leadsData!!, success = {
-                    emptyData()
-                    Toast.makeText(requireContext(), "Lead Added Successfully", Toast.LENGTH_SHORT)
-                        .show()
-                    addLeadViewModel.getLeads(
-                        leadsData.contactnumber!!, success = {
-                            if (it.leadsList.isNotEmpty()) {
-                                val bundle = Bundle()
-                                bundle.putString(LEAD_DATA, Gson().toJson(it.leadsList.first()))
-                                findNavController().navigate(
-                                    R.id.action_addleadFragment_to_addrequirement,
-                                    bundle
-                                )
-                            }
-                        }, error = {}
-                    )
-                }, error = {
-                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                })
-
-            }
-        }
+        binding.btnNext.setOnClickListener(clickListener)
         binding.prefixNumber.setOnClickListener {
             showCountryCodeDialog { countryCode ->
                 if (countryCode == "+91") {
@@ -314,6 +260,71 @@ class AddLeadFragment : Fragment() {
             }
         }
         return root
+    }
+
+    private val clickListener = SafeClickListener {
+        when (it?.id) {
+            R.id.btnNext -> {
+                if (validations()) {
+                    requireActivity().hideKeyboard(it)
+                    val leadsData = if (!leadsList?.leadsname.isNullOrEmpty()) {
+                        leadsList?.update = "update"
+                        leadsList?.date = currentdate()
+                        leadsList?.updatedon = currentdate()
+                        leadsList?.contactnumber = binding.edtContactNumber.text.toString().trim()
+                        leadsList?.leadsname = binding.edtLeadsName.text.toString().trim()
+                        leadsList?.countrycode = binding.prefixNumber.text.toString()
+                        leadsList
+                    } else {
+                        LeadsList(
+                            contactnumber = binding.edtContactNumber.text.toString().trim(),
+                            date = currentdate(),
+                            email = binding.edtEmail.text.toString().trim(),
+                            leadsname = binding.edtLeadsName.text.toString().trim(),
+                            locations = "",
+                            maxamount = "0",
+                            minamount = "0",
+                            priority = "",
+                            project = "",
+                            registerno = "",
+                            typeoflead = leadType,
+                            calldetails = "",
+                            leadstatus = "Created",
+                            leadrole = leadRole,
+                            createdby = prefmanager.userData?.UserName.toString(),
+                            assignto = if (prefmanager.userData?.IsAdmin == "1") "" else prefmanager.userData?.UserName.toString(),
+                            updatedon = currentdate(),
+                            countrycode = binding.prefixNumber.text.toString(),
+                            lookingfor = lookingFor,
+                            update = null
+                        )
+                    }
+                    addLeadViewModel?.addLead(leadsData!!, success = {
+                        emptyData()
+                        Toast.makeText(
+                            requireContext(),
+                            "Lead Added Successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        addLeadViewModel?.getLeads(
+                            leadsData.contactnumber!!, success = {
+                                if (it.leadsList.isNotEmpty()) {
+                                    val bundle = Bundle()
+                                    bundle.putString(LEAD_DATA, Gson().toJson(it.leadsList.first()))
+                                    findNavController().navigate(
+                                        R.id.action_addleadFragment_to_addrequirement,
+                                        bundle
+                                    )
+                                }
+                            }, error = {}
+                        )
+                    }, error = {
+                        Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                    })
+
+                }
+            }
+        }
     }
 
     fun showCountryCodeDialog(

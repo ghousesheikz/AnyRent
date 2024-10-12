@@ -59,5 +59,4 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.jraska:falcon:2.2.0")
-    implementation("com.github.OzcanAlasalvar:DatePicker:1.0.4")
 }

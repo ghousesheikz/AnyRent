@@ -290,7 +290,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/notesNav"
+            android:id="@+id/availabilityNav"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -314,7 +314,7 @@
                 android:layout_height="@dimen/size_30dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_24sp"
-                app:srcCompat="@drawable/ic_notes" />
+                app:srcCompat="@drawable/ic_availability" />
 
             <View
                 android:layout_width="30dp"
@@ -324,11 +324,11 @@
                 android:background="@color/c_light_gray_2" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="50dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:maxLines="2"
-                android:text="Add Notes"
+                android:text="@string/add_availability"
                 android:textSize="@dimen/font_12sp" />
         </LinearLayout>
     </LinearLayout>
@@ -366,6 +366,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtleads">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/leadsList"
             android:layout_width="match_parent"
@@ -377,7 +378,6 @@
             android:paddingBottom="@dimen/size_50dp"
             android:visibility="visible" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
 
     <com.airbnb.lottie.LottieAnimationView

@@ -63,6 +63,9 @@ class HomeFragment : Fragment() {
         binding.leadsNav.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_addleadFragment)
         }
+        binding.availabilityNav.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_addapartment)
+        }
         binding.propertyNav.setOnClickListener {
             val bundle = Bundle()
             bundle.putBoolean(ADD_PROPERTY, true)
@@ -83,7 +86,7 @@ class HomeFragment : Fragment() {
                 arrayListOf(),
                 isAdmin = PrefManager(requireContext()).userData?.IsAdmin == "1"
             )
-            leadAdapter?.setLeadClickListener {it,pos->
+            leadAdapter?.setLeadClickListener { it, pos ->
                 prefmanager.listPos = pos
                 val bundle = Bundle()
                 bundle.putString(LEAD_DATA, Gson().toJson(it))
@@ -153,7 +156,7 @@ class HomeFragment : Fragment() {
                     it.leadscheduleList,
                     clickListener = {
                         homeViewModel?.getLeadData(it.contactnumber!!, success = {
-                            if(it.leadsList.isNotEmpty()) {
+                            if (it.leadsList.isNotEmpty()) {
                                 val bundle = Bundle()
                                 bundle.putString(LEAD_DATA, Gson().toJson(it.leadsList.first()))
                                 findNavController().navigate(
@@ -281,10 +284,10 @@ class HomeFragment : Fragment() {
                     binding.txtLeadsCount.setText(it.leadsList.size.toString())
                     leadAdapter?.updateList(it.leadsList, propertyData?.propertyList ?: emptyList())
                 } else leadAdapter?.updateList(emptyList(), emptyList())
-                try{
+                try {
                     binding.leadsList.smoothScrollToPosition(prefmanager.listPos)
                     prefmanager.listPos = 0
-                }catch (exp:Exception){
+                } catch (exp: Exception) {
                     //do nothing
                 }
             }
@@ -309,7 +312,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setStatus(leadData: LeadsList) {
-        showStatusDialog(leadData) {it,feedback->
+        showStatusDialog(leadData) { it, feedback ->
             leadData.status = it
             leadData.feedback = feedback
             homeViewModel?.updateLead(leadData, success = {
@@ -320,7 +323,7 @@ class HomeFragment : Fragment() {
 
     fun showStatusDialog(
         leadData: LeadsList,
-        clickListener: (String,String) -> Unit
+        clickListener: (String, String) -> Unit
     ) {
         var selectedStatus = ""
         val statusList = arrayListOf<String>(
@@ -357,10 +360,10 @@ class HomeFragment : Fragment() {
             )
         }
         btnUpdate.setOnClickListener {
-            if(!selectedStatus.isNullOrEmpty()) {
-                clickListener.invoke(selectedStatus,edtAddNotes.text.toString().trim())
+            if (!selectedStatus.isNullOrEmpty()) {
+                clickListener.invoke(selectedStatus, edtAddNotes.text.toString().trim())
                 dialog.dismiss()
-            }else showToast(requireContext(),"please select status")
+            } else showToast(requireContext(), "please select status")
         }
         dialog.setCancelable(true)
         dialog.show();

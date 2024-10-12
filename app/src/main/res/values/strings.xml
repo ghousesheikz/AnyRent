@@ -42,4 +42,8 @@
     <string name="menu_schedule">Schedule visiting</string>
     <string name="add_status">Add Status</string>
     <string name="update">Update</string>
+    <string name="apartment_name">Apartment Name</string>
+    <string name="availabilities">Availability</string>
+    <string name="add_availability">Add Availability</string>
+    <string name="flat_no">Flat Number</string>
 </resources>

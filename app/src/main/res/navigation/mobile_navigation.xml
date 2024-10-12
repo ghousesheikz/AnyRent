@@ -79,6 +79,16 @@
             app:popUpTo="@id/nav_home"
             app:popUpToInclusive="false" />
 
+        <action
+            android:id="@+id/action_homeFragment_to_addapartment"
+            app:destination="@id/nav_addavailability"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="false" />
+
     </fragment>
 
     <fragment
@@ -104,6 +114,28 @@
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
+
+    <fragment
+        android:id="@+id/nav_addavailability"
+        android:name="com.shaikhomes.smartdiary.ui.apartment.AddApartmentFragment"
+        android:label="@string/availabilities"
+        tools:layout="@layout/fragment_add_apartment">
+        <action
+            android:id="@+id/action_availabilityFragment_to_availability"
+            app:destination="@id/nav_availabilities"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_addavailability"
+            app:popUpToInclusive="false" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/nav_availabilities"
+        android:name="com.shaikhomes.smartdiary.ui.availability.AvailabilityFragment"
+        android:label="@string/availabilities"
+        tools:layout="@layout/fragment_availability" />
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.shaikhomes.smartdiary.ui.slideshow.SlideshowFragment"

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatTextView xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/textName"
+        android:id="@+id/textApartmentName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/font_regular"
@@ -22,5 +22,5 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_1dp"
         android:background="@color/c_gray_2"
-        app:layout_constraintTop_toBottomOf="@id/textName" />
+        app:layout_constraintTop_toBottomOf="@id/textApartmentName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
