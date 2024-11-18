@@ -51,6 +51,8 @@ interface NetworkApi {
 
     @GET("Apartment?")
     fun getApartments(
+        @Query("userid") userid: String,
+        @Query("apartmentid") apartmentid: String
     ): Call<ApartmentData>
 
     @POST("Property?")

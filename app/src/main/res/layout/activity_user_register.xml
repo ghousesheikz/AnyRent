@@ -4,122 +4,129 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_700"
-    tools:context=".ui.UserRegister">
+    android:background="@drawable/anyrent_bg"
+    tools:context="com.shaikhomes.smartdiary.ui.UserRegister">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:layout_constraintBottom_toTopOf="@id/cardLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_logo" />
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardLogin"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size_25dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/size_8dp"
+        android:layout_height="0dp"
+        android:background="@drawable/top_curve_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/size_15dp">
+            android:fillViewport="true">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtWelcome"
-                android:layout_width="@dimen/size_0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font_bold"
-                android:gravity="center"
-                android:text="@string/register_user"
-                android:textColor="@color/black"
-                android:textSize="@dimen/font_20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:orientation="vertical"
+                android:padding="@dimen/size_15dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtName"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/size_50dp"
-                android:layout_marginTop="@dimen/size_25dp"
-                android:hint="@string/enter_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtWelcome">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgLogo"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_logo" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtName"
-                    android:layout_width="match_parent"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtWelcome"
+                    android:layout_width="@dimen/size_0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/c_white_1"
-                    android:inputType="text"
-                    android:maxLength="50" />
+                    android:fontFamily="@font/font_bold"
+                    android:gravity="center"
+                    android:text="@string/register_user"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtName"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/size_50dp"
+                    android:layout_marginTop="@dimen/size_25dp"
+                    android:hint="@string/enter_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtWelcome">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/c_white_1"
+                        android:inputType="text"
+                        android:maxLength="50" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtMobileNumber"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/size_50dp"
-                android:layout_marginTop="@dimen/size_15dp"
-                android:hint="@string/enter_number"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtName">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtMobileNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/c_white_1"
-                    android:inputType="number"
-                    android:maxLength="10" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtAddress"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/size_50dp"
-                android:layout_marginTop="@dimen/size_15dp"
-                android:hint="@string/enter_address"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtMobileNumber">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/c_white_1"
-                    android:inputType="text"
-                    android:maxLength="100" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnSignup"
-                android:layout_width="@dimen/size_0dp"
-                android:layout_height="@dimen/size_40dp"
-                android:layout_marginTop="@dimen/size_25dp"
-                android:background="@color/purple_500"
-                android:text="@string/sign_up"
-                android:textColor="@color/c_white_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtAddress" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtMobileNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/size_50dp"
+                    android:layout_marginTop="@dimen/size_15dp"
+                    android:hint="@string/enter_number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtName">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtMobileNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/c_white_1"
+                        android:inputType="number"
+                        android:maxLength="10" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/size_50dp"
+                    android:layout_marginTop="@dimen/size_15dp"
+                    android:hint="@string/enter_address"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtMobileNumber">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/c_white_1"
+                        android:inputType="text"
+                        android:maxLength="100" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSignup"
+                    android:layout_width="@dimen/size_0dp"
+                    android:layout_height="@dimen/size_40dp"
+                    android:layout_marginTop="@dimen/size_25dp"
+                    android:background="@drawable/button_bg"
+                    android:text="@string/sign_up"
+                    android:textColor="@color/c_white_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtAddress" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

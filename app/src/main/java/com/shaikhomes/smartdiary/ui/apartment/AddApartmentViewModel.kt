@@ -30,8 +30,6 @@ class AddApartmentViewModel : ViewModel() {
                 ) {
                     if (response.body()?.status == "200") {
                         success.invoke(response.body()!!)
-                    } else if (response.body()?.message == "Lead already exists") {
-                        error.invoke("Lead already exists")
                     } else {
                         error.invoke("Something Went Wrong")
                     }
@@ -45,9 +43,10 @@ class AddApartmentViewModel : ViewModel() {
 
     fun getApartments(
         success: (ApartmentData) -> Unit,
-        error: (String) -> Unit
+        error: (String) -> Unit,
+        userid:String,apartmentid:String
     ) {
-        RetrofitInstance.api.getApartments()
+        RetrofitInstance.api.getApartments(userid,apartmentid)
             .enqueue(object : Callback<ApartmentData> {
                 override fun onResponse(
                     call: Call<ApartmentData>,

@@ -11,9 +11,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
@@ -28,10 +29,13 @@
         android:theme="@style/Theme.SmartDiary"
         tools:targetApi="31">
         <activity
-            android:name=".ui.UserRegister"
+            android:name="com.shaikhomes.smartdiary.ui.PropertyActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name="com.shaikhomes.smartdiary.ui.UserRegister"
+            android:exported="false" />
+        <activity
+            android:name="com.shaikhomes.smartdiary.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.SmartDiary.NoActionBar">
             <intent-filter>
@@ -40,27 +44,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".ui.utils.WhatsappAccessibilityService"
-            android:exported="true"
-            android:label="My Accessibility Service"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/whatsappservice" />
-
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
-        </service>
-        <receiver android:name=".ui.utils.IncomingCallTracker"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
-            </intent-filter>
-        </receiver>
-        <!-- <service
+        <!--
+ <service
              android:name=".ui.utils.WhatsappAccessibilityService"
              android:label="My Whatsapp Service"
              android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
@@ -71,7 +56,8 @@
              <intent-filter>
                  <action android:name="android.accessibilityservice.AccessinilityService" />
              </intent-filter>
-         </service>-->
+         </service>
+        -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.shaikhomes.smartdiary.provider"
@@ -83,11 +69,11 @@
         </provider>
 
         <activity
-            android:name=".LoginActivity"
+            android:name="com.shaikhomes.smartdiary.LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.SmartDiary.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.shaikhomes.smartdiary.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.SmartDiary.NoActionBar" />

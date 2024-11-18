@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.shaikhomes.anyrent"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.shaikhomes.anyrent"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 5
         versionName = "5.0"
 
@@ -54,6 +54,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.6.4")
     implementation("com.squareup.okhttp3:logging-interceptor:3.12.13")
     implementation("com.airbnb.android:lottie:6.1.0")
+    implementation("androidx.activity:activity:1.9.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

@@ -55,7 +55,7 @@ class AddApartmentFragment : Fragment() {
                 if (validations()) {
                     requireActivity().hideKeyboard(it)
                     val apartmentData = ApartmentList(
-                        apartmentid = randomNumber().toString(),
+                        userid = randomNumber().toString(),
                         apartmentname = binding.edtApartmentName.text.toString(),
                         apartmentfor = "",
                         createdby = prefmanager.userData?.UserName,
@@ -75,28 +75,28 @@ class AddApartmentFragment : Fragment() {
     }
 
     fun getApartments() {
-        addApartmentViewModel?.getApartments(success = {
-            if (it.apartmentList.isNotEmpty()) {
-                binding.apartmentList.removeAllViews()
-                it.apartmentList.forEachIndexed { index, apartmentList ->
-                    binding.apartmentList.addView(
-                        layoutInflater.inflate(R.layout.item_apartment, null)?.apply {
-                            this.findViewById<AppCompatTextView>(R.id.textApartmentName).apply {
-                                text = apartmentList.apartmentname
-                                setOnClickListener {
-                                    val bundle = Bundle()
-                                    bundle.putString(AVAILABILITIES_DATA, Gson().toJson(apartmentList))
-                                    findNavController().navigate(R.id.action_availabilityFragment_to_availability, bundle)
-                                }
-                            }
-
-                        }
-                    )
-                }
-            }
-        }, error = {
-            showToast(requireContext(), it)
-        })
+//        addApartmentViewModel?.getApartments(success = {
+//            if (it.apartmentList.isNotEmpty()) {
+//                binding.apartmentList.removeAllViews()
+//                it.apartmentList.forEachIndexed { index, apartmentList ->
+//                    binding.apartmentList.addView(
+//                        layoutInflater.inflate(R.layout.item_apartment, null)?.apply {
+//                            this.findViewById<AppCompatTextView>(R.id.textApartmentName).apply {
+//                                text = apartmentList.apartmentname
+//                                setOnClickListener {
+//                                    val bundle = Bundle()
+//                                    bundle.putString(AVAILABILITIES_DATA, Gson().toJson(apartmentList))
+//                                    findNavController().navigate(R.id.action_availabilityFragment_to_availability, bundle)
+//                                }
+//                            }
+//
+//                        }
+//                    )
+//                }
+//            }
+//        }, error = {
+//            showToast(requireContext(), it)
+//        })
     }
 
 

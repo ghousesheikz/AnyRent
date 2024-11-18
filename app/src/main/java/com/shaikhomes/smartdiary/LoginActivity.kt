@@ -1,12 +1,12 @@
 package com.shaikhomes.smartdiary
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.shaikhomes.anyrent.databinding.ActivityLoginBinding
+import com.shaikhomes.smartdiary.ui.PropertyActivity
 import com.shaikhomes.smartdiary.ui.customviews.LoadDialog
 import com.shaikhomes.smartdiary.ui.customviews.dismissProgress
 import com.shaikhomes.smartdiary.ui.customviews.showProgress
@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener { view ->
             hideKeyboard(view)
-            if (binding.edtMobileNumber.text?.length == 10) {
+            if (binding.edtMobileNumber.text?.length!! >= 7 && binding.otpView.getStringFromFields() == "122333") {
                 getUserData(binding.edtMobileNumber.text?.trim().toString(), view)
             } else {
                 Snackbar.make(view, "Please Enter Valid Mobile Number", Snackbar.LENGTH_LONG)
@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun getUserData(mobileno: String, view: View) {
         loadDialog.showProgress()
-        RetrofitInstance.api.getUserData(mobileno,"1")
+        RetrofitInstance.api.getUserData(mobileno, "")
             .enqueue(object : Callback<UserRegister> {
                 override fun onResponse(
                     call: Call<UserRegister>,
@@ -69,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
                                     startActivity(
                                         Intent(
                                             this@LoginActivity,
-                                            MainActivity::class.java
+                                            PropertyActivity::class.java
                                         )
                                     )
                                     finish()

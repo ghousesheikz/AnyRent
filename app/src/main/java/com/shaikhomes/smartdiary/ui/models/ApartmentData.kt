@@ -10,9 +10,10 @@ data class ApartmentData(
 
 data class ApartmentList(
     @SerializedName("ID") var ID: Int? = null,
-    @SerializedName("apartmentid") var apartmentid: String? = null,
+    @SerializedName("userid") var userid: String? = null,
     @SerializedName("apartmentname") var apartmentname: String? = null,
     @SerializedName("apartmentfor") var apartmentfor: String? = null,
+    @SerializedName("nooffloors") var nooffloors: String? = null,
     @SerializedName("createdby") var createdby: String? = null,
     @SerializedName("updatedon") var updatedon: String? = null,
     @SerializedName("update") var update: String? = null

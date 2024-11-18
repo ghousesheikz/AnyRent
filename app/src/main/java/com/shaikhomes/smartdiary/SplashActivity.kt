@@ -1,20 +1,14 @@
 package com.shaikhomes.smartdiary
 
-import android.accessibilityservice.AccessibilityService
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.Settings
-import android.text.TextUtils
+import androidx.appcompat.app.AppCompatActivity
 import com.shaikhomes.anyrent.R
+import com.shaikhomes.smartdiary.ui.PropertyActivity
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
-import com.shaikhomes.smartdiary.ui.utils.WhatsappAccessibilityService
-import java.net.URLEncoder
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -46,7 +40,7 @@ class SplashActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed(Runnable {
             PrefManager(this).apply {
                 if (this.isLoggedIn) {
-                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                    startActivity(Intent(this@SplashActivity, PropertyActivity::class.java))
                     finish()
                 } else {
                     startActivity(Intent(this@SplashActivity, LoginActivity::class.java))

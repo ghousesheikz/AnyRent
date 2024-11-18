@@ -41,9 +41,6 @@ class UserRegister : AppCompatActivity() {
         } else if (binding.edtAddress.text.toString().isEmpty()) {
             flag = false
             Toast.makeText(this, "Enter Address", Toast.LENGTH_SHORT).show()
-        } else if (empType?.isEmpty() == true) {
-            flag = false
-            Toast.makeText(this, "Please Select Employee Type", Toast.LENGTH_SHORT).show()
         }
         return flag
     }
