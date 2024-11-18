@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.Group
 import androidx.recyclerview.widget.RecyclerView
-import com.shaikhomes.smartdiary.R
+import com.shaikhomes.anyrent.R
 import com.shaikhomes.smartdiary.ui.models.LeadscheduleList
 
 class ScheduleVisitAdapter(

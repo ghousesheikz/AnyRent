@@ -40,7 +40,7 @@ class EmployeeDataViewModel : ViewModel() {
     }
 
     fun getUsers(success: (UserRegister) -> Unit, error: (String) -> Unit) {
-        RetrofitInstance.api.getUserData("")
+        RetrofitInstance.api.getUserData("","")
             .enqueue(object : Callback<UserRegister> {
                 override fun onResponse(
                     call: Call<UserRegister>,

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.shaikhomes.smartdiary"
+    namespace = "com.shaikhomes.anyrent"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.shaikhomes.smartdiary"
+        applicationId = "com.shaikhomes.anyrent"
         minSdk = 24
         targetSdk = 33
         versionCode = 5
@@ -59,4 +59,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.jraska:falcon:2.2.0")
+    implementation("com.github.KevinSchildhorn:OTPView:0.2.5")
 }

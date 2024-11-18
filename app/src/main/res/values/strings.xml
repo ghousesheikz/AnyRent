@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Smart Diary</string>
+    <string name="app_name">Any Rent</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Shaik Mohammed Ghouse</string>
@@ -46,4 +46,5 @@
     <string name="availabilities">Availability</string>
     <string name="add_availability">Add Availability</string>
     <string name="flat_no">Flat Number</string>
+    <string name="mobile_number">Mobile Number</string>
 </resources>

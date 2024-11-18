@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.shaikhomes.smartdiary.R
+import com.shaikhomes.anyrent.R
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.models.PropertyList
 

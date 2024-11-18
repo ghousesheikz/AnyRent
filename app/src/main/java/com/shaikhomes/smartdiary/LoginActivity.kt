@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
-import com.shaikhomes.smartdiary.databinding.ActivityLoginBinding
+import com.shaikhomes.anyrent.databinding.ActivityLoginBinding
 import com.shaikhomes.smartdiary.ui.customviews.LoadDialog
 import com.shaikhomes.smartdiary.ui.customviews.dismissProgress
 import com.shaikhomes.smartdiary.ui.customviews.showProgress
@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun getUserData(mobileno: String, view: View) {
         loadDialog.showProgress()
-        RetrofitInstance.api.getUserData(mobileno)
+        RetrofitInstance.api.getUserData(mobileno,"1")
             .enqueue(object : Callback<UserRegister> {
                 override fun onResponse(
                     call: Call<UserRegister>,

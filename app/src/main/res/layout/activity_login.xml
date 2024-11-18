@@ -4,28 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_700"
-    tools:context=".LoginActivity">
+    android:background="@drawable/anyrent_bg">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:layout_constraintBottom_toTopOf="@id/cardLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_logo" />
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardLogin"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size_25dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/size_8dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/size_0dp"
+        android:background="@drawable/top_curve_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintHeight_percent="0.7"
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -33,28 +24,36 @@
             android:orientation="vertical"
             android:padding="@dimen/size_15dp">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgLogo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/ic_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtWelcome"
+                android:id="@+id/txtMobile"
                 android:layout_width="@dimen/size_0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/font_bold"
-                android:gravity="center"
-                android:text="@string/welcome_smart_diary_users"
+                android:gravity="start"
+                android:text="@string/mobile_number"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtMobileNumber"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/size_50dp"
-                android:layout_marginTop="@dimen/size_25dp"
-                android:hint="@string/enter_number"
+                android:layout_marginTop="@dimen/size_15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtWelcome">
+                app:layout_constraintTop_toBottomOf="@id/txtMobile">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtMobileNumber"
@@ -66,17 +65,44 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.kevinschildhorn.otpview.OTPView
+                android:id="@+id/otp_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:autofillHints=""
+                android:importantForAutofill="no"
+                android:inputType="number|textNoSuggestions"
+                android:visibility="visible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtMobileNumber"
+                app:otp_backgroundImage="@drawable/background"
+                app:otp_cursorColor="@color/teal_700"
+                app:otp_filledBackgroundImage="@drawable/background"
+                app:otp_filledTextSize="@dimen/font_18sp"
+                app:otp_highlightedBackgroundImage="@drawable/background_highlighted"
+                app:otp_highlightedTextSize="@dimen/font_18sp"
+                app:otp_itemCount="6"
+                app:otp_itemHeight="@dimen/size_45dp"
+                app:otp_itemWidth="@dimen/size_35dp"
+                app:otp_marginBetween="@dimen/size_8dp"
+                app:otp_showCursor="true"
+                app:otp_textColor="@color/black"
+                app:otp_textSize="@dimen/font_18sp"
+                app:otp_underscoreCursor="true" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnLogin"
                 android:layout_width="@dimen/size_0dp"
                 android:layout_height="@dimen/size_40dp"
                 android:layout_marginTop="@dimen/size_25dp"
-                android:background="@color/purple_500"
+                android:background="@drawable/button_bg"
                 android:text="@string/login"
                 android:textColor="@color/c_white_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtMobileNumber" />
+                app:layout_constraintTop_toBottomOf="@id/otp_view" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtRegister"
@@ -89,5 +115,5 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnLogin" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

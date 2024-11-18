@@ -21,7 +21,7 @@ import retrofit2.http.Query
 
 interface NetworkApi {
     @GET("UserRegister?")
-    fun getUserData(@Query("mobileno") mobileno: String): Call<UserRegister>
+    fun getUserData(@Query("mobileno") mobileno: String,@Query("isactive") isactive: String): Call<UserRegister>
 
 
     @GET("Property?")

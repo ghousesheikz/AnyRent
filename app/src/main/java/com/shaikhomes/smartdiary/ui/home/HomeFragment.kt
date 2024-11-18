@@ -21,8 +21,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.gson.Gson
 import com.shaikhomes.smartdiary.MainActivity
-import com.shaikhomes.smartdiary.R
-import com.shaikhomes.smartdiary.databinding.FragmentHomeBinding
+import com.shaikhomes.anyrent.R
+import com.shaikhomes.anyrent.databinding.FragmentHomeBinding
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.models.LeadscheduleList
 import com.shaikhomes.smartdiary.ui.models.PropertyData

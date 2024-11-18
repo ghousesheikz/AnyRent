@@ -29,8 +29,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.shaikhomes.smartdiary.R
-import com.shaikhomes.smartdiary.databinding.FragmentViewleadsBinding
+import com.shaikhomes.anyrent.R
+import com.shaikhomes.anyrent.databinding.FragmentViewleadsBinding
 import com.shaikhomes.smartdiary.ui.home.LeadAdapter
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.models.PropertyData

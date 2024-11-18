@@ -8,14 +8,15 @@ import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import com.shaikhomes.smartdiary.LoginActivity
 import com.shaikhomes.smartdiary.MainActivity
-import com.shaikhomes.smartdiary.R
-import com.shaikhomes.smartdiary.databinding.ActivityUserRegisterBinding
+import com.shaikhomes.anyrent.R
+import com.shaikhomes.anyrent.databinding.ActivityUserRegisterBinding
 import com.shaikhomes.smartdiary.ui.customviews.LoadDialog
 import com.shaikhomes.smartdiary.ui.customviews.dismissProgress
 import com.shaikhomes.smartdiary.ui.customviews.showProgress
 import com.shaikhomes.smartdiary.ui.models.ResponseData
 import com.shaikhomes.smartdiary.ui.models.UserDetailsList
 import com.shaikhomes.smartdiary.ui.network.RetrofitInstance
+import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.hideKeyboard
 import retrofit2.Call
 import retrofit2.Callback
@@ -51,26 +52,6 @@ class UserRegister : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.adminToggle.setOnCheckedChangeListener { _, checked ->
-            if (checked) {
-                empType = "1"
-                binding.adminToggle.setTextColor(resources.getColor(R.color.c_white_1))
-                binding.employeeToggle.isChecked = false
-
-            } else {
-                binding.adminToggle.setTextColor(resources.getColor(R.color.c_black_1))
-            }
-        }
-
-        binding.employeeToggle.setOnCheckedChangeListener { _, checked ->
-            if (checked) {
-                empType = "2"
-                binding.employeeToggle.setTextColor(resources.getColor(R.color.c_white_1))
-                binding.adminToggle.isChecked = false
-            } else {
-                binding.employeeToggle.setTextColor(resources.getColor(R.color.c_black_1))
-            }
-        }
         binding.btnSignup.setOnClickListener { view ->
             hideKeyboard(view)
             if (validations()) {
@@ -87,18 +68,27 @@ class UserRegister : AppCompatActivity() {
     private fun postRegister(name: String, mobileNumber: String, address: String, view: View) {
         loadDialog.showProgress()
         val userData = UserDetailsList(
-            Active = "0",
+            Active = "1",
             IsAdmin = empType,
             OTP = "",
             UserMobileNo = mobileNumber,
             UserName = name,
             Address = address,
-            rent = "",
-            agreement = "",
-            paidStatus = "",
-            agreementStatus = "",
-            txmImage = "",
-            monthRent = ""
+            DOB = "",
+            Gender = "",
+            Profession = "",
+            GuardianType = "",
+            GName = "",
+            OtherInfo = "",
+            GNumber = "",
+            UserImage = "",
+            ProofType = "",
+            ProofNumber = "",
+            ProofImageF = "",
+            ProofImageB = "",
+            CreatedBy = "mobileapp",
+            UpdatedOn = currentdate(),
+
         )
         RetrofitInstance.api.postUser(userData)
             .enqueue(object : Callback<ResponseData> {

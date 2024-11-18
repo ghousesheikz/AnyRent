@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.shaikhomes.smartdiary.R
+import com.shaikhomes.anyrent.R
 import com.shaikhomes.smartdiary.ui.models.AvailabilityList
 
 class AvailabilityAdapter(

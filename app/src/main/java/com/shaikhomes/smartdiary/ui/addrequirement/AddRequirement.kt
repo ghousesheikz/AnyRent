@@ -9,8 +9,8 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
-import com.shaikhomes.smartdiary.R
-import com.shaikhomes.smartdiary.databinding.FragmentAddrequirementBinding
+import com.shaikhomes.anyrent.R
+import com.shaikhomes.anyrent.databinding.FragmentAddrequirementBinding
 import com.shaikhomes.smartdiary.ui.customviews.SafeClickListener
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.models.PropertyList

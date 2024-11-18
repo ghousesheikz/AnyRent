@@ -10,8 +10,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
-import com.shaikhomes.smartdiary.R
-import com.shaikhomes.smartdiary.databinding.FragmentAddreminderBinding
+import com.shaikhomes.anyrent.R
+import com.shaikhomes.anyrent.databinding.FragmentAddreminderBinding
 import com.shaikhomes.smartdiary.ui.customviews.SafeClickListener
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.models.LeadscheduleList

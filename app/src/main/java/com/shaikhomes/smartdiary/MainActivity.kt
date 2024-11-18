@@ -16,7 +16,8 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.shaikhomes.smartdiary.databinding.ActivityMainBinding
+import com.shaikhomes.anyrent.R
+import com.shaikhomes.anyrent.databinding.ActivityMainBinding
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 
 class MainActivity : AppCompatActivity() {

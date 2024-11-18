@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.shaikhomes.smartdiary.R
-import com.shaikhomes.smartdiary.databinding.FragmentPropertydataBinding
+import com.shaikhomes.anyrent.R
+import com.shaikhomes.anyrent.databinding.FragmentPropertydataBinding
 import com.shaikhomes.smartdiary.ui.models.PropertyList
 import com.shaikhomes.smartdiary.ui.models.UserDetailsList
 import com.shaikhomes.smartdiary.ui.utils.PrefManager

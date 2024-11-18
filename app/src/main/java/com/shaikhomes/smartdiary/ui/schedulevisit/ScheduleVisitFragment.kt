@@ -23,8 +23,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import com.shaikhomes.smartdiary.R
-import com.shaikhomes.smartdiary.databinding.FragmentSchedulevisitBinding
+import com.shaikhomes.anyrent.R
+import com.shaikhomes.anyrent.databinding.FragmentSchedulevisitBinding
 import com.shaikhomes.smartdiary.ui.models.LeadscheduleList
 import com.shaikhomes.smartdiary.ui.models.PropertyData
 import com.shaikhomes.smartdiary.ui.models.UserDetailsList

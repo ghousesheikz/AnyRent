@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
-import com.shaikhomes.smartdiary.R
+import com.shaikhomes.anyrent.R
 
 class LoadDialog(context: Context, @LayoutRes var layoutRes: Int = R.layout.dialog_load) :
     AlertDialog(context, R.style.LoadDialogTheme) {

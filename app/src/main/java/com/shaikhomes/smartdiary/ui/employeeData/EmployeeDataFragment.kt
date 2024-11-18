@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shaikhomes.smartdiary.LoginActivity
-import com.shaikhomes.smartdiary.databinding.FragmentEmployeedataBinding
+import com.shaikhomes.anyrent.databinding.FragmentEmployeedataBinding
 import com.shaikhomes.smartdiary.ui.models.UserDetailsList
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import kotlinx.coroutines.launch
