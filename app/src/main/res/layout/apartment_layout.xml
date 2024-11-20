@@ -19,7 +19,7 @@
             android:text="Apartment Name"
             android:textColor="@color/black"
             android:textSize="@dimen/font_12sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ImgQrCode"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +32,7 @@
             android:text="Apartment For"
             android:textColor="@color/black"
             android:textSize="@dimen/font_12sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ImgQrCode"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/apartmentName" />
 
@@ -48,5 +48,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/apartmentFor"
             app:layout_constraintWidth_percent="0.5" />
+
+        <ImageButton
+            android:id="@+id/ImgQrCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/size_8dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_qr_code"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/Imgedit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/Imgedit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/size_8dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

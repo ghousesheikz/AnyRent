@@ -20,8 +20,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityPropertyBinding
+import com.shaikhomes.smartdiary.ApartmentActivity
 import com.shaikhomes.smartdiary.LoginActivity
 import com.shaikhomes.smartdiary.ui.adapters.ApartmentAdapter
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
@@ -53,7 +55,13 @@ class PropertyActivity : AppCompatActivity() {
         activityPropertyBinding.addProperty.setOnClickListener {
             showAddPropertyDialog()
         }
-        apartmentAdapter = ApartmentAdapter(this, arrayListOf())
+        apartmentAdapter = ApartmentAdapter(this, arrayListOf()).apply {
+            setEditClickListener {
+                val intent = Intent(this@PropertyActivity, ApartmentActivity::class.java)
+                intent.putExtra("apartment", Gson().toJson(it))
+                startActivity(intent)
+            }
+        }
         activityPropertyBinding.propertyList.apply {
             layoutManager = LinearLayoutManager(this@PropertyActivity)
             adapter = apartmentAdapter

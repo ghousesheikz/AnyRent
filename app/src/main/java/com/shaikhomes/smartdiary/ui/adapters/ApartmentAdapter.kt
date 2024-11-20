@@ -5,6 +5,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.appcompat.widget.AppCompatTextView
@@ -31,10 +32,10 @@ class ApartmentAdapter(
         return LeadViewHolder(view)
     }
 
-    private var leadClickListener: ((AvailabilityList) -> Unit)? = null
+    private var editClickListener: ((ApartmentList) -> Unit)? = null
 
-    fun setLeadClickListener(leadList: (AvailabilityList) -> Unit) {
-        this.leadClickListener = leadList
+    fun setEditClickListener(leadList: (ApartmentList) -> Unit) {
+        this.editClickListener = leadList
     }
 
 
@@ -51,6 +52,10 @@ class ApartmentAdapter(
             Html.fromHtml("Floors: <font color='#000E77'>${leadsList[position].nooffloors}</font>"),
             TextView.BufferType.SPANNABLE
         )
+        holder.ImgEdit.setOnClickListener {
+            editClickListener?.invoke(leadsList[position])
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -73,5 +78,7 @@ class ApartmentAdapter(
         var apartmentName: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.apartmentName)
         var apartmentFor: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.apartmentFor)
         var noOfFloors: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.noOfFloors)
+        var ImgEdit: ImageButton = itemView.findViewById<ImageButton>(R.id.Imgedit)
+        var ImgQrCode: ImageButton = itemView.findViewById<ImageButton>(R.id.ImgQrCode)
     }
 }

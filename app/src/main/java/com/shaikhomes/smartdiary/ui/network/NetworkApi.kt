@@ -5,12 +5,14 @@ import com.shaikhomes.smartdiary.ui.models.ApartmentData
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
 import com.shaikhomes.smartdiary.ui.models.AvailabilityData
 import com.shaikhomes.smartdiary.ui.models.AvailabilityList
+import com.shaikhomes.smartdiary.ui.models.FlatData
 import com.shaikhomes.smartdiary.ui.models.LeadsData
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.models.LeadscheduleList
 import com.shaikhomes.smartdiary.ui.models.PropertyData
 import com.shaikhomes.smartdiary.ui.models.PropertyList
 import com.shaikhomes.smartdiary.ui.models.ResponseData
+import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.models.UserDetailsList
 import com.shaikhomes.smartdiary.ui.models.UserRegister
 import retrofit2.Call
@@ -73,4 +75,23 @@ interface NetworkApi {
 
     @POST("UserRegister?")
     fun postUser(@Body userData: UserDetailsList): Call<ResponseData>
+
+    @GET("Flat?")
+    fun getFlats(
+        @Query("userid") userid: String,
+        @Query("apartmentid") apartmentid: String
+    ): Call<FlatData>
+
+    @POST("Flat?")
+    fun postFlat(@Body flatList: FlatData.FlatList): Call<ResponseData>
+
+    @GET("Rooms?")
+    fun getRooms(
+        @Query("apartmentid") apartmentid: String,
+        @Query("floorno") floorno: String,
+        @Query("flatno") flatno: String
+    ): Call<RoomData>
+
+    @POST("Rooms?")
+    fun postRooms(@Body roomList: RoomData.RoomsList): Call<ResponseData>
 }

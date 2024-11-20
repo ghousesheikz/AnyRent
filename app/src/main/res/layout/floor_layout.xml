@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/floorName"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/size_30dp"
+    android:layout_marginEnd="@dimen/size_5dp"
+    android:background="@drawable/selector_category"
+    android:gravity="center"
+    android:letterSpacing="0.2"
+    android:lineSpacingMultiplier="1.10"
+    android:paddingStart="@dimen/size_15dp"
+    android:paddingTop="@dimen/size_5dp"
+    android:paddingEnd="@dimen/size_15dp"
+    android:paddingBottom="@dimen/size_5dp"
+    android:textAllCaps="true"
+    android:textColor="@color/c_f_selector_category"
+    tools:text="@string/app_name" />

@@ -29,6 +29,9 @@
         android:theme="@style/Theme.SmartDiary"
         tools:targetApi="31">
         <activity
+            android:name="com.shaikhomes.smartdiary.ApartmentActivity"
+            android:exported="false" />
+        <activity
             android:name="com.shaikhomes.smartdiary.ui.PropertyActivity"
             android:exported="false" />
         <activity
@@ -60,7 +63,7 @@
         -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.shaikhomes.smartdiary.provider"
+            android:authorities="com.shaikhomes.anyrent.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
