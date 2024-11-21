@@ -61,4 +61,5 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.jraska:falcon:2.2.0")
     implementation("com.github.KevinSchildhorn:OTPView:0.2.5")
+    implementation("com.github.clans:fab:1.6.4")
 }

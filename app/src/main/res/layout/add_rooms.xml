@@ -11,34 +11,64 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Add Property"
+        android:text="Add Room"
         android:textColor="@color/black"
         android:textSize="@dimen/font_22sp" />
 
-    <EditText
-        android:id="@+id/editTextName"
+    <Spinner
+        android:id="@+id/floorSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        android:hint="Property Name"
-        android:inputType="textPersonName"
-        android:padding="@dimen/size_8dp" />
+        android:background="@drawable/edittext_bg" />
 
     <Spinner
-        android:id="@+id/typeSpinner"
+        android:id="@+id/flatSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_15dp"
         android:background="@drawable/edittext_bg" />
 
     <EditText
-        android:id="@+id/editTextNoOfFloors"
+        android:id="@+id/editRoomName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_15dp"
         android:background="@drawable/edittext_bg"
-        android:hint="Number of Floors"
+        android:hint="Room Name"
+        android:inputType="textPersonName"
+        android:padding="@dimen/size_8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:text="Select Room Capacity" />
+
+    <Spinner
+        android:id="@+id/roomtypeSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/edittext_bg" />
+
+    <EditText
+        android:id="@+id/editRentPerDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Rent Per Day"
+        android:inputType="number"
+        android:padding="@dimen/size_8dp" />
+
+    <EditText
+        android:id="@+id/editRentPerMonth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Rent Per Month"
         android:inputType="number"
         android:padding="@dimen/size_8dp" />
 
@@ -49,5 +79,5 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/size_15dp"
         android:background="@drawable/button_bg"
-        android:text="Add" />
+        android:text="Add Room" />
 </LinearLayout>

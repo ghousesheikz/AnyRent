@@ -18,5 +18,11 @@ data class FlatData(
         @SerializedName("updatedon") var updatedon: String? = null,
         @SerializedName("update") var update: String? = null
 
-    )
+    ) {
+        override fun toString(): String {
+            return flatname?:""
+        }
+    }
+
+
 }

@@ -23,11 +23,17 @@ import retrofit2.http.Query
 
 interface NetworkApi {
     @GET("UserRegister?")
-    fun getUserData(@Query("mobileno") mobileno: String,@Query("isactive") isactive: String): Call<UserRegister>
+    fun getUserData(
+        @Query("mobileno") mobileno: String,
+        @Query("isactive") isactive: String
+    ): Call<UserRegister>
 
 
     @GET("Property?")
-    fun getProperty(@Query("contactno") contactno: String,@Query("leadid") leadid: String): Call<PropertyData>
+    fun getProperty(
+        @Query("contactno") contactno: String,
+        @Query("leadid") leadid: String
+    ): Call<PropertyData>
 
     @GET("Leads?")
     fun getleadsData(
@@ -79,7 +85,8 @@ interface NetworkApi {
     @GET("Flat?")
     fun getFlats(
         @Query("userid") userid: String,
-        @Query("apartmentid") apartmentid: String
+        @Query("apartmentid") apartmentid: String,
+        @Query("floor") floor: String
     ): Call<FlatData>
 
     @POST("Flat?")

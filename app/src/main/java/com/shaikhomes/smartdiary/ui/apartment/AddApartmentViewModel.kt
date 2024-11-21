@@ -116,9 +116,9 @@ class AddApartmentViewModel : ViewModel() {
     fun getFlats(
         success: (FlatData) -> Unit,
         error: (String) -> Unit,
-        userid: String, apartmentid: String
+        userid: String, apartmentid: String,floorno: String
     ) {
-        RetrofitInstance.api.getFlats(userid, apartmentid)
+        RetrofitInstance.api.getFlats(userid, apartmentid,floorno)
             .enqueue(object : Callback<FlatData> {
                 override fun onResponse(
                     call: Call<FlatData>,
