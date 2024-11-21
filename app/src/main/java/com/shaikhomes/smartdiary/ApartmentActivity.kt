@@ -1,13 +1,14 @@
 package com.shaikhomes.smartdiary
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -305,7 +306,7 @@ class ApartmentActivity : AppCompatActivity() {
         val size = this.toInt()
         val bedsList = arrayListOf<Beds>()
         for (i in 0 until size) {
-            bedsList.add(Beds(number = "${i + 1}", occupied = false))
+            bedsList.add(Beds(number = "${i + 1}", occupied = false, userId = ""))
         }
         return Gson().toJson(bedsList)
     }
@@ -394,7 +395,33 @@ class ApartmentActivity : AppCompatActivity() {
     }
 
     private fun RoomClickListener(room: RoomData.RoomsList) {
-        showToast(this,"${room.roomname} - ${room.roomcapacity}")
+        showToast(this, "${room.roomname} - ${room.roomcapacity}")
+        activityApartmentBinding.apply {
+            roomData.visibility = View.VISIBLE
+            txtRoomName.text = room.roomname
+            // Add multiple ImageViews horizontally
+            val size = room.roomcapacity?.toInt()
+            for (i in 1..size!!) { // Add 5 images as an example
+                val imageView = createImageView()
+                container.addView(imageView)
+            }
+        }
+    }
+
+    private fun createImageView(): ImageView {
+        val imageView = ImageView(this)
+
+        // Set image properties
+        imageView.setImageResource(R.drawable.ic_bed) // Replace with your drawable resource
+        imageView.layoutParams = LinearLayout.LayoutParams(
+            100, // Width in pixels
+            100  // Height in pixels
+        ).apply {
+            setMargins(15, 15, 15, 15) // Add some margin between views
+        }
+        imageView.scaleType = ImageView.ScaleType.CENTER_CROP // Optional: Adjust scaling
+
+        return imageView
     }
 
     fun getFloorData(): ArrayList<String> {
@@ -407,6 +434,7 @@ class ApartmentActivity : AppCompatActivity() {
     }
 
     private fun FlatClickListener(flatList: FlatData.FlatList) {
+        activityApartmentBinding.roomData.visibility = View.GONE
         addApartmentViewModel?.getRooms(
             success = {
                 if (it.roomsList.isNotEmpty()) {
@@ -424,13 +452,17 @@ class ApartmentActivity : AppCompatActivity() {
     }
 
     private fun FloorClickListener(floor: String) {
+        activityApartmentBinding.roomData.visibility = View.GONE
         addApartmentViewModel?.getFlats(
             success = {
                 if (it.flatList.isNotEmpty()) {
                     flatAdapter?.clearSelection()
                     roomAdapter?.clearSelection()
                     flatAdapter?.updateList(it.flatList)
-                } else flatAdapter?.updateList(arrayListOf())
+                } else {
+                    flatAdapter?.updateList(arrayListOf())
+                    roomAdapter?.updateList(arrayListOf())
+                }
             },
             error = {
                 showToast(this, it)
