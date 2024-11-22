@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityApartmentBinding
 import com.shaikhomes.smartdiary.ui.adapters.FlatAdapter
@@ -42,6 +43,8 @@ class ApartmentActivity : AppCompatActivity() {
     private var floorsAdapter: FloorsAdapter? = null
     private var flatAdapter: FlatAdapter? = null
     private var roomAdapter: RoomsAdapter? = null
+    val type = object : TypeToken<ArrayList<String>>() {}.type
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityApartmentBinding = ActivityApartmentBinding.inflate(layoutInflater)
@@ -71,10 +74,10 @@ class ApartmentActivity : AppCompatActivity() {
             }
             flatList.adapter = flatAdapter
             roomList.layoutManager =
-                LinearLayoutManager(this@ApartmentActivity, LinearLayoutManager.HORIZONTAL, false)
+                LinearLayoutManager(this@ApartmentActivity, LinearLayoutManager.VERTICAL, false)
             roomAdapter = RoomsAdapter(this@ApartmentActivity, arrayListOf(), true).apply {
                 setRoomClickListener {
-                    RoomClickListener(it)
+                    //RoomClickListener(it)
                 }
             }
             roomList.adapter = roomAdapter
@@ -286,12 +289,8 @@ class ApartmentActivity : AppCompatActivity() {
     private fun getFloors() {
         if (apartmentList?.nooffloors != null) {
             if (!apartmentList?.nooffloors.isNullOrEmpty()) {
-                val list = apartmentList?.nooffloors?.toInt()
-                val floorsList = arrayListOf<String>()
-                for (i in 1..list!!) {
-                    floorsList.add(i.toString())
-                }
-                floorsAdapter?.updateList(floorsList)
+                val list: ArrayList<String> = Gson().fromJson(apartmentList?.nooffloors, type)
+                floorsAdapter?.updateList(list)
                 floorsAdapter?.notifyDataSetChanged()
                 floorsAdapter?.clearSelection()
                 flatAdapter?.clearSelection()
@@ -322,7 +321,7 @@ class ApartmentActivity : AppCompatActivity() {
         val spinnerFor = view.findViewById<Spinner>(R.id.typeSpinner)
         val editTextNoOfFloors = view.findViewById<EditText>(R.id.editTextNoOfFloors)
         val submitButton = view.findViewById<Button>(R.id.submitButton)
-        editTextNoOfFloors.setText(apartmentList?.nooffloors)
+        //editTextNoOfFloors.setText(apartmentList?.nooffloors)
         editTextName.setText(apartmentList?.apartmentname)
         txtAddProperty.text = "Update Property"
         submitButton.text = "Update"
@@ -349,16 +348,19 @@ class ApartmentActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             } else {
                 hideKeyboard(it)
+                val arrayList: ArrayList<String> = Gson().fromJson(apartmentList?.nooffloors, type)
+                arrayList.add(noOfFloors)
                 val apartmentData = ApartmentList(
                     ID = apartmentList?.ID,
                     userid = prefmanager.userData?.UserId.toString(),
                     apartmentname = name.trim(),
                     apartmentfor = selectFor,
-                    nooffloors = noOfFloors,
+                    nooffloors = Gson().toJson(arrayList),
                     createdby = prefmanager.userData?.UserName,
                     updatedon = currentdate(),
                     update = "update"
                 )
+                //Log.v("FLOOR_DATA",Gson().toJson(apartmentData))
                 addApartmentViewModel?.addApartment(apartmentData, success = {
                     if (it.status == "200") {
                         editTextName.setText("")
@@ -399,6 +401,7 @@ class ApartmentActivity : AppCompatActivity() {
         activityApartmentBinding.apply {
             roomData.visibility = View.VISIBLE
             txtRoomName.text = room.roomname
+            container.removeAllViews()
             // Add multiple ImageViews horizontally
             val size = room.roomcapacity?.toInt()
             for (i in 1..size!!) { // Add 5 images as an example
@@ -425,12 +428,7 @@ class ApartmentActivity : AppCompatActivity() {
     }
 
     fun getFloorData(): ArrayList<String> {
-        val list = arrayListOf<String>()
-        list.add("Select Floor")
-        for (item in 1..apartmentList?.nooffloors!!.toInt()) {
-            list.add(item.toString())
-        }
-        return list
+        return Gson().fromJson(apartmentList?.nooffloors, type)
     }
 
     private fun FlatClickListener(flatList: FlatData.FlatList) {
@@ -459,6 +457,7 @@ class ApartmentActivity : AppCompatActivity() {
                     flatAdapter?.clearSelection()
                     roomAdapter?.clearSelection()
                     flatAdapter?.updateList(it.flatList)
+                    roomAdapter?.updateList(arrayListOf())
                 } else {
                     flatAdapter?.updateList(arrayListOf())
                     roomAdapter?.updateList(arrayListOf())

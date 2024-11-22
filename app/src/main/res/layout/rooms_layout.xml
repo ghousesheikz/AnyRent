@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/size_15dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_bg">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/floorName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_bg"
+        android:gravity="center"
+        android:letterSpacing="0.2"
+        android:lineSpacingMultiplier="1.10"
+        android:paddingStart="@dimen/size_15dp"
+        android:paddingTop="@dimen/size_5dp"
+        android:paddingEnd="@dimen/size_15dp"
+        android:paddingBottom="@dimen/size_5dp"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/app_name" />
+
+    <HorizontalScrollView
+        android:id="@+id/containerLayout"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/floorName">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/size_10dp"
+            android:paddingTop="@dimen/size_20dp"
+            android:paddingEnd="@dimen/size_10dp"
+            android:paddingBottom="@dimen/size_20dp" />
+    </HorizontalScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_1dp"
+        android:background="@color/c_black_1"
+        app:layout_constraintTop_toBottomOf="@id/containerLayout" />
+
+    <LinearLayout
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/containerLayout">
+
+        <TextView
+            android:id="@+id/txtOccupied"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:padding="@dimen/size_8dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_14sp" />
+
+        <TextView
+            android:id="@+id/txtVacate"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:padding="@dimen/size_8dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_14sp" />
+
+        <TextView
+            android:id="@+id/txtCapacity"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:padding="@dimen/size_8dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_14sp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

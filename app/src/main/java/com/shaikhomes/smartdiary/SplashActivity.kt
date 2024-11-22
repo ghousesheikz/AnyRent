@@ -40,7 +40,7 @@ class SplashActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed(Runnable {
             PrefManager(this).apply {
                 if (this.isLoggedIn) {
-                    startActivity(Intent(this@SplashActivity, PropertyActivity::class.java))
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                     finish()
                 } else {
                     startActivity(Intent(this@SplashActivity, LoginActivity::class.java))

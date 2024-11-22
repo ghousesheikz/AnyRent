@@ -50,6 +50,18 @@
             app:layout_constraintWidth_percent="0.5" />
 
         <ImageButton
+            android:id="@+id/ImgInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/size_8dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/baseline_info_outline_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ImgQrCode"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
             android:id="@+id/ImgQrCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

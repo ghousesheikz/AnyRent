@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_15dp"
         android:background="@drawable/edittext_bg"
-        android:hint="Number of Floors"
+        android:hint="Floors No"
         android:inputType="number"
         android:padding="@dimen/size_8dp" />
 

@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.ToggleButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.R
-import com.shaikhomes.smartdiary.ui.availability.AvailabilityAdapter
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
-import com.shaikhomes.smartdiary.ui.models.AvailabilityList
 
 class ApartmentAdapter(
     private val context: Context,
@@ -38,6 +37,18 @@ class ApartmentAdapter(
         this.editClickListener = leadList
     }
 
+    private var propertyClickListener: ((ApartmentList) -> Unit)? = null
+
+    fun setPropertyClickListener(leadList: (ApartmentList) -> Unit) {
+        this.propertyClickListener = leadList
+    }
+
+    private var infoClickListener: ((ApartmentList) -> Unit)? = null
+
+    fun setInfoClickListener(leadList: (ApartmentList) -> Unit) {
+        this.infoClickListener = leadList
+    }
+
 
     override fun onBindViewHolder(holder: LeadViewHolder, position: Int) {
         holder.apartmentName.setText(
@@ -49,13 +60,29 @@ class ApartmentAdapter(
             TextView.BufferType.SPANNABLE
         )
         holder.noOfFloors.setText(
-            Html.fromHtml("Floors: <font color='#000E77'>${leadsList[position].nooffloors}</font>"),
+            Html.fromHtml("Floors: <font color='#000E77'>${getFloorData(leadsList[position].nooffloors ?: "")}</font>"),
             TextView.BufferType.SPANNABLE
         )
         holder.ImgEdit.setOnClickListener {
             editClickListener?.invoke(leadsList[position])
         }
+        holder.itemView.rootView.setOnClickListener {
+            propertyClickListener?.invoke(leadsList[position])
+        }
 
+        holder.ImgInfo.setOnClickListener {
+            infoClickListener?.invoke(leadsList[position])
+        }
+    }
+
+    fun getFloorData(data: String?): String {
+        val type = object : TypeToken<ArrayList<String>>() {}.type
+        val list: ArrayList<String> = Gson().fromJson(data, type)
+        var floors: String = ""
+        list.forEachIndexed { index, s ->
+            floors += if (index == 0) s else ", ${s}"
+        }
+        return floors
     }
 
     override fun getItemCount(): Int {
@@ -75,10 +102,14 @@ class ApartmentAdapter(
     }
 
     inner class LeadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var apartmentName: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.apartmentName)
-        var apartmentFor: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.apartmentFor)
-        var noOfFloors: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.noOfFloors)
+        var apartmentName: AppCompatTextView =
+            itemView.findViewById<AppCompatTextView>(R.id.apartmentName)
+        var apartmentFor: AppCompatTextView =
+            itemView.findViewById<AppCompatTextView>(R.id.apartmentFor)
+        var noOfFloors: AppCompatTextView =
+            itemView.findViewById<AppCompatTextView>(R.id.noOfFloors)
         var ImgEdit: ImageButton = itemView.findViewById<ImageButton>(R.id.Imgedit)
         var ImgQrCode: ImageButton = itemView.findViewById<ImageButton>(R.id.ImgQrCode)
+        var ImgInfo: ImageButton = itemView.findViewById<ImageButton>(R.id.ImgInfo)
     }
 }

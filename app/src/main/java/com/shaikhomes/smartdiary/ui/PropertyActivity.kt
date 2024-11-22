@@ -12,11 +12,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -57,9 +54,18 @@ class PropertyActivity : AppCompatActivity() {
         }
         apartmentAdapter = ApartmentAdapter(this, arrayListOf()).apply {
             setEditClickListener {
+
+            }
+            setPropertyClickListener {
+
                 val intent = Intent(this@PropertyActivity, ApartmentActivity::class.java)
                 intent.putExtra("apartment", Gson().toJson(it))
                 startActivity(intent)
+            }
+
+            setInfoClickListener {
+                prefmanager.selectedApartment = it
+                onBackPressed()
             }
         }
         activityPropertyBinding.propertyList.apply {
@@ -98,13 +104,16 @@ class PropertyActivity : AppCompatActivity() {
             val noOfFloors = editTextNoOfFloors.text.toString()
             if (name.isBlank() || selectFor.isBlank() || noOfFloors.isBlank()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            } else if (noOfFloors == "0") {
+                Toast.makeText(this, "Please add one floor", Toast.LENGTH_SHORT).show()
             } else {
+                val floor = arrayListOf(noOfFloors)
                 hideKeyboard(it)
                 val apartmentData = ApartmentList(
                     userid = prefmanager.userData?.UserId.toString(),
                     apartmentname = name.trim(),
                     apartmentfor = selectFor,
-                    nooffloors = noOfFloors,
+                    nooffloors = Gson().toJson(floor),
                     createdby = prefmanager.userData?.UserName,
                     updatedon = currentdate()
                 )
@@ -131,7 +140,7 @@ class PropertyActivity : AppCompatActivity() {
         addApartmentViewModel?.getApartments(success = {
             apartmentAdapter?.updateList(it.apartmentList)
         }, error = {
-            showToast(this,it)
+            showToast(this, it)
         }, userid = prefmanager.userData?.UserId.toString(), apartmentid = "")
     }
 

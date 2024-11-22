@@ -1,10 +1,16 @@
 package com.shaikhomes.smartdiary.ui.adapters
 
 import android.content.Context
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.FloorLayoutBinding
+import com.shaikhomes.anyrent.databinding.RoomsLayoutBinding
 import com.shaikhomes.smartdiary.ui.models.FlatData
 import com.shaikhomes.smartdiary.ui.models.RoomData
 
@@ -25,7 +31,7 @@ class RoomsAdapter(
         viewType: Int
     ): RoomsAdapter.LeadViewHolder {
         return LeadViewHolder(
-            FloorLayoutBinding.inflate(
+            RoomsLayoutBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -65,7 +71,7 @@ class RoomsAdapter(
         return leadsList
     }
 
-    inner class LeadViewHolder(val binding: FloorLayoutBinding) :
+    inner class LeadViewHolder(val binding: RoomsLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
             val position = adapterPosition
@@ -74,6 +80,9 @@ class RoomsAdapter(
                 binding.floorName.apply {
                     text = item.roomname
                 }
+                binding.txtCapacity.text = "Capacity : 5"
+                binding.txtOccupied.text = "Occupied : 0"
+                binding.txtVacate.text = "Available : 5"
                 binding.root.isActivated = selectionPosition == position
                 binding.root.setOnClickListener {
                     if (position != selectionPosition) {
@@ -84,7 +93,27 @@ class RoomsAdapter(
                         notifyItemChanged(selectionPosition)
                     }
                 }
+                binding.container.removeAllViews()
+                // Add multiple ImageViews horizontally
+                val size = item.roomcapacity?.toInt()
+                for (i in 1..size!!) { // Add 5 images as an example
+                    val imageView = createImageView(binding.root.context)
+                    binding.container.addView(imageView)
+                }
             }
+        }
+        private fun createImageView(context: Context): ImageView {
+            val imageView = ImageView(context)
+            // Set image properties
+            imageView.setImageResource(R.drawable.ic_bed) // Replace with your drawable resource
+            imageView.layoutParams = LinearLayout.LayoutParams(
+                150, // Width in pixels
+                150  // Height in pixels
+            ).apply {
+                setMargins(15, 15, 15, 15) // Add some margin between views
+            }
+            imageView.scaleType = ImageView.ScaleType.CENTER_CROP // Optional: Adjust scaling
+            return imageView
         }
     }
 }

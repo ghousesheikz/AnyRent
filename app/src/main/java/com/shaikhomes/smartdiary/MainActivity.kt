@@ -4,21 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
+import android.view.View
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityMainBinding
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,20 +50,23 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_manageLeads, R.id.nav_employeeData,R.id.nav_scheduleOn
+                R.id.nav_home, R.id.nav_manageLeads, R.id.nav_employeeData, R.id.nav_scheduleOn
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-        navView.getHeaderView(0).findViewById<TextView>(R.id.userName).apply {
-            text = prefmanager.userData?.UserName
-        }
-        navView.getHeaderView(0).findViewById<TextView>(R.id.userEmail).apply {
-            text = prefmanager.userData?.Address
-        }
-        if (prefmanager.userData?.IsAdmin == "2") {
-            hideEmpMenu(navView)
-        }
+        //navView.setupWithNavController(navController)
+        navView.visibility = View.GONE
+        supportActionBar?.setDisplayHomeAsUpEnabled(false);
+        supportActionBar?.setHomeButtonEnabled(false);
+//        navView.getHeaderView(0).findViewById<TextView>(R.id.userName).apply {
+//            text = prefmanager.userData?.UserName
+//        }
+//        navView.getHeaderView(0).findViewById<TextView>(R.id.userEmail).apply {
+//            text = prefmanager.userData?.Address
+//        }
+//        if (prefmanager.userData?.IsAdmin == "2") {
+//            hideEmpMenu(navView)
+//        }
         askPermission()
     }
 
