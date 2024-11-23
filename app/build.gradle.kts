@@ -62,4 +62,5 @@ dependencies {
     implementation("com.jraska:falcon:2.2.0")
     implementation("com.github.KevinSchildhorn:OTPView:0.2.5")
     implementation("com.github.clans:fab:1.6.4")
+    implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
 }

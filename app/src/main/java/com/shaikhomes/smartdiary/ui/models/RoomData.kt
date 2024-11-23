@@ -22,5 +22,9 @@ data class RoomData(
         @SerializedName("floorno") var floorno: String? = null,
         @SerializedName("flatno") var flatno: String? = null,
         @SerializedName("update") var update: String? = null
-    )
+    ){
+        override fun toString(): String {
+            return roomname?:""
+        }
+    }
 }

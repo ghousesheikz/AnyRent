@@ -22,13 +22,31 @@
             android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/ic_apartment_logo" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/apartmentName"
-            android:layout_width="@dimen/size_0dp"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
-            android:padding="@dimen/size_8dp" />
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/apartmentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:padding="@dimen/size_3dp"
+                android:textSize="@dimen/font_18sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/apartmentAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:padding="@dimen/size_3dp"
+                android:textSize="@dimen/font_14sp" />
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/goBtn"
@@ -255,6 +273,7 @@
         app:layout_constraintStart_toEndOf="@id/bedsLayout"
         app:layout_constraintTop_toBottomOf="@+id/cashLayout"
         app:layout_constraintWidth_percent="0.46">
+
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -285,6 +304,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bedsLayout"
         app:layout_constraintWidth_percent="0.46">
+
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -315,6 +335,7 @@
         app:layout_constraintStart_toEndOf="@id/bedsLayout"
         app:layout_constraintTop_toBottomOf="@+id/unpaidLayout"
         app:layout_constraintWidth_percent="0.46">
+
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -347,6 +368,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expenseLayout"
         app:layout_constraintWidth_percent="0.95">
+
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -8,6 +8,7 @@ import com.shaikhomes.smartdiary.ui.models.ApartmentList
 import com.shaikhomes.smartdiary.ui.models.FlatData
 import com.shaikhomes.smartdiary.ui.models.ResponseData
 import com.shaikhomes.smartdiary.ui.models.RoomData
+import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.network.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,6 +26,29 @@ class AddApartmentViewModel : ViewModel() {
         error: (String) -> Unit
     ) {
         RetrofitInstance.api.postApartment(leadsList)
+            .enqueue(object : Callback<ResponseData> {
+                override fun onResponse(
+                    call: Call<ResponseData>,
+                    response: Response<ResponseData>
+                ) {
+                    if (response.body()?.status == "200") {
+                        success.invoke(response.body()!!)
+                    } else {
+                        error.invoke("Something Went Wrong")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseData>, t: Throwable) {
+                    error.invoke(t.message.toString())
+                }
+            })
+    }
+
+    fun addTenant(
+        leadsList: TenantList, success: (ResponseData) -> Unit,
+        error: (String) -> Unit
+    ) {
+        RetrofitInstance.api.postTenant(leadsList)
             .enqueue(object : Callback<ResponseData> {
                 override fun onResponse(
                     call: Call<ResponseData>,

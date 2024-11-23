@@ -77,9 +77,15 @@ class HomeFragment : Fragment() {
                     binding.apartmentName.apply {
                         text = prefmanager.selectedApartment?.apartmentname
                     }
+                    binding.apartmentAddress.apply {
+                        text = prefmanager.selectedApartment?.address
+                    }
                 } else {
                     binding.apartmentName.apply {
                         text = prefmanager.selectedApartment?.apartmentname
+                    }
+                    binding.apartmentAddress.apply {
+                        text = prefmanager.selectedApartment?.address
                     }
                 }
                 bindData()

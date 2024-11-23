@@ -32,9 +32,14 @@ class ApartmentAdapter(
     }
 
     private var editClickListener: ((ApartmentList) -> Unit)? = null
+    private var availableBedsClick: ((ApartmentList, AppCompatTextView) -> Unit)? = null
 
     fun setEditClickListener(leadList: (ApartmentList) -> Unit) {
         this.editClickListener = leadList
+    }
+
+    fun setAvailableClickListener(leadList: (ApartmentList, AppCompatTextView) -> Unit) {
+        this.availableBedsClick = leadList
     }
 
     private var propertyClickListener: ((ApartmentList) -> Unit)? = null
@@ -59,10 +64,11 @@ class ApartmentAdapter(
             Html.fromHtml("For: <font color='#000E77'>${leadsList[position].apartmentfor}</font>"),
             TextView.BufferType.SPANNABLE
         )
-        holder.noOfFloors.setText(
-            Html.fromHtml("Floors: <font color='#000E77'>${getFloorData(leadsList[position].nooffloors ?: "")}</font>"),
-            TextView.BufferType.SPANNABLE
-        )
+//        holder.noOfFloors.setText(
+//            Html.fromHtml("Available: <font color='#000E77'>${getFloorData(leadsList[position].nooffloors ?: "")}</font>"),
+//            TextView.BufferType.SPANNABLE
+//        )
+
         holder.ImgEdit.setOnClickListener {
             editClickListener?.invoke(leadsList[position])
         }
@@ -72,6 +78,11 @@ class ApartmentAdapter(
 
         holder.ImgInfo.setOnClickListener {
             infoClickListener?.invoke(leadsList[position])
+        }
+        try {
+            availableBedsClick?.invoke(leadsList[position], holder.noOfFloors)
+        } catch (exp: Exception) {
+            //
         }
     }
 

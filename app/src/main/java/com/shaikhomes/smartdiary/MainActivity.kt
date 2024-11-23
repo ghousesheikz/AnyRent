@@ -67,7 +67,23 @@ class MainActivity : AppCompatActivity() {
 //        if (prefmanager.userData?.IsAdmin == "2") {
 //            hideEmpMenu(navView)
 //        }
-        askPermission()
+        binding.appBarMain.contentMain.bottomNavigation.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.dashboard -> {
+                    navController.navigate(R.id.nav_home)
+                    true
+                }
+
+                R.id.tenants -> {
+                    startActivity(Intent(this, TenantsActivity::class.java))
+                    true
+                }
+
+                else -> {
+                    true
+                }
+            }
+        }
     }
 
     private fun hideEmpMenu(navView: NavigationView) {

@@ -13,6 +13,8 @@ import com.shaikhomes.smartdiary.ui.models.PropertyData
 import com.shaikhomes.smartdiary.ui.models.PropertyList
 import com.shaikhomes.smartdiary.ui.models.ResponseData
 import com.shaikhomes.smartdiary.ui.models.RoomData
+import com.shaikhomes.smartdiary.ui.models.TenantData
+import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.models.UserDetailsList
 import com.shaikhomes.smartdiary.ui.models.UserRegister
 import retrofit2.Call
@@ -101,4 +103,14 @@ interface NetworkApi {
 
     @POST("Rooms?")
     fun postRooms(@Body roomList: RoomData.RoomsList): Call<ResponseData>
+
+    @GET("Tenant?")
+    fun getTenants(
+        @Query("apartmentid") apartmentid: String,
+        @Query("floorno") floorno: String,
+        @Query("flatno") flatno: String
+    ): Call<TenantData>
+
+    @POST("Tenant?")
+    fun postTenant(@Body roomList: TenantList): Call<ResponseData>
 }

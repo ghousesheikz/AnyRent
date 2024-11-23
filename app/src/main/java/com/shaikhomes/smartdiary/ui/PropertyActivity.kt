@@ -2,6 +2,7 @@ package com.shaikhomes.smartdiary.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -11,10 +12,13 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
@@ -25,10 +29,12 @@ import com.shaikhomes.smartdiary.LoginActivity
 import com.shaikhomes.smartdiary.ui.adapters.ApartmentAdapter
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
+import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.hideKeyboard
 import com.shaikhomes.smartdiary.ui.utils.showToast
+import kotlinx.coroutines.launch
 
 class PropertyActivity : AppCompatActivity() {
     private lateinit var activityPropertyBinding: ActivityPropertyBinding
@@ -53,6 +59,9 @@ class PropertyActivity : AppCompatActivity() {
             showAddPropertyDialog()
         }
         apartmentAdapter = ApartmentAdapter(this, arrayListOf()).apply {
+            setAvailableClickListener { apartmentList, appCompatTextView ->
+                bindRoomsData(apartmentList, appCompatTextView)
+            }
             setEditClickListener {
 
             }
@@ -73,6 +82,43 @@ class PropertyActivity : AppCompatActivity() {
             adapter = apartmentAdapter
         }
         getApartments()
+    }
+
+    private fun bindRoomsData(apartmentList: ApartmentList, appCompatTextView: AppCompatTextView) {
+        addApartmentViewModel?.getRooms(success = {
+            bindRoomData(it.roomsList, appCompatTextView)
+        }, error = {
+            showToast(this, it)
+        }, apartmentid = apartmentList.ID.toString(), floorno = "", flatno = "")
+    }
+
+    suspend fun ArrayList<RoomData.RoomsList>.getCapacity(capacity: (Int) -> Unit) {
+        var count: Int = 0
+        this.forEach {
+            count += it.roomcapacity?.toInt()!!
+        }
+        capacity.invoke(count)
+    }
+
+    private fun bindRoomData(
+        roomsList: ArrayList<RoomData.RoomsList>,
+        txtBedsCount: AppCompatTextView
+    ) {
+        lifecycleScope.launch {
+            if (roomsList.isNotEmpty()) {
+                roomsList.getCapacity { tot ->
+                    txtBedsCount.setText(
+                        Html.fromHtml("Available: <font color='#000E77'>${tot}</font>"),
+                        TextView.BufferType.SPANNABLE
+                    )
+                }
+            } else {
+                txtBedsCount.setText(
+                    Html.fromHtml("Available: <font color='#000E77'>${0}</font>"),
+                    TextView.BufferType.SPANNABLE
+                )
+            }
+        }
     }
 
     private fun showAddPropertyDialog() {
@@ -149,7 +195,7 @@ class PropertyActivity : AppCompatActivity() {
         this?.add("male")
         this?.add("female")
         this?.add("family")
-        this?.add("couple")
+        this?.add("co-living")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
