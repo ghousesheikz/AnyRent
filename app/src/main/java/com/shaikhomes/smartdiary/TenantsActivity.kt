@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
@@ -69,18 +70,82 @@ class TenantsActivity : AppCompatActivity() {
             this,
             R.layout.spinner_item, apartmentList!!
         )
+        activityTenantsBinding.apartmentSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long
+                ) {
+                    val selectedItem = p0?.getItemAtPosition(p2).toString()
+                    selectApart = if (selectedItem != "Select Apartment") {
+                        selectedItem
+                    } else ""
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
         activityTenantsBinding.floorSpinner.adapter = ArrayAdapter(
             this,
             R.layout.spinner_item, floorList!!
         )
+        activityTenantsBinding.floorSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long
+                ) {
+                    val selectedItem = p0?.getItemAtPosition(p2).toString()
+                    selectFloor = if (selectedItem != "Select Floor") {
+                        selectedItem
+                    } else ""
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
         activityTenantsBinding.flatSpinner.adapter = ArrayAdapter(
             this,
             R.layout.spinner_item, flatList!!
         )
+        activityTenantsBinding.flatSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long
+                ) {
+                    val selectedItem = p0?.getItemAtPosition(p2).toString()
+                    selectFlat = if (selectedItem != "Select Flat") {
+                        selectedItem
+                    } else ""
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
         activityTenantsBinding.roomSpinner.adapter = ArrayAdapter(
             this,
             R.layout.spinner_item, roomList!!
         )
+        activityTenantsBinding.roomSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long
+                ) {
+                    val selectedItem = p0?.getItemAtPosition(p2).toString()
+                    selectRoom = if (selectedItem != "Select Room") {
+                        selectedItem
+                    } else ""
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
         activityTenantsBinding.genderSpinner.adapter = ArrayAdapter(
             this,
             R.layout.spinner_item, genderist!!
@@ -89,6 +154,22 @@ class TenantsActivity : AppCompatActivity() {
             this,
             R.layout.spinner_item, bedsList!!
         )
+        activityTenantsBinding.bedsSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long
+                ) {
+                    val selectedItem = p0?.getItemAtPosition(p2).toString()
+                    selectBed = if (selectedItem != "Available Beds") {
+                        selectedItem
+                    } else ""
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
         activityTenantsBinding.editCheckIn.setOnClickListener {
             selectCheckInDate(activityTenantsBinding.editCheckIn)
         }
@@ -123,7 +204,11 @@ class TenantsActivity : AppCompatActivity() {
                     checkout = activityTenantsBinding.editCheckOut.text.toString()
                 )
                 addApartmentViewModel?.addTenant(tenantList, success = {
-                   updatebeds(roomSelected,bedSelected,activityTenantsBinding.editNumber.text.toString())
+                    updatebeds(
+                        roomSelected,
+                        bedSelected,
+                        activityTenantsBinding.editNumber.text.toString()
+                    )
                 }, error = {
                     showToast(this, it)
                 })
@@ -132,7 +217,36 @@ class TenantsActivity : AppCompatActivity() {
     }
 
     private fun validations(): Boolean {
-        return true
+        var flag = true
+        if (activityTenantsBinding.editName.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Enter Name", Toast.LENGTH_SHORT).show()
+        } else if (activityTenantsBinding.editNumber.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Enter Mobile Number", Toast.LENGTH_SHORT).show()
+        } else if (selectApart?.isBlank() == true) {
+            flag = false
+            Toast.makeText(this, "Select Apartment", Toast.LENGTH_SHORT).show()
+        } else if (selectFloor?.isBlank() == true) {
+            flag = false
+            Toast.makeText(this, "Select Floor", Toast.LENGTH_SHORT).show()
+        } else if (selectFlat?.isBlank() == true) {
+            flag = false
+            Toast.makeText(this, "Select Flat", Toast.LENGTH_SHORT).show()
+        } else if (selectRoom?.isBlank() == true) {
+            flag = false
+            Toast.makeText(this, "Select Room", Toast.LENGTH_SHORT).show()
+        } else if (selectBed?.isBlank() == true) {
+            flag = false
+            Toast.makeText(this, "Allocate Bed", Toast.LENGTH_SHORT).show()
+        } else if (activityTenantsBinding.editCheckIn.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Select CheckIn Date", Toast.LENGTH_SHORT).show()
+        } else if (activityTenantsBinding.editCheckOut.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Select CheckOut Date", Toast.LENGTH_SHORT).show()
+        }
+        return flag
     }
 
     private fun getApartments() {
@@ -197,7 +311,7 @@ class TenantsActivity : AppCompatActivity() {
                             p3: Long
                         ) {
                             val selectedItem = p0?.getItemAtPosition(p2).toString()
-                            selectFloor = if (selectedItem != "Select Apartment") {
+                            selectFloor = if (selectedItem != "Select Floor") {
                                 getFlats(selectedItem!!)
                                 selectedItem
                             } else ""
@@ -325,7 +439,11 @@ class TenantsActivity : AppCompatActivity() {
                             val selectedItem = p0?.getItemAtPosition(p2).toString()
                             selectBed = if (selectedItem != "Available Beds") {
                                 bedSelected = bedsList[p2]
-                                updatebeds(roomSelected,bedSelected!!,activityTenantsBinding.editNumber.text.toString())
+//                                updatebeds(
+//                                    roomSelected,
+//                                    bedSelected!!,
+//                                    activityTenantsBinding.editNumber.text.toString()
+//                                )
                                 selectedItem
                             } else ""
                         }
@@ -337,7 +455,11 @@ class TenantsActivity : AppCompatActivity() {
     }
 
 
-    private fun updatebeds(roomSelected: RoomData.RoomsList?, bedSelected: Beds?, mobNumber: String) {
+    private fun updatebeds(
+        roomSelected: RoomData.RoomsList?,
+        bedSelected: Beds?,
+        mobNumber: String
+    ) {
         if (roomSelected?.available != null) {
             if (!roomSelected.available.isNullOrEmpty()) {
                 val list: ArrayList<Beds> = Gson().fromJson(roomSelected?.available, bedsType)
@@ -351,12 +473,12 @@ class TenantsActivity : AppCompatActivity() {
                 roomSelected.createdby = prefmanager.userData?.UserName
                 roomSelected.updatedon = currentdate()
                 roomSelected.update = "update"
-                Log.v("SELECTED_ROOM",Gson().toJson(roomSelected))
+                Log.v("SELECTED_ROOM", Gson().toJson(roomSelected))
                 addApartmentViewModel?.addRooms(roomSelected, success = {
-                    showToast(this,"Tenant Added Successfully")
+                    showToast(this, "Tenant Added Successfully")
                     onBackPressed()
                 }, error = {
-                    showToast(this,it)
+                    showToast(this, it)
                 })
             }
         }

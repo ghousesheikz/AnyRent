@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_5dp"
             android:gravity="start"
-            android:text="Flat Number"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="@dimen/font_12sp"
             app:layout_constraintStart_toStartOf="parent"

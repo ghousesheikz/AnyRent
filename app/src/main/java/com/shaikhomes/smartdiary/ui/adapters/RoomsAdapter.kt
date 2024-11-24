@@ -124,6 +124,8 @@ class RoomsAdapter(
         private fun createImageView(context: Context,beds: Beds): ImageView {
             val imageView = ImageView(context)
             // Set image properties
+         //   imageView.setBackgroundResource(R.drawable.border_bg)
+         //   imageView.setPadding(15,15,15,15)
             if(beds.userId.isNullOrEmpty()) {
                 imageView.setImageResource(R.drawable.ic_bed) // Replace with your drawable resource
             }else imageView.setImageResource(R.drawable.ic_bed_occupied) // Replace with your drawable resource

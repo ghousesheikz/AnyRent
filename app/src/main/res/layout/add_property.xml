@@ -42,6 +42,18 @@
         android:inputType="number"
         android:padding="@dimen/size_8dp" />
 
+    <EditText
+        android:id="@+id/editTextAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Address"
+        android:visibility="gone"
+        android:maxLength="50"
+        android:inputType="text"
+        android:padding="@dimen/size_8dp" />
+
     <Button
         android:id="@+id/submitButton"
         android:layout_width="150dp"

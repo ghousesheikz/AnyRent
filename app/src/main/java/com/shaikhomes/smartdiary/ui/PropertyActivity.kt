@@ -142,7 +142,9 @@ class PropertyActivity : AppCompatActivity() {
         val editTextName = view.findViewById<EditText>(R.id.editTextName)
         val spinnerFor = view.findViewById<Spinner>(R.id.typeSpinner)
         val editTextNoOfFloors = view.findViewById<EditText>(R.id.editTextNoOfFloors)
+        val editTextAddress = view.findViewById<EditText>(R.id.editTextAddress)
         val submitButton = view.findViewById<Button>(R.id.submitButton)
+        editTextAddress.visibility = View.VISIBLE
         spinnerFor.adapter = ArrayAdapter(
             this,
             R.layout.spinner_item, listFor!!
@@ -160,7 +162,8 @@ class PropertyActivity : AppCompatActivity() {
         submitButton.setOnClickListener {
             val name = editTextName.text.toString()
             val noOfFloors = editTextNoOfFloors.text.toString()
-            if (name.isBlank() || selectFor.isBlank() || noOfFloors.isBlank()) {
+            val address = editTextAddress.text.toString()
+            if (name.isBlank() || selectFor.isBlank() || noOfFloors.isBlank() || address.isBlank()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             } else if (noOfFloors == "0") {
                 Toast.makeText(this, "Please add one floor", Toast.LENGTH_SHORT).show()
@@ -173,6 +176,7 @@ class PropertyActivity : AppCompatActivity() {
                     apartmentfor = selectFor,
                     nooffloors = Gson().toJson(floor),
                     createdby = prefmanager.userData?.UserName,
+                    address = address,
                     updatedon = currentdate()
                 )
                 addApartmentViewModel?.addApartment(apartmentData, success = {
