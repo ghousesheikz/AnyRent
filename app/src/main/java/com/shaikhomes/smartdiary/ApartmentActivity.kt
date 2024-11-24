@@ -26,6 +26,7 @@ import com.shaikhomes.smartdiary.ui.adapters.RoomsAdapter
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
 import com.shaikhomes.smartdiary.ui.models.Beds
+import com.shaikhomes.smartdiary.ui.models.Capacity
 import com.shaikhomes.smartdiary.ui.models.FlatData
 import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
@@ -99,9 +100,26 @@ class ApartmentActivity : AppCompatActivity() {
 
     private fun addFlatRooms() {
         val floorList: ArrayList<String>? = arrayListOf()
+        val capacityList: ArrayList<Capacity>? = arrayListOf()
         val roomTypeList: ArrayList<String>? = arrayListOf()
         var flatList: ArrayList<FlatData.FlatList>? = arrayListOf()
         flatList?.add(FlatData.FlatList(ID = -1, flatname = "Select Flat"))
+        capacityList?.add(Capacity(name = "Select Room Capacity", number = "-1"))
+        capacityList?.add(Capacity(name = "Single Sharing", number = "1"))
+        capacityList?.add(Capacity(name = "Double Sharing", number = "2"))
+        capacityList?.add(Capacity(name = "Triple Sharing", number = "3"))
+        capacityList?.add(Capacity(name = "4 Sharing", number = "4"))
+        capacityList?.add(Capacity(name = "5 Sharing", number = "5"))
+        capacityList?.add(Capacity(name = "6 Sharing", number = "6"))
+        capacityList?.add(Capacity(name = "7 Sharing", number = "7"))
+        capacityList?.add(Capacity(name = "8 Sharing", number = "8"))
+        capacityList?.add(Capacity(name = "9 Sharing", number = "9"))
+        capacityList?.add(Capacity(name = "10 Sharing", number = "10"))
+        capacityList?.add(Capacity(name = "11 Sharing", number = "11"))
+        capacityList?.add(Capacity(name = "12 Sharing", number = "12"))
+        capacityList?.add(Capacity(name = "13 Sharing", number = "13"))
+        capacityList?.add(Capacity(name = "14 Sharing", number = "14"))
+        capacityList?.add(Capacity(name = "15 Sharing", number = "15"))
         roomTypeList?.add("Select Room Type")
         roomTypeList?.add("Regular")
         roomTypeList?.add("Deluxe")
@@ -111,6 +129,7 @@ class ApartmentActivity : AppCompatActivity() {
         var selectFloor: String = ""
         var selectFlat: String = ""
         var selectRoomType: String = ""
+        var selectCapacity: String = ""
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.add_rooms, null)
         val floorSpinner = view.findViewById<Spinner>(R.id.floorSpinner)
@@ -118,15 +137,16 @@ class ApartmentActivity : AppCompatActivity() {
         val editRentPerDay = view.findViewById<EditText>(R.id.editRentPerDay)
         val editRentPerMonth = view.findViewById<EditText>(R.id.editRentPerMonth)
         val flatSpinner = view.findViewById<Spinner>(R.id.flatSpinner)
+        val capacitySpinner = view.findViewById<Spinner>(R.id.capacitySpinner)
         val roomtypeSpinner = view.findViewById<Spinner>(R.id.roomtypeSpinner)
         val submitButton = view.findViewById<Button>(R.id.submitButton)
         floorSpinner.adapter = ArrayAdapter(
             this,
             R.layout.spinner_item, floorList!!
         )
-        flatSpinner.adapter = ArrayAdapter(
+        capacitySpinner.adapter = ArrayAdapter(
             this,
-            R.layout.spinner_item, flatList!!
+            R.layout.spinner_item, capacityList!!
         )
         floorSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -167,6 +187,16 @@ class ApartmentActivity : AppCompatActivity() {
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
+        capacitySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                val selectedItem = p0?.getItemAtPosition(p2).toString()
+                selectCapacity = if (selectedItem != "Select Room Capacity") {
+                    capacityList?.get(p2)?.number.toString()
+                } else ""
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
         roomtypeSpinner.adapter = ArrayAdapter(
             this,
             R.layout.spinner_item, roomTypeList!!
@@ -189,20 +219,22 @@ class ApartmentActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             } else if (editRentPerDay == "0" || editRentPerMonth == "0") {
                 Toast.makeText(this, "Amount should not be 0", Toast.LENGTH_SHORT).show()
+            } else if (selectCapacity.isBlank()) {
+                Toast.makeText(this, "Room capacity should not be empty", Toast.LENGTH_SHORT).show()
             } else {
                 hideKeyboard(it)
                 val apartmentData = RoomData.RoomsList(
                     ID = apartmentList?.ID,
                     roomname = name,
                     apartmentid = apartmentList?.ID.toString(),
-                    roomcapacity = "5",
+                    roomcapacity = selectCapacity,
                     roomtype = selectRoomType,
                     rentperday = editRentPerDay,
                     rentpermonth = editRentPerMonth,
                     floorno = selectFloor,
                     flatno = selectFlat,
                     createdby = prefmanager.userData?.UserName,
-                    available = "5".getRoomBeds(),
+                    available = selectCapacity.getRoomBeds(),
                     updatedon = currentdate()
                 )
                 addApartmentViewModel?.addRooms(apartmentData, success = {

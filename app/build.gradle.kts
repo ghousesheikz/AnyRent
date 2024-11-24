@@ -63,4 +63,6 @@ dependencies {
     implementation("com.github.KevinSchildhorn:OTPView:0.2.5")
     implementation("com.github.clans:fab:1.6.4")
     implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
+    implementation("com.google.zxing:core:3.5.1") // QR Code generation core library
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0") // Android compatibility
 }

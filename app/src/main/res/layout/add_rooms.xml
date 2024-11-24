@@ -39,11 +39,12 @@
         android:inputType="textPersonName"
         android:padding="@dimen/size_8dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/capacitySpinner"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_8dp"
-        android:text="Select Room Capacity : 5" />
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/edittext_bg" />
 
     <Spinner
         android:id="@+id/roomtypeSpinner"

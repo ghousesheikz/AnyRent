@@ -81,7 +81,7 @@
         app:layout_constraintWidth_percent="0.9" />
 
     <Spinner
-        android:id="@+id/genderSpinner"
+        android:id="@+id/bedsSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_15dp"
@@ -89,6 +89,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/roomSpinner"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <Spinner
+        android:id="@+id/genderSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/edittext_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bedsSpinner"
         app:layout_constraintWidth_percent="0.9" />
 
     <EditText

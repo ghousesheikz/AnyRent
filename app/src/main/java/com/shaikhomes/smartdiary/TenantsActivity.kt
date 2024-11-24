@@ -2,6 +2,7 @@ package com.shaikhomes.smartdiary
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,6 +15,7 @@ import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityTenantsBinding
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
+import com.shaikhomes.smartdiary.ui.models.Beds
 import com.shaikhomes.smartdiary.ui.models.FlatData
 import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.models.TenantList
@@ -29,19 +31,23 @@ class TenantsActivity : AppCompatActivity() {
         PrefManager(this)
     }
     val type = object : TypeToken<ArrayList<String>>() {}.type
+    val bedsType = object : TypeToken<ArrayList<Beds>>() {}.type
     private var addApartmentViewModel: AddApartmentViewModel? = null
     private var apartmentList = arrayListOf<ApartmentList>()
     private var floorList = arrayListOf<String>()
     private var flatList = arrayListOf<FlatData.FlatList>()
     private var roomList = arrayListOf<RoomData.RoomsList>()
     private var genderist = arrayListOf<String>()
+    private var bedsList = arrayListOf<Beds>()
     private var apartmentSelected: ApartmentList? = null
+    private var bedSelected: Beds? = null
     private var FlatSelected: FlatData.FlatList? = null
     private var roomSelected: RoomData.RoomsList? = null
     private var selectApart: String? = null
     private var selectFloor: String? = null
     private var selectFlat: String? = null
     private var selectRoom: String? = null
+    private var selectBed: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityTenantsBinding = ActivityTenantsBinding.inflate(layoutInflater)
@@ -58,6 +64,7 @@ class TenantsActivity : AppCompatActivity() {
         roomList.add(RoomData.RoomsList(ID = -1, roomname = "Select Room"))
         genderist.add("male")
         genderist.add("female")
+        bedsList.add(Beds(number = "Available Beds"))
         activityTenantsBinding.apartmentSpinner.adapter = ArrayAdapter(
             this,
             R.layout.spinner_item, apartmentList!!
@@ -77,6 +84,10 @@ class TenantsActivity : AppCompatActivity() {
         activityTenantsBinding.genderSpinner.adapter = ArrayAdapter(
             this,
             R.layout.spinner_item, genderist!!
+        )
+        activityTenantsBinding.bedsSpinner.adapter = ArrayAdapter(
+            this,
+            R.layout.spinner_item, bedsList!!
         )
         activityTenantsBinding.editCheckIn.setOnClickListener {
             selectCheckInDate(activityTenantsBinding.editCheckIn)
@@ -112,8 +123,7 @@ class TenantsActivity : AppCompatActivity() {
                     checkout = activityTenantsBinding.editCheckOut.text.toString()
                 )
                 addApartmentViewModel?.addTenant(tenantList, success = {
-                    showToast(this, "Tenant Inserted SSuccessfully")
-                    onBackPressed()
+                   updatebeds(roomSelected,bedSelected,activityTenantsBinding.editNumber.text.toString())
                 }, error = {
                     showToast(this, it)
                 })
@@ -269,6 +279,7 @@ class TenantsActivity : AppCompatActivity() {
                                 val selectedItem = p0?.getItemAtPosition(p2).toString()
                                 selectRoom = if (selectedItem != "Select Room") {
                                     roomSelected = roomList[p2]
+                                    showAvailableBeds(roomSelected!!)
                                     selectedItem
                                 } else ""
                             }
@@ -286,6 +297,69 @@ class TenantsActivity : AppCompatActivity() {
             floorno = selectFloor!!,
             flatno = flatSelected.ID.toString()
         )
+    }
+
+    private fun showAvailableBeds(roomSelected: RoomData.RoomsList) {
+        if (roomSelected.available != null) {
+            if (!roomSelected?.available.isNullOrEmpty()) {
+                val list: ArrayList<Beds> = Gson().fromJson(roomSelected?.available, bedsType)
+                bedsList.clear()
+                list.forEach { bed ->
+                    if (bed.userId.isNullOrEmpty()) {
+                        bedsList.add(bed)
+                    }
+                }
+                bedsList.add(0, Beds(number = "Available Beds"))
+                activityTenantsBinding.bedsSpinner.adapter = ArrayAdapter(
+                    this,
+                    R.layout.spinner_item, bedsList!!
+                )
+                activityTenantsBinding.bedsSpinner.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            p0: AdapterView<*>?,
+                            p1: View?,
+                            p2: Int,
+                            p3: Long
+                        ) {
+                            val selectedItem = p0?.getItemAtPosition(p2).toString()
+                            selectBed = if (selectedItem != "Available Beds") {
+                                bedSelected = bedsList[p2]
+                                updatebeds(roomSelected,bedSelected!!,activityTenantsBinding.editNumber.text.toString())
+                                selectedItem
+                            } else ""
+                        }
+
+                        override fun onNothingSelected(p0: AdapterView<*>?) {}
+                    }
+            }
+        }
+    }
+
+
+    private fun updatebeds(roomSelected: RoomData.RoomsList?, bedSelected: Beds?, mobNumber: String) {
+        if (roomSelected?.available != null) {
+            if (!roomSelected.available.isNullOrEmpty()) {
+                val list: ArrayList<Beds> = Gson().fromJson(roomSelected?.available, bedsType)
+                list.forEach { bed ->
+                    if (bed.number == bedSelected?.number) {
+                        bed.userId = mobNumber
+                        bed.occupied = true
+                    }
+                }
+                roomSelected.available = Gson().toJson(list)
+                roomSelected.createdby = prefmanager.userData?.UserName
+                roomSelected.updatedon = currentdate()
+                roomSelected.update = "update"
+                Log.v("SELECTED_ROOM",Gson().toJson(roomSelected))
+                addApartmentViewModel?.addRooms(roomSelected, success = {
+                    showToast(this,"Tenant Added Successfully")
+                    onBackPressed()
+                }, error = {
+                    showToast(this,it)
+                })
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

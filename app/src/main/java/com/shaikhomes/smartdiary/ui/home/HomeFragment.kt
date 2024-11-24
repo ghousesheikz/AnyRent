@@ -9,9 +9,12 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.databinding.FragmentHomeBinding
 import com.shaikhomes.smartdiary.ui.PropertyActivity
 import com.shaikhomes.smartdiary.ui.models.ApartmentData
+import com.shaikhomes.smartdiary.ui.models.Beds
 import com.shaikhomes.smartdiary.ui.models.PropertyData
 import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
@@ -31,7 +34,7 @@ class HomeFragment : Fragment() {
     private val prefmanager: PrefManager by lazy {
         PrefManager(requireContext())
     }
-
+    val bedsType = object : TypeToken<ArrayList<Beds>>() {}.type
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,7 +48,7 @@ class HomeFragment : Fragment() {
         binding.goBtn.setOnClickListener {
             startActivity(Intent(requireContext(), PropertyActivity::class.java))
         }
-        cashProgress(0f,1f)
+        cashProgress(0f, 1f)
         val root: View = binding.root
         return root
     }
@@ -96,31 +99,48 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindData() {
-        if(prefmanager.selectedApartment!=null){
-            homeViewModel?.getRooms(success = {
-                bindRoomData(it.roomsList)
-            }, error = {
-                showToast(requireContext(), it)
-            }, apartmentid = prefmanager.selectedApartment?.ID.toString(), floorno = "", flatno = "")
+        if (prefmanager.selectedApartment != null) {
+            homeViewModel?.getRooms(
+                success = {
+                    bindRoomData(it.roomsList)
+                },
+                error = {
+                    showToast(requireContext(), it)
+                },
+                apartmentid = prefmanager.selectedApartment?.ID.toString(),
+                floorno = "",
+                flatno = ""
+            )
         }
     }
 
     private fun bindRoomData(roomsList: ArrayList<RoomData.RoomsList>) {
         lifecycleScope.launch {
             if (roomsList.isNotEmpty()) {
-                roomsList.getCapacity { tot->
-                    binding.txtBedsCount.text = "${tot} / ${tot}"
+                roomsList.getCapacity { available, occupied ->
+                    val tot = available + occupied
+                    binding.txtBedsCount.text = "${available} / ${tot}"
                 }
-            }else binding.txtBedsCount.text = "0 / 0"
+            } else binding.txtBedsCount.text = "0 / 0"
         }
     }
 
-    suspend fun ArrayList<RoomData.RoomsList>.getCapacity(capacity:(Int)->Unit){
-        var count:Int=0
+    suspend fun ArrayList<RoomData.RoomsList>.getCapacity(capacity: (Int, Int) -> Unit) {
+        var available: Int = 0
+        var occupied: Int = 0
         this.forEach {
-            count += it.roomcapacity?.toInt()!!
+            if (it?.available != null) {
+                if (!it.available.isNullOrEmpty()) {
+                    val list: ArrayList<Beds> = Gson().fromJson(it?.available, bedsType)
+                    list.forEach { bed ->
+                        if (bed.userId.isNullOrEmpty()) {
+                            available += 1
+                        } else occupied += 1
+                    }
+                }
+            }
         }
-        capacity.invoke(count)
+        capacity.invoke(available, occupied)
     }
 }
 

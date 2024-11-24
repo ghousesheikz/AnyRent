@@ -8,9 +8,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.FloorLayoutBinding
 import com.shaikhomes.anyrent.databinding.RoomsLayoutBinding
+import com.shaikhomes.smartdiary.ui.models.Beds
 import com.shaikhomes.smartdiary.ui.models.FlatData
 import com.shaikhomes.smartdiary.ui.models.RoomData
 
@@ -25,7 +28,7 @@ class RoomsAdapter(
     }
 
     private var selectionPosition = POSITION_UNSET
-
+    val bedsType = object : TypeToken<ArrayList<Beds>>() {}.type
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -80,9 +83,7 @@ class RoomsAdapter(
                 binding.floorName.apply {
                     text = item.roomname
                 }
-                binding.txtCapacity.text = "Capacity : 5"
-                binding.txtOccupied.text = "Occupied : 0"
-                binding.txtVacate.text = "Available : 5"
+                binding.txtCapacity.text = "Capacity : ${item.roomcapacity}"
                 binding.root.isActivated = selectionPosition == position
                 binding.root.setOnClickListener {
                     if (position != selectionPosition) {
@@ -95,17 +96,37 @@ class RoomsAdapter(
                 }
                 binding.container.removeAllViews()
                 // Add multiple ImageViews horizontally
-                val size = item.roomcapacity?.toInt()
-                for (i in 1..size!!) { // Add 5 images as an example
-                    val imageView = createImageView(binding.root.context)
-                    binding.container.addView(imageView)
+                if (item.available != null) {
+                    if (!item.available.isNullOrEmpty()) {
+                        val list: ArrayList<Beds> = Gson().fromJson(item?.available, bedsType)
+                        showAvailableOccupied(list)
+                        list.forEach { bed ->
+                            val imageView = createImageView(binding.root.context,bed)
+                            binding.container.addView(imageView)
+                        }
+                    }
                 }
             }
         }
-        private fun createImageView(context: Context): ImageView {
+
+        private fun showAvailableOccupied(list: ArrayList<Beds>) {
+            var occupied: Int = 0
+            var available: Int = 0
+            list.forEach {
+                if (it.userId.isNullOrEmpty()) {
+                    occupied += 1
+                }else available += 1
+            }
+            binding.txtOccupied.text = "Occupied : ${occupied}"
+            binding.txtVacate.text = "Available : ${available}"
+        }
+
+        private fun createImageView(context: Context,beds: Beds): ImageView {
             val imageView = ImageView(context)
             // Set image properties
-            imageView.setImageResource(R.drawable.ic_bed) // Replace with your drawable resource
+            if(beds.userId.isNullOrEmpty()) {
+                imageView.setImageResource(R.drawable.ic_bed) // Replace with your drawable resource
+            }else imageView.setImageResource(R.drawable.ic_bed_occupied) // Replace with your drawable resource
             imageView.layoutParams = LinearLayout.LayoutParams(
                 150, // Width in pixels
                 150  // Height in pixels

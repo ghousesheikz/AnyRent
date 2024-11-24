@@ -22,6 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityPropertyBinding
 import com.shaikhomes.smartdiary.ApartmentActivity
@@ -29,6 +30,7 @@ import com.shaikhomes.smartdiary.LoginActivity
 import com.shaikhomes.smartdiary.ui.adapters.ApartmentAdapter
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
+import com.shaikhomes.smartdiary.ui.models.Beds
 import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.currentdate
@@ -43,6 +45,7 @@ class PropertyActivity : AppCompatActivity() {
     }
     private var addApartmentViewModel: AddApartmentViewModel? = null
     private var apartmentAdapter: ApartmentAdapter? = null
+    val bedsType = object : TypeToken<ArrayList<Beds>>() {}.type
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +98,16 @@ class PropertyActivity : AppCompatActivity() {
     suspend fun ArrayList<RoomData.RoomsList>.getCapacity(capacity: (Int) -> Unit) {
         var count: Int = 0
         this.forEach {
-            count += it.roomcapacity?.toInt()!!
+            if (it?.available != null) {
+                if (!it.available.isNullOrEmpty()) {
+                    val list: ArrayList<Beds> = Gson().fromJson(it?.available, bedsType)
+                    list.forEach { bed ->
+                        if (bed.userId.isNullOrEmpty()) {
+                            count += 1
+                        }
+                    }
+                }
+            }
         }
         capacity.invoke(count)
     }
