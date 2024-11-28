@@ -50,7 +50,7 @@ class ApartmentAdapter(
 
     private var infoClickListener: ((ApartmentList) -> Unit)? = null
 
-    fun setInfoClickListener(leadList: (ApartmentList) -> Unit) {
+    fun setDeleteClickListener(leadList: (ApartmentList) -> Unit) {
         this.infoClickListener = leadList
     }
 
@@ -76,7 +76,7 @@ class ApartmentAdapter(
             propertyClickListener?.invoke(leadsList[position])
         }
 
-        holder.ImgInfo.setOnClickListener {
+        holder.ImgDelete.setOnClickListener {
             infoClickListener?.invoke(leadsList[position])
         }
         try {
@@ -121,6 +121,6 @@ class ApartmentAdapter(
             itemView.findViewById<AppCompatTextView>(R.id.noOfFloors)
         var ImgEdit: ImageButton = itemView.findViewById<ImageButton>(R.id.Imgedit)
         var ImgQrCode: ImageButton = itemView.findViewById<ImageButton>(R.id.ImgQrCode)
-        var ImgInfo: ImageButton = itemView.findViewById<ImageButton>(R.id.ImgInfo)
+        var ImgDelete: ImageButton = itemView.findViewById<ImageButton>(R.id.ImgDelete)
     }
 }

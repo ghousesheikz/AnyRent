@@ -194,7 +194,7 @@ class TenantsActivity : AppCompatActivity() {
                     duedate = "",
                     paymentmode = "",
                     securitydeposit = "",
-                    joinedon = "",
+                    joinedon = currentdate(),
                     mailid = "",
                     ProofImageF = "",
                     ProofImageB = "",

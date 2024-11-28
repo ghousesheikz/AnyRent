@@ -8,6 +8,7 @@ import com.shaikhomes.smartdiary.ui.models.ApartmentList
 import com.shaikhomes.smartdiary.ui.models.FlatData
 import com.shaikhomes.smartdiary.ui.models.ResponseData
 import com.shaikhomes.smartdiary.ui.models.RoomData
+import com.shaikhomes.smartdiary.ui.models.TenantData
 import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.network.RetrofitInstance
 import retrofit2.Call
@@ -137,12 +138,36 @@ class AddApartmentViewModel : ViewModel() {
             })
     }
 
+    fun getTenants(
+        success: (TenantData) -> Unit,
+        error: (String) -> Unit,
+        mobileNo: String, apartmentid: String, active: String,duerecords:String
+    ) {
+        RetrofitInstance.api.getTenants(mobileNo, apartmentid, active,duerecords)
+            .enqueue(object : Callback<TenantData> {
+                override fun onResponse(
+                    call: Call<TenantData>,
+                    response: Response<TenantData>
+                ) {
+                    if (response.body()?.status == "200") {
+                        success.invoke(response.body()!!)
+                    } else {
+                        error.invoke("Something Went Wrong")
+                    }
+                }
+
+                override fun onFailure(call: Call<TenantData>, t: Throwable) {
+                    error.invoke(t.message.toString())
+                }
+            })
+    }
+
     fun getFlats(
         success: (FlatData) -> Unit,
         error: (String) -> Unit,
-        userid: String, apartmentid: String,floorno: String
+        userid: String, apartmentid: String, floorno: String
     ) {
-        RetrofitInstance.api.getFlats(userid, apartmentid,floorno)
+        RetrofitInstance.api.getFlats(userid, apartmentid, floorno)
             .enqueue(object : Callback<FlatData> {
                 override fun onResponse(
                     call: Call<FlatData>,

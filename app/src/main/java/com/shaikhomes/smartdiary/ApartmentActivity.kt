@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -77,8 +78,8 @@ class ApartmentActivity : AppCompatActivity() {
             roomList.layoutManager =
                 LinearLayoutManager(this@ApartmentActivity, LinearLayoutManager.VERTICAL, false)
             roomAdapter = RoomsAdapter(this@ApartmentActivity, arrayListOf(), true).apply {
-                setRoomClickListener {
-                    //RoomClickListener(it)
+                setDeleteClickListener { room ->
+                    deleteRoom(room)
                 }
             }
             roomList.adapter = roomAdapter
@@ -96,6 +97,33 @@ class ApartmentActivity : AppCompatActivity() {
             }
         }
         getFloors()
+    }
+
+    private fun deleteRoom(room: RoomData.RoomsList) {
+        AlertDialog.Builder(this).apply {
+            this.setMessage("Do you want to delete ${room.roomname}?")
+            this.setPositiveButton(
+                "YES"
+            ) { p0, p1 ->
+                room.update = "delete"
+                addApartmentViewModel?.addRooms(room, success = {
+                    if (it.status == "200") {
+                        showToast(this@ApartmentActivity, "Room deleted successfully")
+                        getApartments()
+                    }
+                }, error = {
+                    showToast(this@ApartmentActivity, it)
+                })
+            }
+            this.setNegativeButton(
+                "NO"
+            ) { p0, p1 ->
+                p0.dismiss()
+            }
+            this.setCancelable(true)
+            this.show()
+        }
+
     }
 
     private fun addFlatRooms() {

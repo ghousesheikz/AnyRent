@@ -39,10 +39,10 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+//        binding.appBarMain.fab.setOnClickListener { view ->
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+//        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 //        if (prefmanager.userData?.IsAdmin == "2") {
 //            hideEmpMenu(navView)
 //        }
-        binding.appBarMain.contentMain.bottomNavigation.setOnItemSelectedListener { menuItem ->
+        binding.appBarMain.bottomNavigation.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.dashboard -> {
                     navController.navigate(R.id.nav_home)
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.tenants -> {
-                    startActivity(Intent(this, TenantsActivity::class.java))
+                    startActivity(Intent(this@MainActivity, TenantDetailsActivity::class.java))
                     true
                 }
 
@@ -84,6 +84,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.appBarMain.apply {
+            addTenant.setOnClickListener {
+                startActivity(Intent(this@MainActivity, TenantsActivity::class.java))
+            }
+        }
+        askPermission()
     }
 
     private fun hideEmpMenu(navView: NavigationView) {
@@ -114,6 +120,7 @@ class MainActivity : AppCompatActivity() {
                 ) { p0, p1 ->
                     prefmanager.isLoggedIn = false
                     prefmanager.userData = null
+                    prefmanager.selectedApartment = null
                     p0.dismiss()
                     startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                     finish()

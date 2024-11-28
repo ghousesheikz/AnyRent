@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.google.android.material.snackbar.Snackbar
 import com.shaikhomes.anyrent.databinding.ActivityLoginBinding
 import com.shaikhomes.smartdiary.ui.PropertyActivity
@@ -23,6 +24,8 @@ class LoginActivity : AppCompatActivity() {
     protected val loadDialog: LoadDialog by lazy {
         LoadDialog(this)
     }
+    private var permission = arrayOf(android.Manifest.permission.CALL_PHONE)
+    val MY_PERMISSIONS_REQUEST_CALL_PHONE = 102
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +50,15 @@ class LoginActivity : AppCompatActivity() {
             )
             finish()
         }
+        askPermission()
+    }
+
+    private fun askPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            permission,
+            MY_PERMISSIONS_REQUEST_CALL_PHONE
+        )
     }
 
     private fun getUserData(mobileno: String, view: View) {

@@ -50,12 +50,13 @@
             app:layout_constraintWidth_percent="0.5" />
 
         <ImageButton
-            android:id="@+id/ImgInfo"
+            android:id="@+id/ImgDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/size_8dp"
             android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/baseline_info_outline_24"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/c_red_1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ImgQrCode"

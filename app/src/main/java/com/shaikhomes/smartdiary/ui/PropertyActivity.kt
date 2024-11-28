@@ -66,18 +66,16 @@ class PropertyActivity : AppCompatActivity() {
                 bindRoomsData(apartmentList, appCompatTextView)
             }
             setEditClickListener {
-
-            }
-            setPropertyClickListener {
-
                 val intent = Intent(this@PropertyActivity, ApartmentActivity::class.java)
                 intent.putExtra("apartment", Gson().toJson(it))
                 startActivity(intent)
             }
-
-            setInfoClickListener {
+            setPropertyClickListener {
                 prefmanager.selectedApartment = it
                 onBackPressed()
+            }
+            setDeleteClickListener { apartment->
+               deleteApartment(apartment)
             }
         }
         activityPropertyBinding.propertyList.apply {
@@ -85,6 +83,30 @@ class PropertyActivity : AppCompatActivity() {
             adapter = apartmentAdapter
         }
         getApartments()
+    }
+
+    private fun deleteApartment(apartmentList: ApartmentList){
+        AlertDialog.Builder(this).apply {
+            this.setMessage("Do you want to delete ${apartmentList.apartmentname}?")
+            this.setPositiveButton(
+                "YES"
+            ) { p0, p1 ->
+                apartmentList.update = "delete"
+                addApartmentViewModel?.addApartment(apartmentList, success = {
+                    showToast(this@PropertyActivity,"Deleted Successfully")
+                    getApartments()
+                }, error = {
+                    showToast(this@PropertyActivity, it)
+                })
+            }
+            this.setNegativeButton(
+                "NO"
+            ) { p0, p1 ->
+                p0.dismiss()
+            }
+            this.setCancelable(true)
+            this.show()
+        }
     }
 
     private fun bindRoomsData(apartmentList: ApartmentList, appCompatTextView: AppCompatTextView) {

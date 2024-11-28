@@ -106,9 +106,10 @@ interface NetworkApi {
 
     @GET("Tenant?")
     fun getTenants(
+        @Query("mobileno") mobileno: String,
         @Query("apartmentid") apartmentid: String,
-        @Query("floorno") floorno: String,
-        @Query("flatno") flatno: String
+        @Query("active") active: String,
+        @Query("duerecords") duerecords: String
     ): Call<TenantData>
 
     @POST("Tenant?")

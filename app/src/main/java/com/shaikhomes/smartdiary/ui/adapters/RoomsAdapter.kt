@@ -48,6 +48,12 @@ class RoomsAdapter(
         this.floorClickListener = leadList
     }
 
+    private var deleteClickListener: ((RoomData.RoomsList) -> Unit)? = null
+
+    fun setDeleteClickListener(leadList: (RoomData.RoomsList) -> Unit) {
+        this.deleteClickListener = leadList
+    }
+
 
     override fun onBindViewHolder(holder: LeadViewHolder, position: Int) {
         holder.bind()
@@ -85,6 +91,9 @@ class RoomsAdapter(
                 }
                 binding.txtCapacity.text = "Capacity : ${item.roomcapacity}"
                 binding.root.isActivated = selectionPosition == position
+                binding.deleteRoom.setOnClickListener {
+                    deleteClickListener?.invoke(item)
+                }
                 binding.root.setOnClickListener {
                     if (position != selectionPosition) {
                         val curPosition = selectionPosition
@@ -117,8 +126,8 @@ class RoomsAdapter(
                     occupied += 1
                 }else available += 1
             }
-            binding.txtOccupied.text = "Occupied : ${occupied}"
-            binding.txtVacate.text = "Available : ${available}"
+            binding.txtOccupied.text = "Occupied : ${available}"
+            binding.txtVacate.text = "Available : ${occupied}"
         }
 
         private fun createImageView(context: Context,beds: Beds): ImageView {

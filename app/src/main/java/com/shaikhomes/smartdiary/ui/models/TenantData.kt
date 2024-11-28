@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 class TenantData(
     @SerializedName("status") var status: String? = null,
     @SerializedName("message") var message: String? = null,
-    @SerializedName("tenant_list") var roomsList: ArrayList<TenantList> = arrayListOf()
+    @SerializedName("tenant_list") var tenant_list: ArrayList<TenantList> = arrayListOf()
 )
 
 data class TenantList(
