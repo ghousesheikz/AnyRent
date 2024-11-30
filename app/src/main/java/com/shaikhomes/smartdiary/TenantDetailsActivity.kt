@@ -13,6 +13,7 @@ import com.shaikhomes.smartdiary.ui.models.ApartmentList
 import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.showToast
+import java.net.URLEncoder
 
 class TenantDetailsActivity : AppCompatActivity() {
     private lateinit var activityTenantDetailsBinding: ActivityTenantDetailsBinding
@@ -37,7 +38,7 @@ class TenantDetailsActivity : AppCompatActivity() {
         activityTenantDetailsBinding.tenantList.apply {
             layoutManager = LinearLayoutManager(this@TenantDetailsActivity)
             tenantAdapter = TenantAdapter(this@TenantDetailsActivity, arrayListOf()).apply {
-                setApartmentClickListener { tenantList, apartment->
+                setApartmentClickListener { tenantList, apartment ->
                     if (apartmentList.isNotEmpty()) {
                         apartmentList.filter { it.ID.toString() == tenantList.apartmentId }
                             .let { apartmentList ->
@@ -47,27 +48,44 @@ class TenantDetailsActivity : AppCompatActivity() {
                             }
                     }
                 }
-                setCallClickListener {tenant->
+                setCallClickListener { tenant ->
                     try {
                         val intent = Intent(
-                            Intent.ACTION_CALL,
-                            Uri.parse("tel:" + tenant.MobileNo)
+                            Intent.ACTION_DIAL,
+                            Uri.parse("tel:" + "${(if (!tenant?.countrycode.isNullOrEmpty()) tenant?.countrycode else "+91") + tenant?.MobileNo}")
                         )
                         context.startActivity(intent)
                     } catch (exp: Exception) {
                         exp.printStackTrace()
                     }
                 }
-                setDeleteClickListener {tenant->
+                setDeleteClickListener { tenant ->
                     deleteTenant(tenant)
                 }
-                setReminderClickListener {
-
+                setReminderClickListener {tenant ->
+                    sendReminder(tenant)
                 }
             }
             adapter = tenantAdapter
         }
         getApartments()
+    }
+
+    private fun sendReminder(tenant: TenantList) {
+        val packageManager = packageManager
+        val i = Intent(Intent.ACTION_VIEW)
+        try {
+            val url =
+                "https://api.whatsapp.com/send?phone=${(if (!tenant?.countrycode.isNullOrEmpty()) tenant?.countrycode else "+91") + tenant?.MobileNo}" + "&text=" + URLEncoder.encode(
+                    "This is reminder for your due for the rent",
+                    "UTF-8"
+                )
+            i.setPackage("com.whatsapp")
+            i.data = Uri.parse(url)
+            startActivity(i)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun deleteTenant(tenant: TenantList) {
@@ -111,7 +129,7 @@ class TenantDetailsActivity : AppCompatActivity() {
             tenantAdapter?.updateList(it.tenant_list)
         }, error = {
             showToast(this, it)
-        }, mobileNo = "", apartmentid = "", active = "","")
+        }, mobileNo = "", apartmentid = "", active = "", "")
     }
 
     // Handle back button press

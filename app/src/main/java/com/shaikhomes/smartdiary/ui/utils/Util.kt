@@ -3,12 +3,21 @@ package com.shaikhomes.smartdiary.ui.utils
 import android.accessibilityservice.AccessibilityService
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.provider.Settings
 import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.shaikhomes.smartdiary.ui.models.CountryCode
+import java.io.IOException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Random
 
@@ -17,12 +26,12 @@ fun currentdate(): String {
     return sdf.format(Date())
 }
 
-fun currentonlydate(): String {
-    val sdf = SimpleDateFormat("yyyy-MM-dd")
+fun currentonlydate(pattern: String = "yyyy-MM-dd"): String {
+    val sdf = SimpleDateFormat(pattern)
     return sdf.format(Date())
 }
 
-fun formatDate(format:String): String {
+fun formatDate(format: String): String {
     val sdf = SimpleDateFormat(format)
     return sdf.format(Date())
 }
@@ -76,4 +85,31 @@ fun isAccessibilityOn(
 fun randomNumber(): Int {
     val r = Random(System.currentTimeMillis())
     return (1 + r.nextInt(2)) * 10000 + r.nextInt(10000)
+}
+
+fun getCountryList(context: Context): List<CountryCode> {
+    val jsonString: String
+    try {
+        jsonString = context.assets.open("country_list.json").bufferedReader().use { it.readText() }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        return arrayListOf()
+    }
+    val listType = object : TypeToken<List<CountryCode>>() {}.type
+    return Gson().fromJson(jsonString, listType)
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun calculateDaysBetween(
+    startDateStr: String,
+    endDateStr: String,
+    pattern: String = "dd-MM-yyyy"
+): Long {
+    // Define the date formatter
+    val formatter = DateTimeFormatter.ofPattern(pattern)
+    // Parse the start and end dates
+    val startDate = LocalDate.parse(startDateStr, formatter)
+    val endDate = LocalDate.parse(endDateStr, formatter)
+    // Calculate the difference in days
+    return ChronoUnit.DAYS.between(startDate, endDate)
 }

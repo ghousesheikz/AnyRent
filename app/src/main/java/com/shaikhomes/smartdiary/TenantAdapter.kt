@@ -1,11 +1,13 @@
 package com.shaikhomes.smartdiary
 
 import android.content.Context
+import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +16,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.smartdiary.ui.models.TenantList
+import com.shaikhomes.smartdiary.ui.utils.calculateDaysBetween
+import com.shaikhomes.smartdiary.ui.utils.currentonlydate
+import com.shaikhomes.smartdiary.ui.utils.dateFormat
 
 class TenantAdapter(
     private val context: Context,
@@ -61,13 +66,46 @@ class TenantAdapter(
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: LeadViewHolder, position: Int) {
         holder.tenantName.setText(
             Html.fromHtml("Name: <font color='#000E77'>${leadsList[position].Name}</font>"),
             TextView.BufferType.SPANNABLE
         )
-        holder.rent.text = if(!leadsList[position].rent.isNullOrEmpty()) leadsList[position].rent else "0/-"
-        holder.joined.text = leadsList[position].checkout
+        holder.rent.text =
+            if (!leadsList[position].rent.isNullOrEmpty()) leadsList[position].rent else "0/-"
+        holder.joined.setText(
+            Html.fromHtml(
+                "CheckIn: <font color='#000E77'>${
+                    leadsList[position].checkin?.dateFormat(
+                        "dd-MM-yyyy 00:00:00",
+                        "dd-MM-yyyy"
+                    )
+                }</font>"
+            ),
+            TextView.BufferType.SPANNABLE
+        )
+        holder.checkout.setText(
+            Html.fromHtml(
+                "CheckOut: <font color='#000E77'>${
+                    leadsList[position].checkout?.dateFormat(
+                        "dd-MM-yyyy 00:00:00",
+                        "dd-MM-yyyy"
+                    )
+                }</font>"
+            ),
+            TextView.BufferType.SPANNABLE
+        )
+        val checkOut = leadsList[position].checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
+        val currentDate = currentonlydate("dd-MM-yyyy")
+        checkOut?.let {
+            val days = calculateDaysBetween(currentDate, it)
+            if (days < 0) {
+                holder.dueDays.text = "Due ${days} Days"
+            } else {
+                holder.dueDays.text = "Remaining ${days} Days"
+            }
+        }
         holder.tenantLayout.setOnLongClickListener {
             deleteClickListener?.invoke(leadsList[position])
             true
@@ -97,6 +135,7 @@ class TenantAdapter(
         return floors
     }
 
+
     override fun getItemCount(): Int {
         return leadsList.size
     }
@@ -120,9 +159,12 @@ class TenantAdapter(
             itemView.findViewById<AppCompatTextView>(R.id.rent)
         var apartment: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.apartment)
         var joined: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.joined)
+        var checkout: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.checkout)
+        var dueDays: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.dueDays)
         var contact: AppCompatButton = itemView.findViewById<AppCompatButton>(R.id.contact)
         var reminder: AppCompatButton = itemView.findViewById<AppCompatButton>(R.id.reminder)
-        var tenantLayout: ConstraintLayout = itemView.findViewById<ConstraintLayout>(R.id.tenantLayout)
+        var tenantLayout: ConstraintLayout =
+            itemView.findViewById<ConstraintLayout>(R.id.tenantLayout)
 
     }
 }

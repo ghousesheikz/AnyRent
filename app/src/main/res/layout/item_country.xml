@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    tools:targetApi="m">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_country"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:duplicateParentState="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_14sp"
+        android:paddingStart="@dimen/size_3dp"
+        android:paddingTop="@dimen/size_15dp"
+        android:paddingEnd="@dimen/size_3dp"
+        android:paddingBottom="@dimen/size_15dp"
+        android:textAlignment="viewStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/text_country_code"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/cities" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_country_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:textColor="@color/black"
+        android:duplicateParentState="true"
+        android:paddingStart="@dimen/size_3dp"
+        android:paddingTop="@dimen/size_15dp"
+        android:paddingEnd="@dimen/size_3dp"
+        android:paddingBottom="@dimen/size_15dp"
+        android:textDirection="ltr"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="+91" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,6 +29,12 @@
         android:theme="@style/Theme.SmartDiary"
         tools:targetApi="31">
         <activity
+            android:name="com.shaikhomes.smartdiary.TenantRegistration"
+            android:exported="false" />
+        <activity
+            android:name="com.shaikhomes.smartdiary.RoomsAvailableActivity"
+            android:exported="false" />
+        <activity
             android:name="com.shaikhomes.smartdiary.TenantDetailsActivity"
             android:exported="false" />
         <activity

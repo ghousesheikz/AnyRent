@@ -22,6 +22,7 @@ import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.currentdate
+import com.shaikhomes.smartdiary.ui.utils.getCountryList
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import java.util.Calendar
 
@@ -201,7 +202,10 @@ class TenantsActivity : AppCompatActivity() {
                     CreatedBy = prefmanager.userData?.UserName,
                     UpdatedOn = currentdate(),
                     checkin = activityTenantsBinding.editCheckIn.text.toString(),
-                    checkout = activityTenantsBinding.editCheckOut.text.toString()
+                    checkout = activityTenantsBinding.editCheckOut.text.toString(),
+                    paid = "0",
+                    total = "0",
+                    countrycode = activityTenantsBinding.textDropDownChooseCountry.text.toString()
                 )
                 addApartmentViewModel?.addTenant(tenantList, success = {
                     updatebeds(
@@ -212,6 +216,28 @@ class TenantsActivity : AppCompatActivity() {
                 }, error = {
                     showToast(this, it)
                 })
+            }
+        }
+        activityTenantsBinding.textDropDownChooseCountry.setOnClickListener {
+            try {
+                val dialog =
+                    CountrySelectionDialog.newInstance(
+                        listener = { selectedCountry ->
+                            activityTenantsBinding.textDropDownChooseCountry.text =
+                                selectedCountry.dial_code
+                        },
+                        list = getCountryList(this)
+                    )
+                try {
+                    val fragmentTransaction =
+                        supportFragmentManager?.beginTransaction()
+                    fragmentTransaction?.add(dialog, null)
+                    fragmentTransaction?.commitAllowingStateLoss()
+                } catch (exception: IllegalStateException) {
+                    // do nothing
+                }
+            } catch (exception: IllegalStateException) {
+                // do nothing
             }
         }
     }

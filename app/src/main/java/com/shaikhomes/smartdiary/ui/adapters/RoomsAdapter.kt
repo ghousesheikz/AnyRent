@@ -1,26 +1,24 @@
 package com.shaikhomes.smartdiary.ui.adapters
 
 import android.content.Context
-import android.text.Html
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.R
-import com.shaikhomes.anyrent.databinding.FloorLayoutBinding
 import com.shaikhomes.anyrent.databinding.RoomsLayoutBinding
 import com.shaikhomes.smartdiary.ui.models.Beds
-import com.shaikhomes.smartdiary.ui.models.FlatData
 import com.shaikhomes.smartdiary.ui.models.RoomData
 
 class RoomsAdapter(
     private val context: Context,
     private val leadsList: ArrayList<RoomData.RoomsList>,
-    private val isAdmin: Boolean? = false
+    private val isAdmin: Boolean? = false,
+    private val hideDelete: Boolean? = false
 ) :
     RecyclerView.Adapter<RoomsAdapter.LeadViewHolder>() {
     companion object {
@@ -42,10 +40,10 @@ class RoomsAdapter(
         )
     }
 
-    private var floorClickListener: ((RoomData.RoomsList) -> Unit)? = null
+    private var bedClickListener: ((RoomData.RoomsList, Beds) -> Unit)? = null
 
-    fun setRoomClickListener(leadList: (RoomData.RoomsList) -> Unit) {
-        this.floorClickListener = leadList
+    fun setBedClickListener(leadList: (RoomData.RoomsList, Beds) -> Unit) {
+        this.bedClickListener = leadList
     }
 
     private var deleteClickListener: ((RoomData.RoomsList) -> Unit)? = null
@@ -98,7 +96,6 @@ class RoomsAdapter(
                     if (position != selectionPosition) {
                         val curPosition = selectionPosition
                         selectionPosition = position
-                        floorClickListener?.invoke(item)
                         notifyItemChanged(curPosition)
                         notifyItemChanged(selectionPosition)
                     }
@@ -110,11 +107,13 @@ class RoomsAdapter(
                         val list: ArrayList<Beds> = Gson().fromJson(item?.available, bedsType)
                         showAvailableOccupied(list)
                         list.forEach { bed ->
-                            val imageView = createImageView(binding.root.context,bed)
+                            val imageView = createImageView(binding.root.context, bed, item)
                             binding.container.addView(imageView)
                         }
                     }
                 }
+                if (hideDelete == true) binding.deleteRoom.visibility =
+                    View.GONE else binding.deleteRoom.visibility = View.VISIBLE
             }
         }
 
@@ -124,20 +123,27 @@ class RoomsAdapter(
             list.forEach {
                 if (it.userId.isNullOrEmpty()) {
                     occupied += 1
-                }else available += 1
+                } else available += 1
             }
             binding.txtOccupied.text = "Occupied : ${available}"
             binding.txtVacate.text = "Available : ${occupied}"
         }
 
-        private fun createImageView(context: Context,beds: Beds): ImageView {
+        private fun createImageView(
+            context: Context,
+            beds: Beds,
+            item: RoomData.RoomsList
+        ): ImageView {
             val imageView = ImageView(context)
             // Set image properties
-         //   imageView.setBackgroundResource(R.drawable.border_bg)
-         //   imageView.setPadding(15,15,15,15)
-            if(beds.userId.isNullOrEmpty()) {
+            //   imageView.setBackgroundResource(R.drawable.border_bg)
+            //   imageView.setPadding(15,15,15,15)
+            if (beds.userId.isNullOrEmpty()) {
                 imageView.setImageResource(R.drawable.ic_bed) // Replace with your drawable resource
-            }else imageView.setImageResource(R.drawable.ic_bed_occupied) // Replace with your drawable resource
+                imageView.setOnClickListener {
+                    bedClickListener?.invoke(item, beds)
+                }
+            } else imageView.setImageResource(R.drawable.ic_bed_occupied) // Replace with your drawable resource
             imageView.layoutParams = LinearLayout.LayoutParams(
                 150, // Width in pixels
                 150  // Height in pixels

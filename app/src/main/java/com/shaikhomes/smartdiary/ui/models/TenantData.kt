@@ -33,6 +33,11 @@ data class TenantList(
     @SerializedName("checkin") var checkin: String? = null,
     @SerializedName("checkout") var checkout: String? = null,
     @SerializedName("flatno") var flatno: String? = null,
+    @SerializedName("details") var details: String? = null,
+    @SerializedName("iseditable") var iseditable: String? = null,
+    @SerializedName("countrycode") var countrycode: String? = null,
+    @SerializedName("paid") var paid: String? = null,
+    @SerializedName("total") var total: String? = null,
     @SerializedName("update") var update: String? = null,
     @SerializedName("delete") var delete: String? = null
 

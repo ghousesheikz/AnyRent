@@ -278,7 +278,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="UnPaid/Total Tenants"
+            android:text="UnPaid Tenants"
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -288,7 +288,7 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/size_8dp"
             android:letterSpacing="0.2"
-            android:text="0/0"
+            android:text="0"
             android:textColor="@color/white"
             android:textSize="@dimen/font_20sp" />
     </LinearLayout>

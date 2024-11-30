@@ -12,11 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.databinding.FragmentHomeBinding
+import com.shaikhomes.smartdiary.RoomsAvailableActivity
 import com.shaikhomes.smartdiary.ui.PropertyActivity
 import com.shaikhomes.smartdiary.ui.models.ApartmentData
 import com.shaikhomes.smartdiary.ui.models.Beds
 import com.shaikhomes.smartdiary.ui.models.PropertyData
 import com.shaikhomes.smartdiary.ui.models.RoomData
+import com.shaikhomes.smartdiary.ui.models.TenantData
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import kotlinx.coroutines.launch
@@ -64,11 +66,22 @@ class HomeFragment : Fragment() {
         binding.completedView.layoutParams = completedParams
         val remainingView = binding.progressBarLayout.getChildAt(1)
         binding.remainingView.layoutParams = remainingParams
+        binding.bedsLayout.setOnClickListener {
+            if (prefmanager.selectedApartment != null) {
+                requireActivity().startActivity(
+                    Intent(
+                        requireContext(),
+                        RoomsAvailableActivity::class.java
+                    )
+                )
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         getApartments()
+        getPendingTenants()
     }
 
     private fun getApartments() {
@@ -92,10 +105,31 @@ class HomeFragment : Fragment() {
                     }
                 }
                 bindData()
+                getPendingTenants()
             }
         }, error = {
             showToast(requireContext(), it)
         }, userid = prefmanager.userData?.UserId.toString(), apartmentid = "")
+    }
+
+    private fun getPendingTenants() {
+        if (prefmanager.selectedApartment != null && prefmanager.selectedApartment?.ID != null) {
+            homeViewModel?.getTenants(success = { tenantList ->
+                getTotalDueTenents(prefmanager.selectedApartment?.ID.toString(), tenantList)
+            }, error = {
+                showToast(requireContext(), it)
+            }, "", "", "", "due")
+        }
+    }
+
+    private fun getTotalDueTenents(id: String, tenantData: TenantData) {
+        if (tenantData.tenant_list.isNotEmpty()) {
+            tenantData.tenant_list.filter { it.apartmentId == id }.let { tenantList ->
+                if (tenantList.isNotEmpty()) {
+                    binding.txtTenantsCount.text = tenantList.size.toString()
+                } else binding.txtTenantsCount.text = "0"
+            }
+        }
     }
 
     private fun bindData() {

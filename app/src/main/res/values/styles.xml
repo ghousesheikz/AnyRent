@@ -12,4 +12,19 @@
         <item name="fab_colorPressed">#2E7D32</item>
         <item name="fab_colorRipple">#1B5E20</item>
     </style>
+
+    <style name="CountryCode">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:drawablePadding">@dimen/size_5dp</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layoutDirection">ltr</item>
+        <item name="android:paddingEnd">@dimen/size_4dp</item>
+        <item name="android:paddingStart">@dimen/size_8dp</item>
+        <item name="android:textAlignment">gravity</item>
+        <item name="android:visibility">gone</item>
+        <item name="drawableEndCompat">@drawable/ic_ddwn_small</item>
+        <item name="drawableTint">@color/teal_700</item>
+    </style>
 </resources>
