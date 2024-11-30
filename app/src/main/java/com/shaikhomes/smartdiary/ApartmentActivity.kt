@@ -1,5 +1,6 @@
 package com.shaikhomes.smartdiary
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -80,6 +81,12 @@ class ApartmentActivity : AppCompatActivity() {
             roomAdapter = RoomsAdapter(this@ApartmentActivity, arrayListOf(), true).apply {
                 setDeleteClickListener { room ->
                     deleteRoom(room)
+                }
+                setBedClickListener { roomsList, beds ->
+                    val intent = Intent(this@ApartmentActivity, TenantRegistration::class.java)
+                    intent.putExtra("ROOM_SELECT",Gson().toJson(roomsList))
+                    intent.putExtra("BED_SELECT",Gson().toJson(beds))
+                    startActivity(intent)
                 }
             }
             roomList.adapter = roomAdapter

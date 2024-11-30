@@ -42,8 +42,8 @@ class CountrySelectionAdapter(
             notifyDataSetChanged()
         } else {
             filteredList = countryList.filter {
-                it.name.contains(query, ignoreCase = true) //||
-                // it.dial_code.removePrefix("+").let { it.contains(query, ignoreCase = true)}
+                it.name.contains(query, ignoreCase = true) ||
+                 it.dial_code.removePrefix("+").let { it.contains(query, ignoreCase = true)}
             }.toMutableList()
             notifyDataSetChanged()
         }

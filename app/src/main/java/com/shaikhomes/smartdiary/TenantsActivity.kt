@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityTenantsBinding
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
+import com.shaikhomes.smartdiary.ui.customviews.SafeClickListener
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
 import com.shaikhomes.smartdiary.ui.models.Beds
 import com.shaikhomes.smartdiary.ui.models.FlatData
@@ -178,46 +179,7 @@ class TenantsActivity : AppCompatActivity() {
             selectcheckOutDate(activityTenantsBinding.editCheckOut)
         }
         getApartments()
-        activityTenantsBinding.addTenant.setOnClickListener {
-            if (validations()) {
-                val tenantList = TenantList(
-                    Active = "1",
-                    MobileNo = activityTenantsBinding.editNumber.text.toString(),
-                    Name = activityTenantsBinding.editName.text.toString(),
-                    apartmentId = apartmentSelected?.ID.toString(),
-                    floorno = selectFloor,
-                    roomno = roomSelected?.ID.toString(),
-                    flatno = FlatSelected?.ID.toString(),
-                    Gender = activityTenantsBinding.genderSpinner.selectedItem.toString(),
-                    Profession = "",
-                    rent = "",
-                    rentstatus = "",
-                    duedate = "",
-                    paymentmode = "",
-                    securitydeposit = "",
-                    joinedon = currentdate(),
-                    mailid = "",
-                    ProofImageF = "",
-                    ProofImageB = "",
-                    CreatedBy = prefmanager.userData?.UserName,
-                    UpdatedOn = currentdate(),
-                    checkin = activityTenantsBinding.editCheckIn.text.toString(),
-                    checkout = activityTenantsBinding.editCheckOut.text.toString(),
-                    paid = "0",
-                    total = "0",
-                    countrycode = activityTenantsBinding.textDropDownChooseCountry.text.toString()
-                )
-                addApartmentViewModel?.addTenant(tenantList, success = {
-                    updatebeds(
-                        roomSelected,
-                        bedSelected,
-                        activityTenantsBinding.editNumber.text.toString()
-                    )
-                }, error = {
-                    showToast(this, it)
-                })
-            }
-        }
+        activityTenantsBinding.addTenant.setOnClickListener(safeClickListener)
         activityTenantsBinding.textDropDownChooseCountry.setOnClickListener {
             try {
                 val dialog =
@@ -239,6 +201,47 @@ class TenantsActivity : AppCompatActivity() {
             } catch (exception: IllegalStateException) {
                 // do nothing
             }
+        }
+    }
+
+    val safeClickListener = SafeClickListener {
+        if (validations()) {
+            val tenantList = TenantList(
+                Active = "1",
+                MobileNo = activityTenantsBinding.editNumber.text.toString(),
+                Name = activityTenantsBinding.editName.text.toString(),
+                apartmentId = apartmentSelected?.ID.toString(),
+                floorno = selectFloor,
+                roomno = roomSelected?.ID.toString(),
+                flatno = FlatSelected?.ID.toString(),
+                Gender = activityTenantsBinding.genderSpinner.selectedItem.toString(),
+                Profession = "",
+                rent = "",
+                rentstatus = "",
+                duedate = "",
+                paymentmode = "",
+                securitydeposit = "",
+                joinedon = currentdate(),
+                mailid = "",
+                ProofImageF = "",
+                ProofImageB = "",
+                CreatedBy = prefmanager.userData?.UserName,
+                UpdatedOn = currentdate(),
+                checkin = activityTenantsBinding.editCheckIn.text.toString(),
+                checkout = activityTenantsBinding.editCheckOut.text.toString(),
+                paid = "0",
+                total = "0",
+                countrycode = activityTenantsBinding.textDropDownChooseCountry.text.toString()
+            )
+            addApartmentViewModel?.addTenant(tenantList, success = {
+                updatebeds(
+                    roomSelected,
+                    bedSelected,
+                    activityTenantsBinding.editNumber.text.toString()
+                )
+            }, error = {
+                showToast(this, it)
+            })
         }
     }
 
@@ -529,7 +532,7 @@ class TenantsActivity : AppCompatActivity() {
                 calendar.get(Calendar.DAY_OF_MONTH)
             )
         }
-        datePickerDialog?.datePicker?.minDate = calendar.timeInMillis
+        // datePickerDialog?.datePicker?.minDate = calendar.timeInMillis
         datePickerDialog?.show()
     }
 
@@ -547,7 +550,7 @@ class TenantsActivity : AppCompatActivity() {
                 calendar.get(Calendar.DAY_OF_MONTH)
             )
         }
-        datePickerDialog?.datePicker?.minDate = calendar.timeInMillis
+        //datePickerDialog?.datePicker?.minDate = calendar.timeInMillis
         datePickerDialog?.show()
     }
 }

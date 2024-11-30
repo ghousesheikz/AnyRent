@@ -33,7 +33,6 @@
             android:id="@+id/rent"
             android:layout_width="@dimen/size_0dp"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_rupee"
             android:drawablePadding="@dimen/size_8dp"
             android:gravity="center_vertical"
             android:padding="@dimen/size_5dp"

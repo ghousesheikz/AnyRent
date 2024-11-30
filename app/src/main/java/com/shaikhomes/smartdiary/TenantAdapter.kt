@@ -73,7 +73,7 @@ class TenantAdapter(
             TextView.BufferType.SPANNABLE
         )
         holder.rent.text =
-            if (!leadsList[position].rent.isNullOrEmpty()) leadsList[position].rent else "0/-"
+            if (!leadsList[position].rent.isNullOrEmpty()) "AED ${leadsList[position].rent}/-" else "AED 0/-"
         holder.joined.setText(
             Html.fromHtml(
                 "CheckIn: <font color='#000E77'>${

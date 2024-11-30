@@ -45,10 +45,10 @@ class RoomsAvailableActivity : AppCompatActivity() {
                 LinearLayoutManager(this@RoomsAvailableActivity)
             roomAdapter = RoomsAdapter(this@RoomsAvailableActivity, arrayListOf(), true,true).apply {
                 setBedClickListener { roomsList, beds ->
-//                    val intent = Intent(this@RoomsAvailableActivity, TenantRegistration::class.java)
-//                    intent.putExtra("ROOM_SELECT",Gson().toJson(roomsList))
-//                    intent.putExtra("BED_SELECT",Gson().toJson(beds))
-//                    startActivity(intent)
+                    val intent = Intent(this@RoomsAvailableActivity, TenantRegistration::class.java)
+                    intent.putExtra("ROOM_SELECT",Gson().toJson(roomsList))
+                    intent.putExtra("BED_SELECT",Gson().toJson(beds))
+                    startActivity(intent)
                 }
             }
             roomAvailableList.adapter = roomAdapter
@@ -70,5 +70,10 @@ class RoomsAvailableActivity : AppCompatActivity() {
             floorno = "",
             flatno = ""
         )
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed() // Navigate back
+        return true
     }
 }

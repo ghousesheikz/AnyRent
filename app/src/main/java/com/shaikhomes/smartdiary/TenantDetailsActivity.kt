@@ -129,7 +129,7 @@ class TenantDetailsActivity : AppCompatActivity() {
             tenantAdapter?.updateList(it.tenant_list)
         }, error = {
             showToast(this, it)
-        }, mobileNo = "", apartmentid = "", active = "", "")
+        }, mobileNo = "", apartmentid = prefmanager.selectedApartment?.ID.toString(), active = "", "")
     }
 
     // Handle back button press
