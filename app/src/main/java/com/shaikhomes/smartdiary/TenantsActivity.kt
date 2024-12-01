@@ -216,7 +216,7 @@ class TenantsActivity : AppCompatActivity() {
                 flatno = FlatSelected?.ID.toString(),
                 Gender = activityTenantsBinding.genderSpinner.selectedItem.toString(),
                 Profession = "",
-                rent = "",
+                rent = roomSelected?.rentperday,
                 rentstatus = "",
                 duedate = "",
                 paymentmode = "",

@@ -72,8 +72,6 @@ class TenantAdapter(
             Html.fromHtml("Name: <font color='#000E77'>${leadsList[position].Name}</font>"),
             TextView.BufferType.SPANNABLE
         )
-        holder.rent.text =
-            if (!leadsList[position].rent.isNullOrEmpty()) "AED ${leadsList[position].rent}/-" else "AED 0/-"
         holder.joined.setText(
             Html.fromHtml(
                 "CheckIn: <font color='#000E77'>${
@@ -100,9 +98,15 @@ class TenantAdapter(
         val currentDate = currentonlydate("dd-MM-yyyy")
         checkOut?.let {
             val days = calculateDaysBetween(currentDate, it)
+            val rent =
+                if (leadsList[position].rent.isNullOrEmpty()) 0 else leadsList[position].rent?.toInt()
             if (days < 0) {
+                holder.rent.text =
+                    if (!leadsList[position].rent.isNullOrEmpty()) "Over Due AED ${rent!! * days}/-" else "AED 0/-"
                 holder.dueDays.text = "Due ${days} Days"
             } else {
+                holder.rent.text =
+                    if (!leadsList[position].rent.isNullOrEmpty()) "Remaining AED ${rent!! * days}/-" else "AED 0/-"
                 holder.dueDays.text = "Remaining ${days} Days"
             }
         }

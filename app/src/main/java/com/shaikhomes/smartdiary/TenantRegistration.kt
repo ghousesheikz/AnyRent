@@ -132,7 +132,7 @@ class TenantRegistration : AppCompatActivity() {
                 flatno = roomsList?.flatno.toString(),
                 Gender = activityTenantsBinding.genderSpinner.selectedItem.toString(),
                 Profession = "",
-                rent = "",
+                rent = roomsList?.rentperday,
                 rentstatus = "",
                 duedate = "",
                 paymentmode = "",

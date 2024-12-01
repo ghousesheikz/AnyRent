@@ -7,27 +7,31 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.shaikhomes.anyrent.databinding.ActivityTenantDetailsBinding
+import com.google.gson.Gson
+import com.shaikhomes.anyrent.databinding.ActivityUnpaidTenantsDetailsBinding
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
+import com.shaikhomes.smartdiary.ui.models.RoomData
+import com.shaikhomes.smartdiary.ui.models.TenantData
 import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import java.net.URLEncoder
 
-class TenantDetailsActivity : AppCompatActivity() {
-    private lateinit var activityTenantDetailsBinding: ActivityTenantDetailsBinding
+class UnPaidTenantsDetails : AppCompatActivity() {
+    private lateinit var activityTenantDetailsBinding: ActivityUnpaidTenantsDetailsBinding
     private val prefmanager: PrefManager by lazy {
         PrefManager(this)
     }
     private var addApartmentViewModel: AddApartmentViewModel? = null
     private var apartmentList: ArrayList<ApartmentList> = arrayListOf()
     private var tenantAdapter: TenantAdapter? = null
-
+    private var tenantData: TenantData? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityTenantDetailsBinding = ActivityTenantDetailsBinding.inflate(layoutInflater)
+        activityTenantDetailsBinding = ActivityUnpaidTenantsDetailsBinding.inflate(layoutInflater)
         setContentView(activityTenantDetailsBinding.root)
+        tenantData =  Gson().fromJson(intent.getStringExtra("UNPAID_TENANTS"), TenantData::class.java)
         // Change toolbar title
         supportActionBar?.title = "Tenants"
         addApartmentViewModel =
@@ -36,8 +40,8 @@ class TenantDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         activityTenantDetailsBinding.tenantList.apply {
-            layoutManager = LinearLayoutManager(this@TenantDetailsActivity)
-            tenantAdapter = TenantAdapter(this@TenantDetailsActivity, arrayListOf()).apply {
+            layoutManager = LinearLayoutManager(this@UnPaidTenantsDetails)
+            tenantAdapter = TenantAdapter(this@UnPaidTenantsDetails, arrayListOf()).apply {
                 setApartmentClickListener { tenantList, apartment ->
                     if (apartmentList.isNotEmpty()) {
                         apartmentList.filter { it.ID.toString() == tenantList.apartmentId }
@@ -100,11 +104,11 @@ class TenantDetailsActivity : AppCompatActivity() {
                 tenant.delete = "delete"
                 addApartmentViewModel?.addTenant(tenant, success = {
                     if (it.status == "200") {
-                        showToast(this@TenantDetailsActivity, "${tenant.Name} deleted successfully")
+                        showToast(this@UnPaidTenantsDetails, "${tenant.Name} deleted successfully")
                         getApartments()
                     }
                 }, error = {
-                    showToast(this@TenantDetailsActivity, it)
+                    showToast(this@UnPaidTenantsDetails, it)
                 })
             }
             this.setNegativeButton(
@@ -128,18 +132,9 @@ class TenantDetailsActivity : AppCompatActivity() {
     }
 
     private fun getTenants() {
-        addApartmentViewModel?.getTenants(
-            success = {
-                tenantAdapter?.updateList(it.tenant_list)
-            },
-            error = {
-                showToast(this, it)
-            },
-            mobileNo = "",
-            apartmentid = prefmanager.selectedApartment?.ID.toString(),
-            active = "",
-            ""
-        )
+       if(tenantData?.tenant_list?.isNotEmpty() == true){
+           tenantData?.tenant_list?.let { tenantAdapter?.updateList(it) }
+       }
     }
 
     // Handle back button press
