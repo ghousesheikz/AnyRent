@@ -55,7 +55,7 @@ class TenantDetailsActivity : AppCompatActivity() {
                     try {
                         val intent = Intent(
                             Intent.ACTION_DIAL,
-                            Uri.parse("tel:" + "${(if (!tenant?.countrycode.isNullOrEmpty()) tenant?.countrycode else "+91") + tenant?.MobileNo}")
+                            Uri.parse("tel:" + "${(if (!tenant?.countrycode.isNullOrEmpty()) tenant?.countrycode else "+971") + tenant?.MobileNo}")
                         )
                         context.startActivity(intent)
                     } catch (exp: Exception) {
@@ -79,7 +79,7 @@ class TenantDetailsActivity : AppCompatActivity() {
         val i = Intent(Intent.ACTION_VIEW)
         try {
             val url =
-                "https://api.whatsapp.com/send?phone=${(if (!tenant?.countrycode.isNullOrEmpty()) tenant?.countrycode else "+91") + tenant?.MobileNo}" + "&text=" + URLEncoder.encode(
+                "https://api.whatsapp.com/send?phone=${(if (!tenant?.countrycode.isNullOrEmpty()) tenant?.countrycode else "+971") + tenant?.MobileNo}" + "&text=" + URLEncoder.encode(
                     "This is reminder for your due for the rent",
                     "UTF-8"
                 )

@@ -39,7 +39,7 @@
             android:id="@+id/text_drop_down_choose_country"
             style="@style/CountryCode"
             android:visibility="visible"
-            android:text="+91"
+            android:text="+971"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 

@@ -102,11 +102,11 @@ class TenantAdapter(
                 if (leadsList[position].rent.isNullOrEmpty()) 0 else leadsList[position].rent?.toInt()
             if (days < 0) {
                 holder.rent.text =
-                    if (!leadsList[position].rent.isNullOrEmpty()) "Over Due AED ${rent!! * days}/-" else "AED 0/-"
+                    if (!leadsList[position].rent.isNullOrEmpty()) "Over Due Amount AED ${rent!! * days}/-" else "AED 0/-"
                 holder.dueDays.text = "Due ${days} Days"
             } else {
                 holder.rent.text =
-                    if (!leadsList[position].rent.isNullOrEmpty()) "Remaining AED ${rent!! * days}/-" else "AED 0/-"
+                    if (!leadsList[position].rent.isNullOrEmpty()) "Remaining Amount AED ${rent!! * days}/-" else "AED 0/-"
                 holder.dueDays.text = "Remaining ${days} Days"
             }
         }

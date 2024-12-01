@@ -110,7 +110,7 @@ class LeadInfoFragment : Fragment() {
                         val intent = Intent(
                             Intent.ACTION_CALL,
                             Uri.parse(
-                                "tel:" + (leadData?.countrycode ?: "+91") + leadData?.contactnumber
+                                "tel:" + (leadData?.countrycode ?: "+971") + leadData?.contactnumber
                             )
                         )
                         requireActivity().startActivity(intent)
@@ -124,7 +124,7 @@ class LeadInfoFragment : Fragment() {
 
                     try {
                         val url =
-                            "https://api.whatsapp.com/send?phone=${(if (!leadData?.countrycode.isNullOrEmpty()) leadData?.countrycode else "+91") + leadData?.contactnumber}" + "&text=" + URLEncoder.encode(
+                            "https://api.whatsapp.com/send?phone=${(if (!leadData?.countrycode.isNullOrEmpty()) leadData?.countrycode else "+971") + leadData?.contactnumber}" + "&text=" + URLEncoder.encode(
                                 "",
                                 "UTF-8"
                             )
@@ -141,7 +141,7 @@ class LeadInfoFragment : Fragment() {
 
                     try {
                         val url =
-                            "https://api.whatsapp.com/send?phone=${(if (!leadData?.countrycode.isNullOrEmpty()) leadData?.countrycode else "+91") + leadData?.contactnumber}" + "&text=" + URLEncoder.encode(
+                            "https://api.whatsapp.com/send?phone=${(if (!leadData?.countrycode.isNullOrEmpty()) leadData?.countrycode else "+971") + leadData?.contactnumber}" + "&text=" + URLEncoder.encode(
                                 "Kindly schedule your visit!!\n" +
                                         "https://shaikhomes.com/addreminder/schedule.html",
                                 "UTF-8"

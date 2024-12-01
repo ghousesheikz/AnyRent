@@ -36,7 +36,7 @@ class CountrySelectionDialog : BottomSheetDialogFragment() {
         coroutineScope.launch {
             adapter = CountrySelectionAdapter(
                 countryList!!,
-                CountryCode("", "", "+91")
+                CountryCode("", "", "+971")
             ).apply {
                 onCountryClickListener {
                     dismiss()
