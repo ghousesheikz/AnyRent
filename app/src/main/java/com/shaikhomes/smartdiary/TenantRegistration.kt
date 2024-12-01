@@ -3,9 +3,11 @@ package com.shaikhomes.smartdiary
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -119,44 +121,92 @@ class TenantRegistration : AppCompatActivity() {
     }
 
     val safeClickListener = SafeClickListener {
-//        if (validations()) {
-//            val tenantList = TenantList(
-//                Active = "1",
-//                MobileNo = activityTenantsBinding.editNumber.text.toString(),
-//                Name = activityTenantsBinding.editName.text.toString(),
-//                apartmentId = apartmentSelected?.ID.toString(),
-//                floorno = selectFloor,
-//                roomno = roomSelected?.ID.toString(),
-//                flatno = FlatSelected?.ID.toString(),
-//                Gender = activityTenantsBinding.genderSpinner.selectedItem.toString(),
-//                Profession = "",
-//                rent = "",
-//                rentstatus = "",
-//                duedate = "",
-//                paymentmode = "",
-//                securitydeposit = "",
-//                joinedon = currentdate(),
-//                mailid = "",
-//                ProofImageF = "",
-//                ProofImageB = "",
-//                CreatedBy = prefmanager.userData?.UserName,
-//                UpdatedOn = currentdate(),
-//                checkin = activityTenantsBinding.editCheckIn.text.toString(),
-//                checkout = activityTenantsBinding.editCheckOut.text.toString(),
-//                paid = "0",
-//                total = "0",
-//                countrycode = activityTenantsBinding.textDropDownChooseCountry.text.toString()
-//            )
-//            addApartmentViewModel?.addTenant(tenantList, success = {
-//                updatebeds(
-//                    roomSelected,
-//                    bedSelected,
-//                    activityTenantsBinding.editNumber.text.toString()
-//                )
-//            }, error = {
-//                showToast(this, it)
-//            })
-//        }
+        if (validations()) {
+            val tenantList = TenantList(
+                Active = "1",
+                MobileNo = activityTenantsBinding.editNumber.text.toString(),
+                Name = activityTenantsBinding.editName.text.toString(),
+                apartmentId = roomsList?.apartmentid.toString(),
+                floorno = roomsList?.floorno,
+                roomno = roomsList?.ID?.toString(),
+                flatno = roomsList?.flatno.toString(),
+                Gender = activityTenantsBinding.genderSpinner.selectedItem.toString(),
+                Profession = "",
+                rent = "",
+                rentstatus = "",
+                duedate = "",
+                paymentmode = "",
+                securitydeposit = "",
+                joinedon = currentdate(),
+                mailid = "",
+                ProofImageF = "",
+                ProofImageB = "",
+                CreatedBy = prefmanager.userData?.UserName,
+                UpdatedOn = currentdate(),
+                checkin = activityTenantsBinding.editCheckIn.text.toString(),
+                checkout = activityTenantsBinding.editCheckOut.text.toString(),
+                paid = "0",
+                total = "0",
+                countrycode = activityTenantsBinding.textDropDownChooseCountry.text.toString(),
+                details = "${roomsList?.roomname} - B${selectedBed?.number}"
+            )
+            addApartmentViewModel?.addTenant(tenantList, success = {
+                updatebeds(
+                    roomsList,
+                    selectedBed,
+                    activityTenantsBinding.editNumber.text.toString()
+                )
+            }, error = {
+                showToast(this, it)
+            })
+        }
+    }
+
+    private fun updatebeds(
+        roomSelected: RoomData.RoomsList?,
+        bedSelected: Beds?,
+        mobNumber: String
+    ) {
+        if (roomSelected?.available != null) {
+            if (!roomSelected.available.isNullOrEmpty()) {
+                val list: ArrayList<Beds> = Gson().fromJson(roomSelected?.available, bedsType)
+                list.forEach { bed ->
+                    if (bed.number == bedSelected?.number) {
+                        bed.userId = mobNumber
+                        bed.occupied = true
+                    }
+                }
+                roomSelected.available = Gson().toJson(list)
+                roomSelected.createdby = prefmanager.userData?.UserName
+                roomSelected.updatedon = currentdate()
+                roomSelected.update = "update"
+                Log.v("SELECTED_ROOM", Gson().toJson(roomSelected))
+                addApartmentViewModel?.addRooms(roomSelected, success = {
+                    showToast(this, "Tenant Added Successfully")
+                    onBackPressed()
+                }, error = {
+                    showToast(this, it)
+                })
+            }
+        }
+    }
+
+    private fun validations(): Boolean {
+        var flag = true
+        if (activityTenantsBinding.editName.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Enter Name", Toast.LENGTH_SHORT).show()
+        } else if (activityTenantsBinding.editNumber.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Enter Mobile Number", Toast.LENGTH_SHORT).show()
+        } else if (activityTenantsBinding.editCheckIn.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Select CheckIn Date", Toast.LENGTH_SHORT).show()
+        } else if (activityTenantsBinding.editCheckOut.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Select CheckOut Date", Toast.LENGTH_SHORT).show()
+        }
+        return flag
     }
 
     private fun getApartment(apartmentid: String?) {

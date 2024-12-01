@@ -43,7 +43,10 @@ class TenantDetailsActivity : AppCompatActivity() {
                         apartmentList.filter { it.ID.toString() == tenantList.apartmentId }
                             .let { apartmentList ->
                                 if (apartmentList.isNotEmpty()) {
-                                    apartment.text = apartmentList.first().apartmentname
+                                    if (tenantList.details.isNullOrEmpty()) {
+                                        apartment.text = apartmentList.first().apartmentname
+                                    } else apartment.text =
+                                        apartmentList.first().apartmentname.plus(" ${tenantList.details}")
                                 }
                             }
                     }
@@ -62,7 +65,7 @@ class TenantDetailsActivity : AppCompatActivity() {
                 setDeleteClickListener { tenant ->
                     deleteTenant(tenant)
                 }
-                setReminderClickListener {tenant ->
+                setReminderClickListener { tenant ->
                     sendReminder(tenant)
                 }
             }
@@ -125,11 +128,18 @@ class TenantDetailsActivity : AppCompatActivity() {
     }
 
     private fun getTenants() {
-        addApartmentViewModel?.getTenants(success = {
-            tenantAdapter?.updateList(it.tenant_list)
-        }, error = {
-            showToast(this, it)
-        }, mobileNo = "", apartmentid = prefmanager.selectedApartment?.ID.toString(), active = "", "")
+        addApartmentViewModel?.getTenants(
+            success = {
+                tenantAdapter?.updateList(it.tenant_list)
+            },
+            error = {
+                showToast(this, it)
+            },
+            mobileNo = "",
+            apartmentid = prefmanager.selectedApartment?.ID.toString(),
+            active = "",
+            ""
+        )
     }
 
     // Handle back button press

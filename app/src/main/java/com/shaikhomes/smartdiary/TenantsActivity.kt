@@ -231,7 +231,8 @@ class TenantsActivity : AppCompatActivity() {
                 checkout = activityTenantsBinding.editCheckOut.text.toString(),
                 paid = "0",
                 total = "0",
-                countrycode = activityTenantsBinding.textDropDownChooseCountry.text.toString()
+                countrycode = activityTenantsBinding.textDropDownChooseCountry.text.toString(),
+                details = "${roomSelected?.roomname} - B${bedSelected?.number}"
             )
             addApartmentViewModel?.addTenant(tenantList, success = {
                 updatebeds(
