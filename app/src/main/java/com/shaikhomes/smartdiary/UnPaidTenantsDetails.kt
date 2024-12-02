@@ -3,18 +3,22 @@ package com.shaikhomes.smartdiary
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.databinding.ActivityUnpaidTenantsDetailsBinding
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
+import com.shaikhomes.smartdiary.ui.models.Beds
 import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.models.TenantData
 import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
+import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import java.net.URLEncoder
 
@@ -27,11 +31,14 @@ class UnPaidTenantsDetails : AppCompatActivity() {
     private var apartmentList: ArrayList<ApartmentList> = arrayListOf()
     private var tenantAdapter: TenantAdapter? = null
     private var tenantData: TenantData? = null
+    val bedsType = object : TypeToken<ArrayList<Beds>>() {}.type
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityTenantDetailsBinding = ActivityUnpaidTenantsDetailsBinding.inflate(layoutInflater)
         setContentView(activityTenantDetailsBinding.root)
-        tenantData =  Gson().fromJson(intent.getStringExtra("UNPAID_TENANTS"), TenantData::class.java)
+        tenantData =
+            Gson().fromJson(intent.getStringExtra("UNPAID_TENANTS"), TenantData::class.java)
         // Change toolbar title
         supportActionBar?.title = "Tenants"
         addApartmentViewModel =
@@ -96,6 +103,26 @@ class UnPaidTenantsDetails : AppCompatActivity() {
     }
 
     private fun deleteTenant(tenant: TenantList) {
+        addApartmentViewModel?.getRooms(
+            success = {
+                if (it.roomsList.isNotEmpty()) {
+                    it.roomsList.filter { it.ID.toString() == tenant.roomno }.let { roomList ->
+                        if (roomList.isNotEmpty()) {
+                            showAlertDialog(roomList.first(), tenant)
+                        }
+                    }
+                } else showAlertDialog(tenant = tenant)
+            },
+            error = {
+                showToast(this, it)
+            },
+            apartmentid = tenant.apartmentId.toString(),
+            floorno = tenant.floorno!!,
+            flatno = tenant.flatno!!
+        )
+    }
+
+    private fun showAlertDialog(roomData: RoomData.RoomsList? = null, tenant: TenantList) {
         AlertDialog.Builder(this).apply {
             this.setMessage("Do you want to delete ${tenant.Name}?")
             this.setPositiveButton(
@@ -106,6 +133,9 @@ class UnPaidTenantsDetails : AppCompatActivity() {
                     if (it.status == "200") {
                         showToast(this@UnPaidTenantsDetails, "${tenant.Name} deleted successfully")
                         getApartments()
+                        if (roomData != null) {
+                            deleteBedData(roomData, tenant)
+                        }
                     }
                 }, error = {
                     showToast(this@UnPaidTenantsDetails, it)
@@ -121,6 +151,30 @@ class UnPaidTenantsDetails : AppCompatActivity() {
         }
     }
 
+    private fun deleteBedData(roomData: RoomData.RoomsList?, tenant: TenantList) {
+        if (roomData?.available != null) {
+            if (!roomData.available.isNullOrEmpty()) {
+                val list: ArrayList<Beds> = Gson().fromJson(roomData?.available, bedsType)
+                list.forEach { bed ->
+                    if (bed.userId == tenant.MobileNo) {
+                        bed.userId = ""
+                        bed.occupied = false
+                    }
+                }
+                roomData.available = Gson().toJson(list)
+                roomData.createdby = prefmanager.userData?.UserName
+                roomData.updatedon = currentdate()
+                roomData.update = "update"
+                Log.v("SELECTED_ROOM", Gson().toJson(roomData))
+                addApartmentViewModel?.addRooms(roomData, success = {
+                    onBackPressed()
+                }, error = {
+                    showToast(this, it)
+                })
+            }
+        }
+    }
+
     private fun getApartments() {
         addApartmentViewModel?.getApartments(success = {
             apartmentList.clear()
@@ -132,9 +186,9 @@ class UnPaidTenantsDetails : AppCompatActivity() {
     }
 
     private fun getTenants() {
-       if(tenantData?.tenant_list?.isNotEmpty() == true){
-           tenantData?.tenant_list?.let { tenantAdapter?.updateList(it) }
-       }
+        if (tenantData?.tenant_list?.isNotEmpty() == true) {
+            tenantData?.tenant_list?.let { tenantAdapter?.updateList(it) }
+        }
     }
 
     // Handle back button press

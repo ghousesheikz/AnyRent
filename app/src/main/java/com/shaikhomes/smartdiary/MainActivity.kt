@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 //                .setAction("Action", null).show()
 //        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
+     //   val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         //navView.setupWithNavController(navController)
-        navView.visibility = View.GONE
+       // navView.visibility = View.GONE
         supportActionBar?.setDisplayHomeAsUpEnabled(false);
         supportActionBar?.setHomeButtonEnabled(false);
 //        navView.getHeaderView(0).findViewById<TextView>(R.id.userName).apply {
