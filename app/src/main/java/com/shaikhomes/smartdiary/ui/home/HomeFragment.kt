@@ -13,7 +13,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.databinding.FragmentHomeBinding
 import com.shaikhomes.smartdiary.RoomsAvailableActivity
-import com.shaikhomes.smartdiary.TenantRegistration
 import com.shaikhomes.smartdiary.UnPaidTenantsDetails
 import com.shaikhomes.smartdiary.ui.PropertyActivity
 import com.shaikhomes.smartdiary.ui.models.ApartmentData
@@ -23,6 +22,7 @@ import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.models.TenantData
 import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
+import com.shaikhomes.smartdiary.ui.utils.currentonlydate
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import kotlinx.coroutines.launch
 
@@ -79,6 +79,7 @@ class HomeFragment : Fragment() {
                 )
             }
         }
+        binding.currentMonth.text = currentonlydate("MMMM")
     }
 
     override fun onResume() {
@@ -130,10 +131,11 @@ class HomeFragment : Fragment() {
             tenantData.tenant_list.filter { it.apartmentId == id }.let { tenantListData ->
                 if (tenantListData.isNotEmpty()) {
                     binding.txtTenantsCount.text = tenantListData.size.toString()
-                    val unPaidTenantData = TenantData(tenant_list=tenantListData as ArrayList<TenantList>)
+                    val unPaidTenantData =
+                        TenantData(tenant_list = tenantListData as ArrayList<TenantList>)
                     binding.unpaidLayout.setOnClickListener {
                         val intent = Intent(requireContext(), UnPaidTenantsDetails::class.java)
-                        intent.putExtra("UNPAID_TENANTS",Gson().toJson(unPaidTenantData))
+                        intent.putExtra("UNPAID_TENANTS", Gson().toJson(unPaidTenantData))
                         startActivity(intent)
                     }
                 } else binding.txtTenantsCount.text = "0"

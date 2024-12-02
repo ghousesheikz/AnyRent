@@ -13,12 +13,14 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.gson.Gson
+import com.kevinschildhorn.otpview.OTPView
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityTenantOverviewBinding
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
@@ -115,7 +117,49 @@ class TenantOverview : AppCompatActivity() {
                     dueText.text =
                         "${tenantList?.Name} have a due of AED ${abs(totalRent)}/- \nSince ${checkOut}"
                     btnRecordPayment.setOnClickListener {
-                        recordPayment(checkOut, totalRent)
+                        val dialogView = layoutInflater.inflate(R.layout.otp_view, null)
+                        val otpView = dialogView.findViewById<OTPView>(R.id.otpView)
+                        AlertDialog.Builder(this@TenantOverview).apply {
+                            this.setMessage("Do you want to change checkin checkout dates?")
+                            this.setView(dialogView)
+                            this.setPositiveButton(
+                                "YES"
+                            ) { p0, p1 ->
+                                if (otpView.getStringFromFields() == "996600") {
+                                    recordPayment(checkOut, totalRent)
+                                } else showToast(this@TenantOverview, "Incorrect OTP")
+                            }
+                            this.setNegativeButton(
+                                "NO"
+                            ) { p0, p1 ->
+                                p0.dismiss()
+                            }
+                            this.setCancelable(true)
+                            this.show()
+                        }
+
+                    }
+                }
+                btnChangeDates.setOnClickListener {
+                    val dialogView = layoutInflater.inflate(R.layout.otp_view, null)
+                    val otpView = dialogView.findViewById<OTPView>(R.id.otpView)
+                    AlertDialog.Builder(this@TenantOverview).apply {
+                        this.setMessage("Do you want to change checkin checkout dates?")
+                        this.setView(dialogView)
+                        this.setPositiveButton(
+                            "YES"
+                        ) { p0, p1 ->
+                            if (otpView.getStringFromFields() == "996600") {
+                                recordPayment(checkOut, totalRent)
+                            } else showToast(this@TenantOverview, "Incorrect OTP")
+                        }
+                        this.setNegativeButton(
+                            "NO"
+                        ) { p0, p1 ->
+                            p0.dismiss()
+                        }
+                        this.setCancelable(true)
+                        this.show()
                     }
                 }
             }

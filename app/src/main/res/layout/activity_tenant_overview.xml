@@ -132,6 +132,15 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Delete"
             android:src="@drawable/ic_change_room" />
+        <ImageButton
+            android:id="@+id/btnChangeDates"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            app:tint="@color/teal_700"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete"
+            android:src="@drawable/ic_checkin_date" />
     </LinearLayout>
 
     <LinearLayout

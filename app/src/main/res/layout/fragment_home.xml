@@ -158,7 +158,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/size_8dp"
-            android:text="₹ 0/-"
+            android:text="AED 0/-"
             android:textColor="#F44336"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/pending"
@@ -191,7 +191,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/size_8dp"
-            android:text="₹ 0/-"
+            android:text="AED 0/-"
             android:textColor="#4CAF50"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/received"
@@ -223,7 +223,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/size_8dp"
-            android:text="₹ 0/-"
+            android:text="AED 0/-"
             android:textColor="@color/c_black_1"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/txtTotal"
@@ -319,7 +319,7 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/size_8dp"
             android:letterSpacing="0"
-            android:text="₹0/-"
+            android:text="AED 0/-"
             android:textColor="@color/white"
             android:textSize="@dimen/font_20sp" />
     </LinearLayout>
@@ -383,7 +383,7 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/size_8dp"
             android:letterSpacing="0"
-            android:text="₹0/-"
+            android:text="AED 0/-"
             android:textColor="@color/white"
             android:textSize="@dimen/font_20sp" />
     </LinearLayout>
