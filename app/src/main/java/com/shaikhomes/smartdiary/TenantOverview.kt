@@ -156,7 +156,7 @@ class TenantOverview : AppCompatActivity() {
                 tenantList?.update = "update"
                 Log.v("TENANT_UPDATE", Gson().toJson(tenantList))
                 addApartmentViewModel?.addTenant(tenantList!!, success = {
-                    showToast(this, "Updated Successfully")
+                    showToast(this, "Tenant Updated Successfully")
                     onBackPressed()
                 }, error = {
                     showToast(this, it)
