@@ -164,6 +164,20 @@
         app:layout_constraintTop_toBottomOf="@id/editCheckIn"
         app:layout_constraintWidth_percent="0.9" />
 
+    <EditText
+        android:id="@+id/editRentPerDay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Rent Per Day"
+        android:inputType="number"
+        android:padding="@dimen/size_8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editCheckOut"
+        app:layout_constraintWidth_percent="0.9" />
+
 
     <Button
         android:id="@+id/addTenant"
@@ -175,7 +189,7 @@
         android:text="Add Tenant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editCheckOut"
+        app:layout_constraintTop_toBottomOf="@id/editRentPerDay"
         app:layout_constraintWidth_percent="0.7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

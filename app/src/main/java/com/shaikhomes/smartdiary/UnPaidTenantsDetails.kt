@@ -37,8 +37,6 @@ class UnPaidTenantsDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityTenantDetailsBinding = ActivityUnpaidTenantsDetailsBinding.inflate(layoutInflater)
         setContentView(activityTenantDetailsBinding.root)
-        tenantData =
-            Gson().fromJson(intent.getStringExtra("UNPAID_TENANTS"), TenantData::class.java)
         // Change toolbar title
         supportActionBar?.title = "Tenants"
         addApartmentViewModel =
@@ -49,6 +47,12 @@ class UnPaidTenantsDetails : AppCompatActivity() {
         activityTenantDetailsBinding.tenantList.apply {
             layoutManager = LinearLayoutManager(this@UnPaidTenantsDetails)
             tenantAdapter = TenantAdapter(this@UnPaidTenantsDetails, arrayListOf()).apply {
+                setEditClickListener { tenantList ->
+                    val intent = Intent(this@UnPaidTenantsDetails, TenantOverview::class.java)
+                    intent.putExtra("tenant", Gson().toJson(tenantList))
+                    startActivity(intent)
+                    finish()
+                }
                 setApartmentClickListener { tenantList, apartment ->
                     if (apartmentList.isNotEmpty()) {
                         apartmentList.filter { it.ID.toString() == tenantList.apartmentId }
@@ -74,7 +78,7 @@ class UnPaidTenantsDetails : AppCompatActivity() {
                     }
                 }
                 setDeleteClickListener { tenant ->
-                    deleteTenant(tenant)
+                    //deleteTenant(tenant)
                 }
                 setReminderClickListener { tenant ->
                     sendReminder(tenant)
@@ -82,7 +86,34 @@ class UnPaidTenantsDetails : AppCompatActivity() {
             }
             adapter = tenantAdapter
         }
-        getApartments()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getPendingTenants()
+    }
+
+    private fun getPendingTenants() {
+        if (prefmanager.selectedApartment != null && prefmanager.selectedApartment?.ID != null) {
+            addApartmentViewModel?.getTenants(success = { tenantList ->
+                getTotalDueTenents(prefmanager.selectedApartment?.ID.toString(), tenantList)
+            }, error = {
+                showToast(this, it)
+            }, "", "", "", "due")
+        }
+    }
+
+    private fun getTotalDueTenents(id: String, tenantData: TenantData) {
+        if (tenantData.tenant_list.isNotEmpty()) {
+            tenantData.tenant_list.filter { it.apartmentId == id }.let { tenantListData ->
+                if (tenantListData.isNotEmpty()) {
+                    val unPaidTenantData =
+                        TenantData(tenant_list = tenantListData as ArrayList<TenantList>)
+                    this.tenantData = unPaidTenantData
+                    getApartments()
+                }
+            }
+        }
     }
 
     private fun sendReminder(tenant: TenantList) {
@@ -132,7 +163,6 @@ class UnPaidTenantsDetails : AppCompatActivity() {
                 addApartmentViewModel?.addTenant(tenant, success = {
                     if (it.status == "200") {
                         showToast(this@UnPaidTenantsDetails, "${tenant.Name} deleted successfully")
-                        getApartments()
                         if (roomData != null) {
                             deleteBedData(roomData, tenant)
                         }

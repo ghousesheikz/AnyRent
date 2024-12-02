@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/top_curve_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/size_15dp">
+
+    <LinearLayout
+        android:id="@+id/dueLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/txtAddProperty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:text="Due Payment"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_22sp" />
+
+        <TextView
+            android:id="@+id/dueDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/c_red_3"
+            android:gravity="center"
+            android:padding="@dimen/size_5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_12sp" />
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/editCheckIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/edittext_bg"
+        android:editable="false"
+        android:hint="CheckIn Date"
+        android:padding="@dimen/size_8dp" />
+
+    <EditText
+        android:id="@+id/editCheckOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/edittext_bg"
+        android:editable="false"
+        android:hint="CheckOut Date"
+        android:padding="@dimen/size_8dp" />
+
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/button_bg"
+        android:text="Update" />
+</LinearLayout>

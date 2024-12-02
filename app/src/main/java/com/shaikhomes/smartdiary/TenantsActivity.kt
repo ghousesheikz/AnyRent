@@ -216,7 +216,7 @@ class TenantsActivity : AppCompatActivity() {
                 flatno = FlatSelected?.ID.toString(),
                 Gender = activityTenantsBinding.genderSpinner.selectedItem.toString(),
                 Profession = "",
-                rent = roomSelected?.rentperday,
+                rent = activityTenantsBinding.editRentPerDay.text.toString(),
                 rentstatus = "",
                 duedate = "",
                 paymentmode = "",
@@ -275,6 +275,9 @@ class TenantsActivity : AppCompatActivity() {
         } else if (activityTenantsBinding.editCheckOut.text.toString().isEmpty()) {
             flag = false
             Toast.makeText(this, "Select CheckOut Date", Toast.LENGTH_SHORT).show()
+        } else if (activityTenantsBinding.editRentPerDay.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Enter Rent per day", Toast.LENGTH_SHORT).show()
         }
         return flag
     }

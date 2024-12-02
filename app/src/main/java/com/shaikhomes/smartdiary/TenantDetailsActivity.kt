@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.kevinschildhorn.otpview.OTPView
+import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityTenantDetailsBinding
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
@@ -45,6 +47,12 @@ class TenantDetailsActivity : AppCompatActivity() {
         activityTenantDetailsBinding.tenantList.apply {
             layoutManager = LinearLayoutManager(this@TenantDetailsActivity)
             tenantAdapter = TenantAdapter(this@TenantDetailsActivity, arrayListOf()).apply {
+                setEditClickListener { tenantList ->
+                    val intent = Intent(this@TenantDetailsActivity, TenantOverview::class.java)
+                    intent.putExtra("tenant", Gson().toJson(tenantList))
+                    startActivity(intent)
+                    finish()
+                }
                 setApartmentClickListener { tenantList, apartment ->
                     if (apartmentList.isNotEmpty()) {
                         apartmentList.filter { it.ID.toString() == tenantList.apartmentId }
@@ -102,8 +110,8 @@ class TenantDetailsActivity : AppCompatActivity() {
         addApartmentViewModel?.getRooms(
             success = {
                 if (it.roomsList.isNotEmpty()) {
-                    it.roomsList.filter { it.ID.toString() == tenant.roomno }.let {roomList->
-                        if(roomList.isNotEmpty()) {
+                    it.roomsList.filter { it.ID.toString() == tenant.roomno }.let { roomList ->
+                        if (roomList.isNotEmpty()) {
                             showAlertDialog(roomList.first(), tenant)
                         }
                     }
@@ -120,23 +128,31 @@ class TenantDetailsActivity : AppCompatActivity() {
     }
 
     private fun showAlertDialog(roomData: RoomData.RoomsList? = null, tenant: TenantList) {
+        val dialogView = layoutInflater.inflate(R.layout.otp_view, null)
+        val otpView = dialogView.findViewById<OTPView>(R.id.otpView)
         AlertDialog.Builder(this).apply {
             this.setMessage("Do you want to delete ${tenant.Name}?")
+            this.setView(dialogView)
             this.setPositiveButton(
                 "YES"
             ) { p0, p1 ->
-                tenant.delete = "delete"
-                addApartmentViewModel?.addTenant(tenant, success = {
-                    if (it.status == "200") {
-                        showToast(this@TenantDetailsActivity, "${tenant.Name} deleted successfully")
-                        getApartments()
-                        if (roomData != null) {
-                            deleteBedData(roomData,tenant)
+                if (otpView.getStringFromFields() == "009289") {
+                    tenant.delete = "delete"
+                    addApartmentViewModel?.addTenant(tenant, success = {
+                        if (it.status == "200") {
+                            showToast(
+                                this@TenantDetailsActivity,
+                                "${tenant.Name} deleted successfully"
+                            )
+                            getApartments()
+                            if (roomData != null) {
+                                deleteBedData(roomData, tenant)
+                            }
                         }
-                    }
-                }, error = {
-                    showToast(this@TenantDetailsActivity, it)
-                })
+                    }, error = {
+                        showToast(this@TenantDetailsActivity, it)
+                    })
+                }else showToast(this@TenantDetailsActivity,"Incorrect OTP")
             }
             this.setNegativeButton(
                 "NO"

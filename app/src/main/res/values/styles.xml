@@ -27,4 +27,8 @@
         <item name="drawableEndCompat">@drawable/ic_ddwn_small</item>
         <item name="drawableTint">@color/teal_700</item>
     </style>
+
+    <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
 </resources>

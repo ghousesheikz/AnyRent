@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="0dp">
+
+    <com.kevinschildhorn.otpview.OTPView
+        android:id="@+id/otpView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:autofillHints=""
+        android:importantForAutofill="no"
+        android:inputType="number|textNoSuggestions"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMobileNumber"
+        app:otp_backgroundImage="@drawable/background"
+        app:otp_cursorColor="@color/teal_700"
+        app:otp_filledBackgroundImage="@drawable/background"
+        app:otp_filledTextSize="@dimen/font_18sp"
+        app:otp_highlightedBackgroundImage="@drawable/background_highlighted"
+        app:otp_highlightedTextSize="@dimen/font_18sp"
+        app:otp_itemCount="6"
+        app:otp_itemHeight="@dimen/size_45dp"
+        app:otp_itemWidth="@dimen/size_35dp"
+        app:otp_marginBetween="@dimen/size_8dp"
+        app:otp_showCursor="true"
+        app:otp_textColor="@color/black"
+        app:otp_textSize="@dimen/font_18sp"
+        app:otp_underscoreCursor="true" />
+
+</LinearLayout>

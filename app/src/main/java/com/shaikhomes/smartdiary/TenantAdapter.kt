@@ -120,6 +120,9 @@ class TenantAdapter(
         holder.reminder.setOnClickListener {
             reminderClickListener?.invoke(leadsList[position])
         }
+        holder.tenantLayout.setOnClickListener {
+            editClickListener?.invoke(leadsList[position])
+        }
         try {
             if (!leadsList[position].apartmentId.isNullOrEmpty()) {
                 availableBedsClick?.invoke(leadsList[position], holder.apartment)

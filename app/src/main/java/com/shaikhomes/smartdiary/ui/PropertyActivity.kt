@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.kevinschildhorn.otpview.OTPView
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityPropertyBinding
 import com.shaikhomes.smartdiary.ApartmentActivity
@@ -74,8 +75,8 @@ class PropertyActivity : AppCompatActivity() {
                 prefmanager.selectedApartment = it
                 onBackPressed()
             }
-            setDeleteClickListener { apartment->
-               deleteApartment(apartment)
+            setDeleteClickListener { apartment ->
+                deleteApartment(apartment)
             }
         }
         activityPropertyBinding.propertyList.apply {
@@ -85,19 +86,24 @@ class PropertyActivity : AppCompatActivity() {
         getApartments()
     }
 
-    private fun deleteApartment(apartmentList: ApartmentList){
+    private fun deleteApartment(apartmentList: ApartmentList) {
+        val dialogView = layoutInflater.inflate(R.layout.otp_view, null)
+        val otpView = dialogView.findViewById<OTPView>(R.id.otpView)
         AlertDialog.Builder(this).apply {
             this.setMessage("Do you want to delete ${apartmentList.apartmentname}?")
+            this.setView(dialogView)
             this.setPositiveButton(
                 "YES"
             ) { p0, p1 ->
-                apartmentList.update = "delete"
-                addApartmentViewModel?.addApartment(apartmentList, success = {
-                    showToast(this@PropertyActivity,"Deleted Successfully")
-                    getApartments()
-                }, error = {
-                    showToast(this@PropertyActivity, it)
-                })
+                if (otpView.getStringFromFields() == "009289") {
+                    apartmentList.update = "delete"
+                    addApartmentViewModel?.addApartment(apartmentList, success = {
+                        showToast(this@PropertyActivity, "Deleted Successfully")
+                        getApartments()
+                    }, error = {
+                        showToast(this@PropertyActivity, it)
+                    })
+                } else showToast(this@PropertyActivity, "Incorrect OTP")
             }
             this.setNegativeButton(
                 "NO"

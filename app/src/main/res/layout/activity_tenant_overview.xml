@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shaikhomes.smartdiary.TenantOverview">
+
+    <!-- TabLayout at the top -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabBackground="@null"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabRippleColor="@null"
+        app:tabTextAppearance="@style/CustomTabTextAppearance">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tenant Info" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment History" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To Be Collected" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <!-- Main container below the TabLayout -->
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout">
+
+        <!-- Circular ImageView -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/profileImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/circle_background"
+            android:gravity="center"
+            android:scaleType="centerCrop"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_18sp"
+            android:textStyle="bold" />
+
+        <!-- Name and Mobile number -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="John Doe"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/userMobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/font_16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Image buttons at the bottom -->
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/container">
+
+        <ImageButton
+            android:id="@+id/btnCall"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Call"
+            android:src="@drawable/ic_call" />
+
+        <ImageButton
+            android:id="@+id/btnMessage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Message"
+            android:src="@drawable/ic_message" />
+
+        <ImageButton
+            android:id="@+id/btnReminder"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Edit"
+            android:src="@drawable/ic_bell" />
+
+        <ImageButton
+            android:id="@+id/btnChangeRoom"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete"
+            android:src="@drawable/ic_change_room" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dueLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_15dp"
+        android:background="@color/c_red_1"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonLayout">
+
+        <TextView
+            android:id="@+id/dueText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_timer"
+            android:drawablePadding="@dimen/size_12dp"
+            android:lineSpacingExtra="@dimen/size_3dp"
+            android:padding="@dimen/size_8dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_12sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRecordPayment"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/size_35dp"
+            android:layout_gravity="end"
+            android:background="@color/white"
+            android:padding="@dimen/size_8dp"
+            android:text="Record Payment"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_12sp" />
+
+    </LinearLayout>
+    <!-- Details Section -->
+    <TextView
+        android:id="@+id/txtDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="@dimen/size_12dp"
+        android:text="@string/tenant_details"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/dueLayout" />
+    <!-- Main container with tenant details -->
+    <ScrollView
+        android:id="@+id/detailsContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtDetails">
+
+        <!-- Detail Rows -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:orientation="vertical"
+            android:padding="@dimen/size_2dp">
+
+            <TextView
+                android:id="@+id/apartment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/floor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/c_light_gray_7"
+                android:padding="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/flat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/c_light_gray_7"
+                android:padding="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/rent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/checkin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/c_light_gray_7"
+                android:padding="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/checkout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
