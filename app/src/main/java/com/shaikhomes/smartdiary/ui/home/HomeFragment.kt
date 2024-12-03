@@ -160,11 +160,12 @@ class HomeFragment : Fragment() {
                     if (tenantList.rent.isNullOrEmpty()) 0 else tenantList.rent?.toInt()
                 checkOut?.let {
                     val days = calculateDaysBetween(currentDate, it)
-                    var totalRent = rent!! * days
+                    val totalRent = rent!! * days
                     pendingAmt += kotlin.math.abs(totalRent)
                 }
             }
             binding.pendingAmt.text = "AED ${pendingAmt}/-"
+            binding.totalAmt.text = "AED ${pendingAmt}/-"
         }
     }
 
