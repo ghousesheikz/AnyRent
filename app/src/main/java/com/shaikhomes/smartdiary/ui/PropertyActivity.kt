@@ -1,16 +1,20 @@
 package com.shaikhomes.smartdiary.ui
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -23,6 +27,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.WriterException
+import com.google.zxing.qrcode.QRCodeWriter
 import com.kevinschildhorn.otpview.OTPView
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityPropertyBinding
@@ -38,6 +45,8 @@ import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.hideKeyboard
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
 
 class PropertyActivity : AppCompatActivity() {
     private lateinit var activityPropertyBinding: ActivityPropertyBinding
@@ -78,12 +87,92 @@ class PropertyActivity : AppCompatActivity() {
             setDeleteClickListener { apartment ->
                 deleteApartment(apartment)
             }
+            setQRCodeClick {apartment ->
+                val url = "https://myhotelsbooking.com/TenantRegistrationForm/?apartment=${apartment.ID}&userid=${prefmanager?.userData?.UserId}"
+                // Generate QR Code
+                val bitmap = generateQRCode(url)
+                if (bitmap != null) {
+                    // Show QR code in a popup dialog
+                    showQRCodeDialog(bitmap,url)
+                } else {
+                    Toast.makeText(this@PropertyActivity, "Failed to generate QR Code", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
         activityPropertyBinding.propertyList.apply {
             layoutManager = LinearLayoutManager(this@PropertyActivity)
             adapter = apartmentAdapter
         }
         getApartments()
+    }
+
+
+    private fun showQRCodeDialog(bitmap: Bitmap,url: String) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_qr_code)
+
+        val imageView: ImageView = dialog.findViewById(R.id.dialogImageView)
+        val shareButton: ImageView = dialog.findViewById(R.id.dialogShareButton)
+
+        imageView.setImageBitmap(bitmap)
+
+        // Share QR Code
+        shareButton.setOnClickListener {
+            shareQRCode(bitmap,url)
+        }
+
+        dialog.show()
+    }
+
+    private fun shareQRCode(bitmap: Bitmap?,url:String) {
+        if (bitmap == null) {
+            Toast.makeText(this, "No QR Code to share", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        try {
+            val tempUri = saveImageToCache(bitmap)
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "*/*"
+                putExtra(Intent.EXTRA_STREAM, tempUri)
+                putExtra(Intent.EXTRA_TEXT, "Scan this QR code or visit: $url")
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            startActivity(Intent.createChooser(shareIntent, "Share QR Code"))
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error sharing QR Code", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+        }
+    }
+
+    private fun saveImageToCache(bitmap: Bitmap): android.net.Uri {
+        val cachePath = File(cacheDir, "images")
+        cachePath.mkdirs() // Create folder if it doesn't exist
+        val file = File(cachePath, "qr_code.png")
+        val fileOutputStream = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+        fileOutputStream.close()
+        return androidx.core.content.FileProvider.getUriForFile(this, "com.shaikhomes.anyrent.provider", file)
+    }
+
+    private fun generateQRCode(text: String): Bitmap? {
+        return try {
+            val writer = QRCodeWriter()
+            val bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, 512, 512)
+            val width = bitMatrix.width
+            val height = bitMatrix.height
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+            for (x in 0 until width) {
+                for (y in 0 until height) {
+                    bitmap.setPixel(x, y, if (bitMatrix[x, y]) -0x1000000 else -0x1)
+                }
+            }
+            bitmap
+        } catch (e: WriterException) {
+            e.printStackTrace()
+            null
+        }
     }
 
     private fun deleteApartment(apartmentList: ApartmentList) {

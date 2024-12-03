@@ -32,10 +32,15 @@ class ApartmentAdapter(
     }
 
     private var editClickListener: ((ApartmentList) -> Unit)? = null
+    private var qrCodeClick: ((ApartmentList) -> Unit)? = null
     private var availableBedsClick: ((ApartmentList, AppCompatTextView) -> Unit)? = null
 
     fun setEditClickListener(leadList: (ApartmentList) -> Unit) {
         this.editClickListener = leadList
+    }
+
+    fun setQRCodeClick(leadList: (ApartmentList) -> Unit) {
+        this.qrCodeClick = leadList
     }
 
     fun setAvailableClickListener(leadList: (ApartmentList, AppCompatTextView) -> Unit) {
@@ -75,7 +80,9 @@ class ApartmentAdapter(
         holder.itemView.rootView.setOnClickListener {
             propertyClickListener?.invoke(leadsList[position])
         }
-
+        holder.ImgQrCode.setOnClickListener {
+            qrCodeClick?.invoke(leadsList[position])
+        }
         holder.ImgDelete.setOnClickListener {
             infoClickListener?.invoke(leadsList[position])
         }

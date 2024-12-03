@@ -1,11 +1,13 @@
 package com.shaikhomes.smartdiary.ui.home
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -22,9 +24,12 @@ import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.models.TenantData
 import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
+import com.shaikhomes.smartdiary.ui.utils.calculateDaysBetween
 import com.shaikhomes.smartdiary.ui.utils.currentonlydate
+import com.shaikhomes.smartdiary.ui.utils.dateFormat
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import kotlinx.coroutines.launch
+import java.lang.Math.abs
 
 
 class HomeFragment : Fragment() {
@@ -131,6 +136,7 @@ class HomeFragment : Fragment() {
             tenantData.tenant_list.filter { it.apartmentId == id }.let { tenantListData ->
                 if (tenantListData.isNotEmpty()) {
                     binding.txtTenantsCount.text = tenantListData.size.toString()
+                    bindPendingAmount(tenantListData)
                     val unPaidTenantData =
                         TenantData(tenant_list = tenantListData as ArrayList<TenantList>)
                     binding.unpaidLayout.setOnClickListener {
@@ -140,6 +146,25 @@ class HomeFragment : Fragment() {
                     }
                 } else binding.txtTenantsCount.text = "0"
             }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun bindPendingAmount(tenantListData: List<TenantList>) {
+        lifecycleScope.launch {
+            var pendingAmt: Long = 0
+            tenantListData.forEach { tenantList ->
+                val checkOut = tenantList.checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
+                val currentDate = currentonlydate("dd-MM-yyyy")
+                val rent =
+                    if (tenantList.rent.isNullOrEmpty()) 0 else tenantList.rent?.toInt()
+                checkOut?.let {
+                    val days = calculateDaysBetween(currentDate, it)
+                    var totalRent = rent!! * days
+                    pendingAmt += kotlin.math.abs(totalRent)
+                }
+            }
+            binding.pendingAmt.text = "AED ${pendingAmt}/-"
         }
     }
 

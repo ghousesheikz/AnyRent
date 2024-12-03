@@ -152,7 +152,7 @@ class TenantDetailsActivity : AppCompatActivity() {
                     }, error = {
                         showToast(this@TenantDetailsActivity, it)
                     })
-                }else showToast(this@TenantDetailsActivity,"Incorrect OTP")
+                } else showToast(this@TenantDetailsActivity, "Incorrect OTP")
             }
             this.setNegativeButton(
                 "NO"
@@ -201,6 +201,7 @@ class TenantDetailsActivity : AppCompatActivity() {
     private fun getTenants() {
         addApartmentViewModel?.getTenants(
             success = {
+                it.tenant_list.sortByDescending { it.details }
                 tenantAdapter?.updateList(it.tenant_list)
             },
             error = {
