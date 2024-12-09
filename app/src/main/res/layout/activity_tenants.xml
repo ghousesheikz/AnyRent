@@ -1,179 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context="com.shaikhomes.smartdiary.TenantsActivity">
 
-    <EditText
-        android:id="@+id/editName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        android:hint="Name"
-        android:maxLength="25"
-        android:padding="@dimen/size_8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.9" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/edit_text_container"
-        android:layout_width="@dimen/size_0dp"
-        android:layout_height="@dimen/size_0dp"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        android:layoutDirection="ltr"
-        android:padding="@dimen/size_4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editName"
-        app:layout_constraintWidth_percent="0.9">
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            android:hint="Name"
+            android:maxLength="25"
+            android:padding="@dimen/size_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.9" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_drop_down_choose_country"
-            style="@style/CountryCode"
+        <LinearLayout
+            android:id="@+id/edit_text_container"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="@dimen/size_0dp"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            android:layoutDirection="ltr"
+            android:padding="@dimen/size_4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.06"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editName"
+            app:layout_constraintWidth_percent="0.9">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_drop_down_choose_country"
+                style="@style/CountryCode"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="+971"
+                android:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/editNumber"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="@string/mobile_number"
+                android:paddingStart="@dimen/size_10dp"
+                android:paddingEnd="@dimen/size_4dp"
+                tools:text="@tools:sample/us_phones" />
+
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/apartmentSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_container"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <Spinner
+            android:id="@+id/floorSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/apartmentSpinner"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <Spinner
+            android:id="@+id/flatSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/floorSpinner"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <Spinner
+            android:id="@+id/roomSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flatSpinner"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <Spinner
+            android:id="@+id/bedsSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/roomSpinner"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <Spinner
+            android:id="@+id/genderSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bedsSpinner"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <EditText
+            android:id="@+id/editCheckIn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            android:editable="false"
+            android:hint="CheckIn"
+            android:padding="@dimen/size_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/genderSpinner"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <EditText
+            android:id="@+id/editCheckOut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            android:editable="false"
+            android:hint="CheckOut"
+            android:padding="@dimen/size_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editCheckIn"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <EditText
+            android:id="@+id/editRentPerDay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            android:hint="Rent Per Day"
+            android:inputType="number"
+            android:padding="@dimen/size_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editCheckOut"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/userImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="@dimen/size_12dp"
+            android:scaleType="fitCenter"
             android:visibility="visible"
-            android:text="+971"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editRentPerDay"
+            app:srcCompat="@drawable/add_img" />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editNumber"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:hint="@string/mobile_number"
-            android:paddingStart="@dimen/size_10dp"
-            android:paddingEnd="@dimen/size_4dp"
-            tools:text="@tools:sample/us_phones" />
-
-    </LinearLayout>
-
-    <Spinner
-        android:id="@+id/apartmentSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_container"
-        app:layout_constraintWidth_percent="0.9" />
-
-    <Spinner
-        android:id="@+id/floorSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apartmentSpinner"
-        app:layout_constraintWidth_percent="0.9" />
-
-    <Spinner
-        android:id="@+id/flatSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/floorSpinner"
-        app:layout_constraintWidth_percent="0.9" />
-
-    <Spinner
-        android:id="@+id/roomSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flatSpinner"
-        app:layout_constraintWidth_percent="0.9" />
-
-    <Spinner
-        android:id="@+id/bedsSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/roomSpinner"
-        app:layout_constraintWidth_percent="0.9" />
-
-    <Spinner
-        android:id="@+id/genderSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bedsSpinner"
-        app:layout_constraintWidth_percent="0.9" />
-
-    <EditText
-        android:id="@+id/editCheckIn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        android:editable="false"
-        android:hint="CheckIn"
-        android:padding="@dimen/size_8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/genderSpinner"
-        app:layout_constraintWidth_percent="0.9" />
-
-    <EditText
-        android:id="@+id/editCheckOut"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        android:editable="false"
-        android:hint="CheckOut"
-        android:padding="@dimen/size_8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editCheckIn"
-        app:layout_constraintWidth_percent="0.9" />
-
-    <EditText
-        android:id="@+id/editRentPerDay"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/edittext_bg"
-        android:hint="Rent Per Day"
-        android:inputType="number"
-        android:padding="@dimen/size_8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editCheckOut"
-        app:layout_constraintWidth_percent="0.9" />
-
-
-    <Button
-        android:id="@+id/addTenant"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/size_15dp"
-        android:background="@drawable/button_bg"
-        android:text="Add Tenant"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editRentPerDay"
-        app:layout_constraintWidth_percent="0.7" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/addTenant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/button_bg"
+            android:text="Add Tenant"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userImage"
+            app:layout_constraintWidth_percent="0.7" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

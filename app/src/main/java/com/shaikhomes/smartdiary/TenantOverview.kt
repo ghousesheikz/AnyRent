@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
@@ -34,7 +35,9 @@ import com.shaikhomes.smartdiary.ui.utils.dateFormat
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import java.lang.Math.abs
 import java.net.URLEncoder
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 
 class TenantOverview : AppCompatActivity() {
@@ -173,13 +176,20 @@ class TenantOverview : AppCompatActivity() {
         val view = layoutInflater.inflate(R.layout.record_payment, null)
         val editCheckIn = view.findViewById<EditText>(R.id.editCheckIn)
         val editCheckOut = view.findViewById<EditText>(R.id.editCheckOut)
+        val editCheckOutDays = view.findViewById<EditText>(R.id.editCheckOutDays)
         val dueDate = view.findViewById<TextView>(R.id.dueDate)
         val updateButton = view.findViewById<Button>(R.id.updateButton)
-        editCheckIn.setOnClickListener {
-            selectCheckInDate(editCheckIn)
-        }
-        editCheckOut.setOnClickListener {
-            selectCheckInDate(editCheckOut)
+//        editCheckIn.setOnClickListener {
+//            selectCheckInDate(editCheckIn)
+//        }
+        editCheckIn.setText(tenantList?.checkin?.dateFormat("dd-MM-yyyy hh:mm:ss", "dd-MM-yyyy"))
+        editCheckOutDays.doAfterTextChanged {
+            if (it.toString().isNotEmpty()) {
+                val number = it.toString().toInt()
+                if (number <= 0) {
+                    editCheckOut.setText("")
+                } else editCheckOut.setText(getFutureDate(number))
+            } else editCheckOut.setText("")
         }
         dueDate.text = "Due Since ${checkOut}"
         val safeClickListener = SafeClickListener {
@@ -188,9 +198,10 @@ class TenantOverview : AppCompatActivity() {
             } else if (editCheckOut.text.toString().isNullOrEmpty()) {
                 Toast.makeText(this, "Please select checkout date", Toast.LENGTH_SHORT).show()
             } else {
-                tenantList?.checkin = editCheckIn.text.toString()
-                tenantList?.checkout = editCheckOut.text.toString()
-                tenantList?.checkout = editCheckOut.text.toString()
+                tenantList?.checkin =
+                    editCheckIn.text.toString().dateFormat("dd-MM-yyyy", "yyyy-MM-dd")
+                tenantList?.checkout =
+                    editCheckOut.text.toString().dateFormat("dd-MM-yyyy", "yyyy-MM-dd")
                 tenantList?.UpdatedOn = currentdate()
                 tenantList?.CreatedBy = prefmanager?.userData?.UserName
                 tenantList?.duedate =
@@ -198,7 +209,7 @@ class TenantOverview : AppCompatActivity() {
                 tenantList?.joinedon =
                     tenantList?.joinedon?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
                 tenantList?.update = "update"
-                Log.v("TENANT_UPDATE", Gson().toJson(tenantList))
+                //Log.v("TENANT_UPDATE", Gson().toJson(tenantList))
                 addApartmentViewModel?.addTenant(tenantList!!, success = {
                     showToast(this, "Tenant Updated Successfully")
                     onBackPressed()
@@ -305,6 +316,14 @@ class TenantOverview : AppCompatActivity() {
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun getFutureDate(daysToAdd: Int): String {
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val currentDate = dateFormat.format(calendar.time)
+        calendar.add(Calendar.DAY_OF_MONTH, daysToAdd)
+        return dateFormat.format(calendar.time)
     }
 
     override fun onSupportNavigateUp(): Boolean {

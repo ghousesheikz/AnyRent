@@ -38,6 +38,7 @@ data class TenantList(
     @SerializedName("countrycode") var countrycode: String? = null,
     @SerializedName("paid") var paid: String? = null,
     @SerializedName("total") var total: String? = null,
+    @SerializedName("userImage") var userImage: String? = null,
     @SerializedName("update") var update: String? = null,
     @SerializedName("delete") var delete: String? = null
 

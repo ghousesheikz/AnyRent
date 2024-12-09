@@ -1,14 +1,27 @@
 package com.shaikhomes.smartdiary
 
+import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -19,13 +32,29 @@ import com.shaikhomes.smartdiary.ui.customviews.SafeClickListener
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
 import com.shaikhomes.smartdiary.ui.models.Beds
 import com.shaikhomes.smartdiary.ui.models.FlatData
+import com.shaikhomes.smartdiary.ui.models.ImageData
+import com.shaikhomes.smartdiary.ui.models.ResponseData
 import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.models.TenantList
+import com.shaikhomes.smartdiary.ui.network.RetrofitInstance
+import com.shaikhomes.smartdiary.ui.utils.FileUtil
+import com.shaikhomes.smartdiary.ui.utils.ImagePicker
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.currentdate
+import com.shaikhomes.smartdiary.ui.utils.dateFormat
 import com.shaikhomes.smartdiary.ui.utils.getCountryList
 import com.shaikhomes.smartdiary.ui.utils.showToast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class TenantsActivity : AppCompatActivity() {
 
@@ -33,6 +62,12 @@ class TenantsActivity : AppCompatActivity() {
     private val prefmanager: PrefManager by lazy {
         PrefManager(this)
     }
+    private var base64String: String? = ""
+    private val requestCodeCameraPermission = 101
+    private val requestCodeStoragePermission = 102
+    private var photoUri: Uri? = null
+    var file: File? = null
+    var imagePath = ""
     val type = object : TypeToken<ArrayList<String>>() {}.type
     val bedsType = object : TypeToken<ArrayList<Beds>>() {}.type
     private var addApartmentViewModel: AddApartmentViewModel? = null
@@ -202,46 +237,86 @@ class TenantsActivity : AppCompatActivity() {
                 // do nothing
             }
         }
+        activityTenantsBinding?.userImage?.setOnClickListener {
+            selectImage()
+        }
+    }
+
+    private fun selectImage() {
+        BottomSheetImagePicker.showBottomSheet(
+            this,
+            object : BottomSheetImagePicker.ImagePickerBottomSheetClickListener {
+                override fun imageClicked() {
+                    pickImageFromGallery()
+                }
+
+                override fun cameraClicked() {
+                    captureImage()
+                }
+
+            })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE &&
+            resultCode == Activity.RESULT_OK
+        ) {
+            val imageUri = ImagePicker.parseImageUri(this, data) ?: Uri.EMPTY
+            FileUtil.getPath(this, imageUri).let {
+                file = File(it)
+                if (!file?.absolutePath.isNullOrEmpty()) {
+                    activityTenantsBinding?.userImage?.setImageBitmap(BitmapFactory.decodeFile(file?.absolutePath))
+                }
+            }
+
+        }
     }
 
     val safeClickListener = SafeClickListener {
         if (validations()) {
-            val tenantList = TenantList(
-                Active = "1",
-                MobileNo = activityTenantsBinding.editNumber.text.toString(),
-                Name = activityTenantsBinding.editName.text.toString(),
-                apartmentId = apartmentSelected?.ID.toString(),
-                floorno = selectFloor,
-                roomno = roomSelected?.ID.toString(),
-                flatno = FlatSelected?.ID.toString(),
-                Gender = activityTenantsBinding.genderSpinner.selectedItem.toString(),
-                Profession = "",
-                rent = activityTenantsBinding.editRentPerDay.text.toString(),
-                rentstatus = "",
-                duedate = "",
-                paymentmode = "",
-                securitydeposit = "",
-                joinedon = currentdate(),
-                mailid = "",
-                ProofImageF = "",
-                ProofImageB = "",
-                CreatedBy = prefmanager.userData?.UserName,
-                UpdatedOn = currentdate(),
-                checkin = activityTenantsBinding.editCheckIn.text.toString(),
-                checkout = activityTenantsBinding.editCheckOut.text.toString(),
-                paid = "0",
-                total = "0",
-                countrycode = activityTenantsBinding.textDropDownChooseCountry.text.toString(),
-                details = "${roomSelected?.roomname} - B${bedSelected?.number}"
-            )
-            addApartmentViewModel?.addTenant(tenantList, success = {
-                updatebeds(
-                    roomSelected,
-                    bedSelected,
-                    activityTenantsBinding.editNumber.text.toString()
+            uploadImages(base64String, {
+                val tenantList = TenantList(
+                    Active = "1",
+                    MobileNo = activityTenantsBinding.editNumber.text.toString(),
+                    Name = activityTenantsBinding.editName.text.toString(),
+                    apartmentId = apartmentSelected?.ID.toString(),
+                    floorno = selectFloor,
+                    roomno = roomSelected?.ID.toString(),
+                    flatno = FlatSelected?.ID.toString(),
+                    Gender = activityTenantsBinding.genderSpinner.selectedItem.toString(),
+                    Profession = "",
+                    rent = activityTenantsBinding.editRentPerDay.text.toString(),
+                    rentstatus = "",
+                    duedate = "",
+                    paymentmode = "",
+                    securitydeposit = "",
+                    joinedon = currentdate(),
+                    mailid = "",
+                    ProofImageF = "",
+                    ProofImageB = "",
+                    CreatedBy = prefmanager.userData?.UserName,
+                    UpdatedOn = currentdate(),
+                    checkin = activityTenantsBinding.editCheckIn.text.toString()
+                        .dateFormat("dd-MM-yyyy", "yyyy-MM-dd"),
+                    checkout = activityTenantsBinding.editCheckOut.text.toString()
+                        .dateFormat("dd-MM-yyyy", "yyyy-MM-dd"),
+                    paid = "0",
+                    total = "0",
+                    countrycode = activityTenantsBinding.textDropDownChooseCountry.text.toString(),
+                    details = "${roomSelected?.roomname} - B${bedSelected?.number}",
+                    userImage = imagePath
                 )
-            }, error = {
-                showToast(this, it)
+                addApartmentViewModel?.addTenant(tenantList, success = {
+                    updatebeds(
+                        roomSelected,
+                        bedSelected,
+                        activityTenantsBinding.editNumber.text.toString()
+                    )
+                }, error = {
+                    showToast(this, it)
+                })
             })
         }
     }
@@ -278,6 +353,9 @@ class TenantsActivity : AppCompatActivity() {
         } else if (activityTenantsBinding.editRentPerDay.text.toString().isEmpty()) {
             flag = false
             Toast.makeText(this, "Enter Rent per day", Toast.LENGTH_SHORT).show()
+        } else if (base64String?.isEmpty() == true) {
+            flag = false
+            Toast.makeText(this, "Capture User Image", Toast.LENGTH_SHORT).show()
         }
         return flag
     }
@@ -528,7 +606,7 @@ class TenantsActivity : AppCompatActivity() {
             DatePickerDialog(
                 it1,
                 { _, year, monthOfYear, dayOfMonth ->
-                    checkIn.setText("$year-${monthOfYear.plus(1)}-$dayOfMonth")
+                    checkIn.setText("$dayOfMonth-${monthOfYear.plus(1)}-$year")
 
                 },
                 calendar.get(Calendar.YEAR),
@@ -546,7 +624,7 @@ class TenantsActivity : AppCompatActivity() {
             DatePickerDialog(
                 it1,
                 { _, year, monthOfYear, dayOfMonth ->
-                    checkOut.setText("$year-${monthOfYear.plus(1)}-$dayOfMonth")
+                    checkOut.setText("$dayOfMonth-${monthOfYear.plus(1)}-$year")
 
                 },
                 calendar.get(Calendar.YEAR),
@@ -556,5 +634,141 @@ class TenantsActivity : AppCompatActivity() {
         }
         //datePickerDialog?.datePicker?.minDate = calendar.timeInMillis
         datePickerDialog?.show()
+    }
+
+    private fun captureImage() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            photoUri = createImageUri()
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            cameraCaptureLauncher.launch(intent)
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                requestCodeCameraPermission
+            )
+        }
+    }
+
+    private val cameraCaptureLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            photoUri?.let {
+                val bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(it))
+                base64String = bitmapToBase64(bitmap)
+                activityTenantsBinding.userImage.setImageBitmap(bitmap)
+            }
+        }
+    }
+
+    private fun pickImageFromGallery() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            galleryPickerLauncher.launch(intent)
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                requestCodeStoragePermission
+            )
+        }
+    }
+
+    // Register for gallery picker result
+    private val galleryPickerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+            val imageUri: Uri? = result.data?.data
+            imageUri?.let {
+                try {
+                    val bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(it))
+                    base64String = bitmapToBase64(bitmap)
+                    activityTenantsBinding.userImage.setImageBitmap(bitmap)
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    // Helper function to create a file URI for camera image
+    private fun createImageUri(): Uri? {
+        return try {
+            val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+            val storageDir: File = getExternalFilesDir(null) ?: return null
+            val imageFile = File.createTempFile("JPEG_${timestamp}_", ".jpg", storageDir)
+            FileProvider.getUriForFile(
+                this,
+                "com.shaikhomes.anyrent.provider",
+                imageFile
+            )
+        } catch (ex: IOException) {
+            Toast.makeText(this, "Failed to create image file", Toast.LENGTH_SHORT).show()
+            null
+        }
+    }
+
+    // Function to convert Bitmap to Base64 String
+    private fun bitmapToBase64(bitmap: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.NO_WRAP)
+    }
+
+    // Handle permission results
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            requestCodeCameraPermission -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    captureImage()
+                } else {
+                    Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            requestCodeStoragePermission -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    pickImageFromGallery()
+                } else {
+                    Toast.makeText(this, "Storage permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun uploadImages(base64Image: String?, success: () -> Unit) {
+        val imageData = ImageData(image = base64Image)
+        RetrofitInstance.api.postImage(imageData)
+            .enqueue(object : Callback<ResponseData> {
+                override fun onResponse(
+                    call: Call<ResponseData>,
+                    response: Response<ResponseData>
+                ) {
+                    if (response.body()?.status == "200") {
+                        response.body()?.message?.substringAfterLast("\\")
+                            ?.let { imagePath = "https://anyrent.shaikhomes.com/ImageStorage/$it" }
+                        success.invoke()
+                    } else {
+                        return
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseData>, t: Throwable) {
+
+                }
+            })
     }
 }

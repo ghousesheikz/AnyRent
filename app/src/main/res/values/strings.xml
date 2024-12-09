@@ -54,4 +54,8 @@
     <string name="search_country">Search Country</string>
     <string name="choose_country_code">Choose Country Code</string>
     <string name="tenant_details"><u>Tenant Details:-</u>></string>
+    <string name="choose_image">Choose Image</string>
+    <string name="Camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="cancel">Cancel</string>
 </resources>

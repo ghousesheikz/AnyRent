@@ -49,6 +49,7 @@ class RoomsAvailableActivity : AppCompatActivity() {
                     intent.putExtra("ROOM_SELECT",Gson().toJson(roomsList))
                     intent.putExtra("BED_SELECT",Gson().toJson(beds))
                     startActivity(intent)
+                    finish()
                 }
             }
             roomAvailableList.adapter = roomAdapter

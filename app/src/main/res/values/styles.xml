@@ -31,4 +31,14 @@
     <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
     </style>
+
+    <style name="AppTheme.BottomsSheetModel" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/curved_top_corner_bg_shape</item>
+    </style>
+    <!--Bottom sheet-->
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppTheme.BottomsSheetModel</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
 </resources>

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.SmartDiary" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
@@ -21,9 +21,22 @@
     </style>
 
     <style name="Theme.SmartDiary.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="LoadDialogTheme" parent="Theme.SmartDiary">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="Theme.SmartDiary.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.SmartDiary.DialogHeader">
+        <item name="android:paddingBottom">@dimen/size_10dp</item>
+        <item name="android:paddingTop">@dimen/size_11dp</item>
+        <item name="android:textSize">@dimen/font_18sp</item>
+        <item name="android:layout_marginTop">@dimen/size_15dp</item>
+        <item name="android:fontFamily">@font/font_bold</item>
+        <item name="android:textColor">@color/c_black_2</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:animateOnClick">false</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

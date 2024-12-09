@@ -6,12 +6,14 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.R
@@ -77,7 +79,7 @@ class TenantAdapter(
                 "CheckIn: <font color='#000E77'>${
                     leadsList[position].checkin?.dateFormat(
                         "dd-MM-yyyy 00:00:00",
-                        "dd-MM-yyyy"
+                        "dd-MMM-yyyy"
                     )
                 }</font>"
             ),
@@ -88,7 +90,7 @@ class TenantAdapter(
                 "CheckOut: <font color='#000E77'>${
                     leadsList[position].checkout?.dateFormat(
                         "dd-MM-yyyy 00:00:00",
-                        "dd-MM-yyyy"
+                        "dd-MMM-yyyy"
                     )
                 }</font>"
             ),
@@ -130,6 +132,12 @@ class TenantAdapter(
         } catch (exp: Exception) {
             //
         }
+        if(!leadsList[position].userImage.isNullOrEmpty()){
+            Glide.with(context)
+                .load(leadsList[position].userImage)
+                .transform(CircleTransformation()) // Apply custom circle transformation
+                .into( holder.circularImageView)
+        }
     }
 
     fun getFloorData(data: String?): String {
@@ -165,6 +173,7 @@ class TenantAdapter(
         var rent: AppCompatTextView =
             itemView.findViewById<AppCompatTextView>(R.id.rent)
         var apartment: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.apartment)
+        var circularImageView: ImageView = itemView.findViewById<ImageView>(R.id.circularImageView)
         var joined: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.joined)
         var checkout: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.checkout)
         var dueDays: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.dueDays)

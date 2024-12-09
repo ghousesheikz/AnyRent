@@ -6,6 +6,7 @@ import com.shaikhomes.smartdiary.ui.models.ApartmentList
 import com.shaikhomes.smartdiary.ui.models.AvailabilityData
 import com.shaikhomes.smartdiary.ui.models.AvailabilityList
 import com.shaikhomes.smartdiary.ui.models.FlatData
+import com.shaikhomes.smartdiary.ui.models.ImageData
 import com.shaikhomes.smartdiary.ui.models.LeadsData
 import com.shaikhomes.smartdiary.ui.models.LeadsList
 import com.shaikhomes.smartdiary.ui.models.LeadscheduleList
@@ -114,4 +115,7 @@ interface NetworkApi {
 
     @POST("Tenant?")
     fun postTenant(@Body roomList: TenantList): Call<ResponseData>
+
+    @POST("Images?")
+    fun postImage(@Body imageData: ImageData): Call<ResponseData>
 }

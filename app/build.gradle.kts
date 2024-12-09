@@ -11,8 +11,8 @@ android {
         applicationId = "com.shaikhomes.anyrent"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -65,4 +65,7 @@ dependencies {
     implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
     implementation("com.google.zxing:core:3.5.1") // QR Code generation core library
     implementation("com.journeyapps:zxing-android-embedded:4.3.0") // Android compatibility
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("com.github.bumptech.glide:glide:4.15.0") // Latest stable Glide version
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.0")
 }

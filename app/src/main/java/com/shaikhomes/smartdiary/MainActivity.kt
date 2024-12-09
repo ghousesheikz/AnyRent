@@ -1,10 +1,10 @@
 package com.shaikhomes.smartdiary
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -13,11 +13,15 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityMainBinding
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        scheduleDailyNotification(this)
         setSupportActionBar(binding.appBarMain.toolbar)
 
 //        binding.appBarMain.fab.setOnClickListener { view ->
@@ -44,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 //                .setAction("Action", null).show()
 //        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
-     //   val navView: NavigationView = binding.navView
+        //   val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -55,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         //navView.setupWithNavController(navController)
-       // navView.visibility = View.GONE
+        // navView.visibility = View.GONE
         supportActionBar?.setDisplayHomeAsUpEnabled(false);
         supportActionBar?.setHomeButtonEnabled(false);
 //        navView.getHeaderView(0).findViewById<TextView>(R.id.userName).apply {
@@ -144,5 +148,29 @@ class MainActivity : AppCompatActivity() {
 
     fun setTitle(title: String) {
         supportActionBar?.title = title
+    }
+
+    fun scheduleDailyNotification(context: Context) {
+        val currentTime = Calendar.getInstance()
+        val targetTime = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 10) // 9 PM
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+        }
+        // If the target time is before the current time, schedule for the next day
+        if (targetTime.timeInMillis <= currentTime.timeInMillis) {
+            targetTime.add(Calendar.DAY_OF_YEAR, 1)
+        }
+        val initialDelay = targetTime.timeInMillis - currentTime.timeInMillis
+        // Create the WorkRequest
+        val dailyWorkRequest = PeriodicWorkRequestBuilder<NotificationWorker>(1L, TimeUnit.DAYS)
+            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+            .build()
+        // Enqueue the WorkRequest
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            "DailyNotificationWork",
+            ExistingPeriodicWorkPolicy.REPLACE,
+            dailyWorkRequest
+        )
     }
 }
