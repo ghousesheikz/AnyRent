@@ -5,6 +5,8 @@ import com.shaikhomes.smartdiary.ui.models.ApartmentData
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
 import com.shaikhomes.smartdiary.ui.models.AvailabilityData
 import com.shaikhomes.smartdiary.ui.models.AvailabilityList
+import com.shaikhomes.smartdiary.ui.models.ExpensesData
+import com.shaikhomes.smartdiary.ui.models.ExpensesList
 import com.shaikhomes.smartdiary.ui.models.FlatData
 import com.shaikhomes.smartdiary.ui.models.ImageData
 import com.shaikhomes.smartdiary.ui.models.LeadsData
@@ -104,6 +106,16 @@ interface NetworkApi {
 
     @POST("Rooms?")
     fun postRooms(@Body roomList: RoomData.RoomsList): Call<ResponseData>
+
+    @GET("Expenses?")
+    fun getExpenses(
+        @Query("apartmentid") apartmentid: String,
+        @Query("userid") userid: String,
+        @Query("receivedOn") receivedOn: String
+    ): Call<ExpensesData>
+
+    @POST("Expenses?")
+    fun postExpenses(@Body expensesList: ExpensesList): Call<ResponseData>
 
     @GET("Tenant?")
     fun getTenants(

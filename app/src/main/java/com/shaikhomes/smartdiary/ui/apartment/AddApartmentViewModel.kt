@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shaikhomes.smartdiary.ui.models.ApartmentData
 import com.shaikhomes.smartdiary.ui.models.ApartmentList
+import com.shaikhomes.smartdiary.ui.models.ExpensesData
+import com.shaikhomes.smartdiary.ui.models.ExpensesList
 import com.shaikhomes.smartdiary.ui.models.FlatData
 import com.shaikhomes.smartdiary.ui.models.ResponseData
 import com.shaikhomes.smartdiary.ui.models.RoomData
@@ -141,9 +143,9 @@ class AddApartmentViewModel : ViewModel() {
     fun getTenants(
         success: (TenantData) -> Unit,
         error: (String) -> Unit,
-        mobileNo: String, apartmentid: String, active: String,duerecords:String
+        mobileNo: String, apartmentid: String, active: String, duerecords: String
     ) {
-        RetrofitInstance.api.getTenants(mobileNo, apartmentid, active,duerecords)
+        RetrofitInstance.api.getTenants(mobileNo, apartmentid, active, duerecords)
             .enqueue(object : Callback<TenantData> {
                 override fun onResponse(
                     call: Call<TenantData>,
@@ -205,6 +207,53 @@ class AddApartmentViewModel : ViewModel() {
                 }
 
                 override fun onFailure(call: Call<ApartmentData>, t: Throwable) {
+                    error.invoke(t.message.toString())
+                }
+            })
+    }
+
+    fun addExpenses(
+        expenseList: ExpensesList, success: (ResponseData) -> Unit,
+        error: (String) -> Unit
+    ) {
+        RetrofitInstance.api.postExpenses(expenseList)
+            .enqueue(object : Callback<ResponseData> {
+                override fun onResponse(
+                    call: Call<ResponseData>,
+                    response: Response<ResponseData>
+                ) {
+                    if (response.body()?.status == "200") {
+                        success.invoke(response.body()!!)
+                    } else {
+                        error.invoke("Something Went Wrong")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseData>, t: Throwable) {
+                    error.invoke(t.message.toString())
+                }
+            })
+    }
+
+    fun getExpenses(
+        success: (ExpensesData) -> Unit,
+        error: (String) -> Unit,
+        apartmentid: String, userid: String, receivedOn: String
+    ) {
+        RetrofitInstance.api.getExpenses(apartmentid, userid, receivedOn)
+            .enqueue(object : Callback<ExpensesData> {
+                override fun onResponse(
+                    call: Call<ExpensesData>,
+                    response: Response<ExpensesData>
+                ) {
+                    if (response.body()?.status == "200") {
+                        success.invoke(response.body()!!)
+                    } else {
+                        error.invoke("Something Went Wrong")
+                    }
+                }
+
+                override fun onFailure(call: Call<ExpensesData>, t: Throwable) {
                     error.invoke(t.message.toString())
                 }
             })

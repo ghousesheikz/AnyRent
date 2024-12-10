@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/c_light_gray_7"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/c_light_gray_7"
     tools:context="com.shaikhomes.smartdiary.TenantDetailsActivity">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edit_text_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50dp"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:hint="@string/search_tenant"
+        android:paddingStart="@dimen/size_10dp"
+        android:paddingEnd="@dimen/size_10dp"
+        app:drawableEndCompat="@drawable/ic_search_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01999998"
+        app:layout_constraintWidth_percent=".9" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tenantList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="@dimen/size_0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_search" />
 </androidx.constraintlayout.widget.ConstraintLayout>

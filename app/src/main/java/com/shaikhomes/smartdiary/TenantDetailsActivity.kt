@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -85,6 +86,10 @@ class TenantDetailsActivity : AppCompatActivity() {
                 }
             }
             adapter = tenantAdapter
+        }
+        activityTenantDetailsBinding.editTextSearch?.doAfterTextChanged {
+            val query = it?.toString()
+            tenantAdapter?.filter(query)
         }
         getApartments()
     }
@@ -201,8 +206,12 @@ class TenantDetailsActivity : AppCompatActivity() {
     private fun getTenants() {
         addApartmentViewModel?.getTenants(
             success = {
-                it.tenant_list.sortByDescending { it.details }
-                tenantAdapter?.updateList(it.tenant_list)
+                val sortedList = it.tenant_list.sortedWith(compareBy(
+                    { it.details?.substringBefore("-")?.trim() }, // Sort by room number
+                    { it.details?.substringAfter("B")?.toInt() } // Sort by bed number
+                ))
+               // it.tenant_list.sortByDescending { it.details }
+                tenantAdapter?.updateList(sortedList)
             },
             error = {
                 showToast(this, it)

@@ -58,4 +58,11 @@
     <string name="Camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="cancel">Cancel</string>
+    <string name="search_tenant">Search Tenant</string>
+    <string name="amount_paid_for">Amount Paid For*</string>
+    <string name="debit_amount">Debit Amount</string>
+    <string name="credit_amount">Credit Amount</string>
+    <string name="payment_through">Payment Through*</string>
+    <string name="transactionid">TransactionId</string>
+    <string name="paid_on">Paid On</string>
 </resources>

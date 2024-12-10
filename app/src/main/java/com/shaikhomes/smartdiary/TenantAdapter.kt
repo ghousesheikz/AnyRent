@@ -28,7 +28,7 @@ class TenantAdapter(
     private val isAdmin: Boolean? = false
 ) :
     RecyclerView.Adapter<TenantAdapter.LeadViewHolder>() {
-
+    private var filteredList: MutableList<TenantList> = leadsList.toMutableList()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -67,17 +67,30 @@ class TenantAdapter(
         this.reminderClickListener = leadList
     }
 
+    fun filter(query: String?) {
+        if (query == null) {
+            filteredList = leadsList.toMutableList()
+            notifyDataSetChanged()
+        } else {
+            filteredList = leadsList.filter {
+                it.Name?.contains(query, ignoreCase = true) == true ||
+                        it.MobileNo?.removePrefix("+").let { it?.contains(query, ignoreCase = true) == true }
+            }.toMutableList()
+            notifyDataSetChanged()
+        }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: LeadViewHolder, position: Int) {
         holder.tenantName.setText(
-            Html.fromHtml("Name: <font color='#000E77'>${leadsList[position].Name}</font>"),
+            Html.fromHtml("Name: <font color='#000E77'>${filteredList[position].Name}</font>"),
             TextView.BufferType.SPANNABLE
         )
         holder.joined.setText(
             Html.fromHtml(
                 "CheckIn: <font color='#000E77'>${
-                    leadsList[position].checkin?.dateFormat(
+                    filteredList[position].checkin?.dateFormat(
                         "dd-MM-yyyy 00:00:00",
                         "dd-MMM-yyyy"
                     )
@@ -88,7 +101,7 @@ class TenantAdapter(
         holder.checkout.setText(
             Html.fromHtml(
                 "CheckOut: <font color='#000E77'>${
-                    leadsList[position].checkout?.dateFormat(
+                    filteredList[position].checkout?.dateFormat(
                         "dd-MM-yyyy 00:00:00",
                         "dd-MMM-yyyy"
                     )
@@ -96,47 +109,47 @@ class TenantAdapter(
             ),
             TextView.BufferType.SPANNABLE
         )
-        val checkOut = leadsList[position].checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
+        val checkOut = filteredList[position].checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
         val currentDate = currentonlydate("dd-MM-yyyy")
         checkOut?.let {
             val days = calculateDaysBetween(currentDate, it)
             val rent =
-                if (leadsList[position].rent.isNullOrEmpty()) 0 else leadsList[position].rent?.toInt()
+                if (filteredList[position].rent.isNullOrEmpty()) 0 else filteredList[position].rent?.toInt()
             if (days < 0) {
                 holder.rent.text =
-                    if (!leadsList[position].rent.isNullOrEmpty()) "Over Due Amount AED ${rent!! * days}/-" else "AED 0/-"
+                    if (!filteredList[position].rent.isNullOrEmpty()) "Over Due Amount AED ${rent!! * days}/-" else "AED 0/-"
                 holder.dueDays.text = "Due ${days} Days"
             } else {
                 holder.rent.text =
-                    if (!leadsList[position].rent.isNullOrEmpty()) "Remaining Amount AED ${rent!! * days}/-" else "AED 0/-"
+                    if (!filteredList[position].rent.isNullOrEmpty()) "Remaining Amount AED ${rent!! * days}/-" else "AED 0/-"
                 holder.dueDays.text = "Remaining ${days} Days"
             }
         }
         holder.tenantLayout.setOnLongClickListener {
-            deleteClickListener?.invoke(leadsList[position])
+            deleteClickListener?.invoke(filteredList[position])
             true
         }
         holder.contact.setOnClickListener {
-            callClickListener?.invoke(leadsList[position])
+            callClickListener?.invoke(filteredList[position])
         }
         holder.reminder.setOnClickListener {
-            reminderClickListener?.invoke(leadsList[position])
+            reminderClickListener?.invoke(filteredList[position])
         }
         holder.tenantLayout.setOnClickListener {
-            editClickListener?.invoke(leadsList[position])
+            editClickListener?.invoke(filteredList[position])
         }
         try {
-            if (!leadsList[position].apartmentId.isNullOrEmpty()) {
-                availableBedsClick?.invoke(leadsList[position], holder.apartment)
+            if (!filteredList[position].apartmentId.isNullOrEmpty()) {
+                availableBedsClick?.invoke(filteredList[position], holder.apartment)
             } else holder.apartment.text = "Not Assigned"
         } catch (exp: Exception) {
             //
         }
-        if(!leadsList[position].userImage.isNullOrEmpty()){
+        if (!filteredList[position].userImage.isNullOrEmpty()) {
             Glide.with(context)
-                .load(leadsList[position].userImage)
+                .load(filteredList[position].userImage)
                 .transform(CircleTransformation()) // Apply custom circle transformation
-                .into( holder.circularImageView)
+                .into(holder.circularImageView)
         }
     }
 
@@ -152,19 +165,23 @@ class TenantAdapter(
 
 
     override fun getItemCount(): Int {
-        return leadsList.size
+        return filteredList.size
     }
 
     fun updateList(leadsList: List<TenantList>) {
         this.leadsList.apply {
             if (this.size > 0) this.clear()
             this.addAll(leadsList)
-            notifyDataSetChanged()
         }
+        this.filteredList.apply {
+            if (this.size > 0) this.clear()
+            this.addAll(leadsList)
+        }
+        notifyDataSetChanged()
     }
 
-    fun getList(): ArrayList<TenantList> {
-        return leadsList
+    fun getList(): MutableList<TenantList> {
+        return filteredList
     }
 
     inner class LeadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

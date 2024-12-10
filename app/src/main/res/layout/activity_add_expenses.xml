@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/c_light_gray_7">
+
+    <LinearLayout
+        android:id="@+id/propertyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_8dp"
+        android:background="@drawable/layout_border"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_5dp"
+        android:weightSum="1"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:layout_width="@dimen/size_50dp"
+            android:layout_height="@dimen/size_50dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_apartment_logo" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/apartmentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:padding="@dimen/size_3dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_18sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/apartmentAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:padding="@dimen/size_3dp"
+                android:textSize="@dimen/font_14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_0dp"
+        android:padding="@dimen/size_8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/propertyLayout">
+
+        <EditText
+            android:id="@+id/editDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            android:hint="@string/amount_paid_for"
+            android:maxLength="100"
+            android:padding="@dimen/size_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <EditText
+            android:id="@+id/editDebitAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            android:hint="@string/debit_amount"
+            android:maxLength="25"
+            android:padding="@dimen/size_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editDesc"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <EditText
+            android:id="@+id/editCreditAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            android:hint="@string/credit_amount"
+            android:maxLength="25"
+            android:padding="@dimen/size_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editDebitAmount"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <TextView
+            android:id="@+id/txtPayment"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:padding="@dimen/size_8dp"
+            android:text="@string/payment_through"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editCreditAmount"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <LinearLayout
+            android:id="@+id/layoutPayment"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPayment"
+            app:layout_constraintWidth_percent="0.9">
+
+            <ToggleButton
+                android:id="@+id/allToggle"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/size_40dp"
+                android:layout_marginTop="@dimen/size_8dp"
+                android:layout_marginEnd="@dimen/size_8dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background"
+                android:textAllCaps="false"
+                android:textOff="Online"
+                android:textOn="Online"
+                android:textSize="@dimen/font_12sp"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.21" />
+
+            <ToggleButton
+                android:id="@+id/highToggle"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/size_40dp"
+                android:layout_marginStart="@dimen/size_8dp"
+                android:layout_marginTop="@dimen/size_8dp"
+                android:layout_marginEnd="@dimen/size_8dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background"
+                android:textAllCaps="false"
+                android:textOff="Cash"
+                android:textOn="Cash"
+                android:textSize="@dimen/font_12sp"
+                app:layout_constraintStart_toEndOf="@id/allToggle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.21" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editTxnId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            android:hint="@string/transactionid"
+            android:maxLength="25"
+            android:padding="@dimen/size_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutPayment"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <EditText
+            android:id="@+id/editPaidOn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            android:editable="false"
+            android:hint="@string/paid_on"
+            android:padding="@dimen/size_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTxnId"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/txnImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="@dimen/size_12dp"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editPaidOn"
+            app:srcCompat="@drawable/add_img" />
+
+        <Button
+            android:id="@+id/addTenant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/button_bg"
+            android:text="Add Expense"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txnImage"
+            app:layout_constraintWidth_percent="0.7" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
