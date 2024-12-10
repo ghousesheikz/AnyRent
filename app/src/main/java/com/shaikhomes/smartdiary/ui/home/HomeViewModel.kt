@@ -2,6 +2,7 @@ package com.shaikhomes.smartdiary.ui.home
 
 import androidx.lifecycle.ViewModel
 import com.shaikhomes.smartdiary.ui.models.ApartmentData
+import com.shaikhomes.smartdiary.ui.models.ExpensesData
 import com.shaikhomes.smartdiary.ui.models.RoomData
 import com.shaikhomes.smartdiary.ui.models.TenantData
 import com.shaikhomes.smartdiary.ui.network.RetrofitInstance
@@ -78,6 +79,30 @@ class HomeViewModel : ViewModel() {
                 }
 
                 override fun onFailure(call: Call<RoomData>, t: Throwable) {
+                    error.invoke(t.message.toString())
+                }
+            })
+    }
+
+    fun getExpenses(
+        success: (ExpensesData) -> Unit,
+        error: (String) -> Unit,
+        apartmentid: String, userid: String, receivedOn: String
+    ) {
+        RetrofitInstance.api.getExpenses(apartmentid, userid, receivedOn)
+            .enqueue(object : Callback<ExpensesData> {
+                override fun onResponse(
+                    call: Call<ExpensesData>,
+                    response: Response<ExpensesData>
+                ) {
+                    if (response.body()?.status == "200") {
+                        success.invoke(response.body()!!)
+                    } else {
+                        error.invoke("Something Went Wrong")
+                    }
+                }
+
+                override fun onFailure(call: Call<ExpensesData>, t: Throwable) {
                     error.invoke(t.message.toString())
                 }
             })

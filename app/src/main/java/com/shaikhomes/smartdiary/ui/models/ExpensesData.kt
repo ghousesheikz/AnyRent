@@ -16,7 +16,7 @@ data class ExpensesList(
     @SerializedName("creditAmount") var creditAmount: String? = null,
     @SerializedName("category") var category: String? = null,
     @SerializedName("debitAmount") var debitAmount: String? = null,
-    @SerializedName("receivedOn") var receivedOn: Date? = null,
+    @SerializedName("receivedOn") var receivedOn: String? = null,
     @SerializedName("paymentMode") var paymentMode: String? = null,
     @SerializedName("txnId") var txnId: String? = null,
     @SerializedName("notes") var notes: String? = null,

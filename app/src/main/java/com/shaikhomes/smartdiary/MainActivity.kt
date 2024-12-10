@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -83,6 +85,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
+                R.id.transactions -> {
+                    startActivity(Intent(this@MainActivity, ExpensesList::class.java))
+                    true
+                }
+
                 else -> {
                     true
                 }
@@ -90,8 +97,22 @@ class MainActivity : AppCompatActivity() {
         }
         binding.appBarMain.apply {
             addTenant.setOnClickListener {
-                startActivity(Intent(this@MainActivity, TenantsActivity::class.java))
+                if (!captureLayout.isVisible) captureLayout.visibility =
+                    View.VISIBLE else captureLayout.visibility = View.GONE
+                //startActivity(Intent(this@MainActivity, TenantsActivity::class.java))
+
             }
+            addTenants.setOnClickListener {
+                startActivity(Intent(this@MainActivity, TenantsActivity::class.java))
+                if (!captureLayout.isVisible) captureLayout.visibility =
+                    View.VISIBLE else captureLayout.visibility = View.GONE
+            }
+            addExpenses.setOnClickListener {
+                startActivity(Intent(this@MainActivity, AddExpenses::class.java))
+                if (!captureLayout.isVisible) captureLayout.visibility =
+                    View.VISIBLE else captureLayout.visibility = View.GONE
+            }
+
         }
         askPermission()
     }

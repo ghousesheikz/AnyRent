@@ -73,7 +73,7 @@ class TenantAdapter(
             notifyDataSetChanged()
         } else {
             filteredList = leadsList.filter {
-                it.Name?.contains(query, ignoreCase = true) == true ||
+                it.Name?.contains(query, ignoreCase = true) == true ||  it.details?.contains(query, ignoreCase = true) == true ||
                         it.MobileNo?.removePrefix("+").let { it?.contains(query, ignoreCase = true) == true }
             }.toMutableList()
             notifyDataSetChanged()

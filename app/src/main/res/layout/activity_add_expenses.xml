@@ -78,6 +78,7 @@
             android:background="@drawable/edittext_bg"
             android:hint="@string/debit_amount"
             android:maxLength="25"
+            android:inputType="number"
             android:padding="@dimen/size_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,6 +93,7 @@
             android:background="@drawable/edittext_bg"
             android:hint="@string/credit_amount"
             android:maxLength="25"
+            android:inputType="number"
             android:padding="@dimen/size_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +122,7 @@
             app:layout_constraintWidth_percent="0.9">
 
             <ToggleButton
-                android:id="@+id/allToggle"
+                android:id="@+id/onlineToggle"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/size_40dp"
                 android:layout_marginTop="@dimen/size_8dp"
@@ -136,7 +138,7 @@
                 app:layout_constraintWidth_percent="0.21" />
 
             <ToggleButton
-                android:id="@+id/highToggle"
+                android:id="@+id/cashToggle"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/size_40dp"
                 android:layout_marginStart="@dimen/size_8dp"
@@ -161,7 +163,7 @@
             android:layout_marginTop="@dimen/size_15dp"
             android:background="@drawable/edittext_bg"
             android:hint="@string/transactionid"
-            android:maxLength="25"
+            android:maxLength="50"
             android:padding="@dimen/size_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -195,7 +197,7 @@
             app:srcCompat="@drawable/add_img" />
 
         <Button
-            android:id="@+id/addTenant"
+            android:id="@+id/addExpenses"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

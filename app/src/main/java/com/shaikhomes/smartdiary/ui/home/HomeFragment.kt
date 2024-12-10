@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContentProviderCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -29,9 +28,12 @@ import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.calculateDaysBetween
 import com.shaikhomes.smartdiary.ui.utils.currentonlydate
 import com.shaikhomes.smartdiary.ui.utils.dateFormat
+import com.shaikhomes.smartdiary.ui.utils.getExpensesList
 import com.shaikhomes.smartdiary.ui.utils.showToast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Math.abs
+import kotlinx.coroutines.withContext
 
 
 class HomeFragment : Fragment() {
@@ -96,6 +98,30 @@ class HomeFragment : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ImagePicker.isNotificationsPermissionRequired(requireContext(), this)
         }
+        getExpenses()
+    }
+
+    private fun getExpenses() {
+        homeViewModel?.getExpenses(success = { expensesData ->
+            CoroutineScope(Dispatchers.IO).launch {
+                if (!expensesData.expensesList.isNullOrEmpty()) {
+                    val todaysExpenses =
+                        getExpensesList(expensesData.expensesList, currentDay = true)
+                    var amount = 0
+                    todaysExpenses.forEach { records->
+                        if(!records.creditAmount.isNullOrEmpty()) amount += records.creditAmount?.toInt()!!
+                        if(!records.debitAmount.isNullOrEmpty()) amount -= records.debitAmount?.toInt()!!
+                    }
+                    withContext(Dispatchers.Main){
+                        binding.txtExpense.setText("AED ${amount}/-")
+                    }
+                }else {
+                    withContext(Dispatchers.Main){
+                        binding.txtExpense.setText("AED 0/-")
+                    }
+                }
+            }
+        }, error = {}, apartmentid = prefmanager.selectedApartment?.ID.toString(), "", "")
     }
 
     private fun getApartments() {

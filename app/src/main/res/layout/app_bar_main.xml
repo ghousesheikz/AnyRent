@@ -29,19 +29,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:fabCradleMargin="16dp"
         app:backgroundTint="@color/white"
+        app:fabCradleMargin="16dp"
         app:fabCradleRoundedCornerRadius="28dp"
         app:fabCradleVerticalOffset="10dp"
-        app:hideOnScroll="true" >
+        app:hideOnScroll="true">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            app:elevation="@dimen/size_0dp"
-            android:layout_marginEnd="@dimen/size_15dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/size_15dp"
             android:background="@color/white"
+            app:elevation="@dimen/size_0dp"
             app:itemIconTint="@color/bottom_nav_item_color"
             app:itemTextColor="@color/bottom_nav_item_color"
             app:menu="@menu/menu_bottom" />
@@ -52,9 +52,42 @@
         android:id="@+id/add_tenant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tint="@color/white"
         android:contentDescription="@string/app_name"
         android:src="@drawable/fab_add"
-        app:layout_anchor="@id/bottomAppBar" />
+        app:layout_anchor="@id/bottomAppBar"
+        app:tint="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/captureLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@color/c_light_gray_7"
+        android:orientation="vertical"
+        android:padding="@dimen/size_10dp"
+        android:translationY="-110dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/addExpenses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_add_expenses"
+            android:drawablePadding="@dimen/size_10dp"
+            android:gravity="center_vertical"
+            android:text="Add Expenses"
+            android:textSize="@dimen/font_18sp" />
+
+        <TextView
+            android:id="@+id/addTenants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:drawableStart="@drawable/ic_add_tenant"
+            android:drawablePadding="@dimen/size_10dp"
+            android:gravity="center_vertical"
+            android:text="Add Tenants"
+            android:textSize="@dimen/font_18sp" />
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

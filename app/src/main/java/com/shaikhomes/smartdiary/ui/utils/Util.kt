@@ -13,12 +13,15 @@ import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shaikhomes.smartdiary.ui.models.CountryCode
+import com.shaikhomes.smartdiary.ui.models.ExpensesList
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 import java.util.Random
 
 fun currentdate(): String {
@@ -112,4 +115,73 @@ fun calculateDaysBetween(
     val endDate = LocalDate.parse(endDateStr, formatter)
     // Calculate the difference in days
     return ChronoUnit.DAYS.between(startDate, endDate)
+}
+
+fun getDatewiseExpenses(
+    expensesData: ArrayList<ExpensesList>,
+    fromDateStr: String,
+    toDateStr: String
+): List<ExpensesList> {
+    val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+    // Parse fromDate and toDate strings
+    val fromDate = dateFormat.parse(fromDateStr)
+    val toDate = dateFormat.parse(toDateStr)
+    // Filter records by date range (from and to)
+    return expensesData.filter {
+        val receivedDate = dateFormat.parse(it.receivedOn?:"")
+        receivedDate != null && receivedDate.after(fromDate) && receivedDate.before(toDate)
+    }
+}
+
+fun getExpensesList(
+    expensesData: ArrayList<ExpensesList>,
+    currentDay: Boolean? = false,
+    currentWeek: Boolean? = false,
+    currentMonth: Boolean? = false
+): List<ExpensesList> {
+    // Date format of the input strings
+    val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+    val currentCalendar = Calendar.getInstance()
+    // Convert the `receivedOn` date strings to Date objects and Calendar instances
+    val recordsWithDates = expensesData.map { record ->
+        val date = dateFormat.parse(record.receivedOn ?: "")
+        record to date
+    }
+    // Filter by day
+    if (currentDay == true) {
+        return recordsWithDates.filter {
+            val calendar = Calendar.getInstance().apply { time = it.second!! }
+            isSameDay(calendar, currentCalendar)
+        }.map { it.first }
+    } else if (currentWeek == true) {
+        // Filter by week
+        return recordsWithDates.filter {
+            val calendar = Calendar.getInstance().apply { time = it.second!! }
+            isSameWeek(calendar, currentCalendar)
+        }.map { it.first }
+    } else if (currentMonth == true) {
+        // Filter by month
+        return recordsWithDates.filter {
+            val calendar = Calendar.getInstance().apply { time = it.second!! }
+            isSameMonth(calendar, currentCalendar)
+        }.map { it.first }
+    } else return arrayListOf()
+}
+
+// Helper function to check if two dates are on the same day
+fun isSameDay(date1: Calendar, date2: Calendar): Boolean {
+    return date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) &&
+            date1.get(Calendar.DAY_OF_YEAR) == date2.get(Calendar.DAY_OF_YEAR)
+}
+
+// Helper function to check if two dates are in the same week
+fun isSameWeek(date1: Calendar, date2: Calendar): Boolean {
+    return date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) &&
+            date1.get(Calendar.WEEK_OF_YEAR) == date2.get(Calendar.WEEK_OF_YEAR)
+}
+
+// Helper function to check if two dates are in the same month
+fun isSameMonth(date1: Calendar, date2: Calendar): Boolean {
+    return date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) &&
+            date1.get(Calendar.MONTH) == date2.get(Calendar.MONTH)
 }

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -188,7 +187,7 @@ class TenantOverview : AppCompatActivity() {
                 val number = it.toString().toInt()
                 if (number <= 0) {
                     editCheckOut.setText("")
-                } else editCheckOut.setText(getFutureDate(number))
+                } else editCheckOut.setText(getFutureDate(checkOut,number))
             } else editCheckOut.setText("")
         }
         dueDate.text = "Due Since ${checkOut}"
@@ -318,10 +317,14 @@ class TenantOverview : AppCompatActivity() {
         }
     }
 
-    fun getFutureDate(daysToAdd: Int): String {
-        val calendar = Calendar.getInstance()
+    fun getFutureDate(checkoutDate: String, daysToAdd: Int): String {
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-        val currentDate = dateFormat.format(calendar.time)
+        // Parse the string into a Date object
+        val date = dateFormat.parse(checkoutDate)
+        val calendar = Calendar.getInstance()
+        if (date != null) {
+            calendar.time = date
+        }
         calendar.add(Calendar.DAY_OF_MONTH, daysToAdd)
         return dateFormat.format(calendar.time)
     }

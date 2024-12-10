@@ -2,29 +2,41 @@ package com.shaikhomes.smartdiary
 
 import android.Manifest
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
+import com.kevinschildhorn.otpview.OTPView
+import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityAddExpensesBinding
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
+import com.shaikhomes.smartdiary.ui.customviews.SafeClickListener
+import com.shaikhomes.smartdiary.ui.models.ExpensesList
 import com.shaikhomes.smartdiary.ui.models.ImageData
 import com.shaikhomes.smartdiary.ui.models.ResponseData
 import com.shaikhomes.smartdiary.ui.network.RetrofitInstance
 import com.shaikhomes.smartdiary.ui.utils.FileUtil
 import com.shaikhomes.smartdiary.ui.utils.ImagePicker
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
+import com.shaikhomes.smartdiary.ui.utils.currentdate
+import com.shaikhomes.smartdiary.ui.utils.dateFormat
+import com.shaikhomes.smartdiary.ui.utils.showToast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,6 +45,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -44,6 +57,7 @@ class AddExpenses : AppCompatActivity() {
     }
     var file: File? = null
     var imagePath = ""
+    var paymentMode = ""
     private var base64String: String? = ""
     private val requestCodeCameraPermission = 101
     private val requestCodeStoragePermission = 102
@@ -63,12 +77,157 @@ class AddExpenses : AppCompatActivity() {
         activityAddExpensesBinding?.txnImage?.setOnClickListener {
             selectImage()
         }
+        activityAddExpensesBinding.apply {
+            apartmentName.apply {
+                text = prefmanager.selectedApartment?.apartmentname
+            }
+            apartmentAddress.apply {
+                text = prefmanager.selectedApartment?.address
+            }
+            editPaidOn.setOnClickListener {
+                selectDate(editPaidOn)
+            }
+            editDebitAmount?.doAfterTextChanged {
+                if (editDebitAmount.text.toString().isNullOrEmpty()) {
+                    editDebitAmount.setText("0")
+                }
+            }
+            editCreditAmount?.doAfterTextChanged {
+                if (editCreditAmount.text.toString().isNullOrEmpty()) {
+                    editCreditAmount.setText("0")
+                }
+            }
+            onlineToggle.isChecked = true
+            onlineToggle.setTextColor(Color.parseColor("#FFFFFF"))
+            paymentMode = "Online"
+            onlineToggle.setOnCheckedChangeListener { _, checked ->
+                if (checked) {
+                    paymentMode = "Online"
+                    cashToggle.isChecked = false
+                    onlineToggle.setTextColor(Color.parseColor("#FFFFFF"))
+                    cashToggle.setTextColor(Color.parseColor("#000000"))
+                }
+            }
+
+            cashToggle.setOnCheckedChangeListener { _, checked ->
+                if (checked) {
+                    paymentMode = "Cash"
+                    onlineToggle.isChecked = false
+                    cashToggle.setTextColor(Color.parseColor("#FFFFFF"))
+                    onlineToggle.setTextColor(Color.parseColor("#000000"))
+                }
+            }
+            addExpenses.setOnClickListener(safeClickListener)
+        }
+    }
+
+    val safeClickListener = SafeClickListener {
+        if (validations()) {
+            if (!activityAddExpensesBinding.editCreditAmount.text.toString()
+                    .isNullOrEmpty() && activityAddExpensesBinding.editCreditAmount.text.toString() != "0"
+            ) {
+                val dialogView = layoutInflater.inflate(R.layout.otp_view, null)
+                val otpView = dialogView.findViewById<OTPView>(R.id.otpView)
+                AlertDialog.Builder(this@AddExpenses).apply {
+                    this.setMessage("Do you want to change checkin checkout dates?")
+                    this.setView(dialogView)
+                    this.setPositiveButton(
+                        "YES"
+                    ) { p0, p1 ->
+                        if (otpView.getStringFromFields() == "996600") {
+                            sendData()
+                        } else showToast(this@AddExpenses, "Incorrect OTP")
+                    }
+                    this.setNegativeButton(
+                        "NO"
+                    ) { p0, p1 ->
+                        p0.dismiss()
+                    }
+                    this.setCancelable(true)
+                    this.show()
+                }
+            } else sendData()
+
+        }
+
+    }
+
+    private fun sendData() {
+        uploadImages(base64String, {
+            val expensesList = ExpensesList(
+                userid = prefmanager?.userData?.UserId.toString(),
+                apartmentid = prefmanager.selectedApartment?.ID.toString(),
+                creditAmount = if (activityAddExpensesBinding.editCreditAmount?.text.toString()
+                        .isNullOrEmpty()
+                ) "0" else activityAddExpensesBinding.editCreditAmount?.text.toString(),
+                category = "",
+                debitAmount = if (activityAddExpensesBinding.editDebitAmount?.text.toString()
+                        .isNullOrEmpty()
+                ) "0" else activityAddExpensesBinding.editDebitAmount?.text.toString(),
+                receivedOn = activityAddExpensesBinding.editPaidOn?.text.toString()
+                    ?.dateFormat("dd-MM-yyyy", "yyyy-MM-dd"),
+                paymentMode = paymentMode,
+                txnId = activityAddExpensesBinding.editTxnId?.text.toString(),
+                notes = activityAddExpensesBinding.editDesc.text.toString(),
+                picture = imagePath,
+                receivedBy = "",
+                updatedon = currentdate()
+            )
+            addApartmentViewModel?.addExpenses(expensesList, success = {
+                showToast(this, "Expense Captured Successfully")
+                onBackPressed()
+            }, error = {
+                showToast(this, it)
+            })
+
+        })
+    }
+
+    private fun validations(): Boolean {
+        var flag = true
+        if (activityAddExpensesBinding.editDesc.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Enter Description", Toast.LENGTH_SHORT).show()
+        } else if (activityAddExpensesBinding.editDebitAmount.text.toString()
+                .isEmpty() && activityAddExpensesBinding.editCreditAmount.text.toString().isEmpty()
+        ) {
+            flag = false
+            Toast.makeText(this, "Enter Credit/Debit Amount", Toast.LENGTH_SHORT).show()
+        } else if (activityAddExpensesBinding.editTxnId.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Enter Transaction Id", Toast.LENGTH_SHORT).show()
+        } else if (activityAddExpensesBinding.editPaidOn.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Select Paid On Date", Toast.LENGTH_SHORT).show()
+        } else if (base64String?.isEmpty() == true) {
+            flag = false
+            Toast.makeText(this, "Capture User Image", Toast.LENGTH_SHORT).show()
+        }
+        return flag
     }
 
     // Handle back button press
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed() // Navigate back
         return true
+    }
+
+    private fun selectDate(checkIn: EditText) {
+        var calendar = Calendar.getInstance()
+        val datePickerDialog = this.let { it1 ->
+            DatePickerDialog(
+                it1,
+                { _, year, monthOfYear, dayOfMonth ->
+                    checkIn.setText("$dayOfMonth-${monthOfYear.plus(1)}-$year")
+
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+        }
+        // datePickerDialog?.datePicker?.minDate = calendar.timeInMillis
+        datePickerDialog?.show()
     }
 
     private fun selectImage() {
