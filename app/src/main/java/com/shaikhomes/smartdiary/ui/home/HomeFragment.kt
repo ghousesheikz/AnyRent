@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.databinding.FragmentHomeBinding
+import com.shaikhomes.smartdiary.ExpensesList
 import com.shaikhomes.smartdiary.RoomsAvailableActivity
 import com.shaikhomes.smartdiary.UnPaidTenantsDetails
 import com.shaikhomes.smartdiary.ui.PropertyActivity
@@ -114,6 +115,9 @@ class HomeFragment : Fragment() {
                     }
                     withContext(Dispatchers.Main){
                         binding.txtExpense.setText("AED ${amount}/-")
+                        binding.expenseLayout.setOnClickListener {
+                            startActivity(Intent(requireContext(), ExpensesList::class.java))
+                        }
                     }
                 }else {
                     withContext(Dispatchers.Main){

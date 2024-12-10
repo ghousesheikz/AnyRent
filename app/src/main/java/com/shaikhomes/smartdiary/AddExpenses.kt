@@ -129,7 +129,7 @@ class AddExpenses : AppCompatActivity() {
                 val dialogView = layoutInflater.inflate(R.layout.otp_view, null)
                 val otpView = dialogView.findViewById<OTPView>(R.id.otpView)
                 AlertDialog.Builder(this@AddExpenses).apply {
-                    this.setMessage("Do you want to change checkin checkout dates?")
+                    this.setMessage("Please enter OTP to add credit amount")
                     this.setView(dialogView)
                     this.setPositiveButton(
                         "YES"

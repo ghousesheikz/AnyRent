@@ -23,6 +23,7 @@ import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import java.net.URLEncoder
+import java.util.Locale
 
 class TenantDetailsActivity : AppCompatActivity() {
     private lateinit var activityTenantDetailsBinding: ActivityTenantDetailsBinding
@@ -207,8 +208,8 @@ class TenantDetailsActivity : AppCompatActivity() {
         addApartmentViewModel?.getTenants(
             success = {
                 val sortedList = it.tenant_list.sortedWith(compareBy(
-                    { it.details?.substringBefore("-")?.trim() }, // Sort by room number
-                    { it.details?.substringAfter("B")?.toInt() } // Sort by bed number
+                    { it.details?.toUpperCase(Locale.ROOT)?.substringBefore("-")?.trim()}, // Sort by room number
+                    { it.details?.toUpperCase(Locale.ROOT)?.substringAfter("B")?.toInt() } // Sort by bed number
                 ))
                // it.tenant_list.sortByDescending { it.details }
                 tenantAdapter?.updateList(sortedList)
