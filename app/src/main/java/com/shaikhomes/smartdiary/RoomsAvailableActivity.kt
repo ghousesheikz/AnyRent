@@ -2,21 +2,14 @@ package com.shaikhomes.smartdiary
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.shaikhomes.anyrent.R
-import com.shaikhomes.anyrent.databinding.ActivityApartmentBinding
 import com.shaikhomes.anyrent.databinding.ActivityRoomsAvailableBinding
 import com.shaikhomes.smartdiary.ui.adapters.RoomsAdapter
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
-import com.shaikhomes.smartdiary.ui.models.ApartmentList
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.showToast
 
@@ -43,15 +36,29 @@ class RoomsAvailableActivity : AppCompatActivity() {
         activityRoomsBinding.apply {
             roomAvailableList.layoutManager =
                 LinearLayoutManager(this@RoomsAvailableActivity)
-            roomAdapter = RoomsAdapter(this@RoomsAvailableActivity, arrayListOf(), true,true).apply {
-                setBedClickListener { roomsList, beds ->
-                    val intent = Intent(this@RoomsAvailableActivity, TenantRegistration::class.java)
-                    intent.putExtra("ROOM_SELECT",Gson().toJson(roomsList))
-                    intent.putExtra("BED_SELECT",Gson().toJson(beds))
-                    startActivity(intent)
-                    finish()
+            roomAdapter =
+                RoomsAdapter(this@RoomsAvailableActivity, arrayListOf(), true, true).apply {
+                    setBedClickListener { roomsList, beds ->
+                        val intent =
+                            Intent(this@RoomsAvailableActivity, TenantRegistration::class.java)
+                        intent.putExtra("ROOM_SELECT", Gson().toJson(roomsList))
+                        intent.putExtra("BED_SELECT", Gson().toJson(beds))
+                        startActivity(intent)
+                        finish()
+                    }
+                    setTenantClickListener { roomsList, beds ->
+                        addApartmentViewModel?.getTenants(success = { tenantList ->
+                            if(tenantList.tenant_list.isNotEmpty()) {
+                                val intent =
+                                    Intent(this@RoomsAvailableActivity, TenantOverview::class.java)
+                                intent.putExtra("tenant", Gson().toJson(tenantList.tenant_list.first()))
+                                startActivity(intent)
+                            }
+                        }, error = {
+                            showToast(this@RoomsAvailableActivity, it)
+                        }, beds.userId ?: "", "", "", "")
+                    }
                 }
-            }
             roomAvailableList.adapter = roomAdapter
         }
         getRooms()

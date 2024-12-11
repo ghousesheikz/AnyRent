@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/zxing_transparent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/zxing_transparent">
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/deleteRoom"
@@ -58,6 +58,7 @@
                 android:id="@+id/container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/size_10dp"
                 android:paddingTop="@dimen/size_20dp"

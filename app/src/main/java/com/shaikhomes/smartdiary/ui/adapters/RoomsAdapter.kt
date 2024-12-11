@@ -1,11 +1,15 @@
 package com.shaikhomes.smartdiary.ui.adapters
 
 import android.content.Context
+import android.graphics.Color
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -41,9 +45,14 @@ class RoomsAdapter(
     }
 
     private var bedClickListener: ((RoomData.RoomsList, Beds) -> Unit)? = null
+    private var tenantClickListener: ((RoomData.RoomsList, Beds) -> Unit)? = null
 
     fun setBedClickListener(leadList: (RoomData.RoomsList, Beds) -> Unit) {
         this.bedClickListener = leadList
+    }
+
+    fun setTenantClickListener(leadList: (RoomData.RoomsList, Beds) -> Unit) {
+        this.tenantClickListener = leadList
     }
 
     private var deleteClickListener: ((RoomData.RoomsList) -> Unit)? = null
@@ -107,8 +116,21 @@ class RoomsAdapter(
                         val list: ArrayList<Beds> = Gson().fromJson(item?.available, bedsType)
                         showAvailableOccupied(list)
                         list.forEach { bed ->
+                            val parentLayout = LinearLayout(binding.root.context).apply {
+                                orientation = LinearLayout.VERTICAL
+                                setPadding(16)
+                                gravity = Gravity.CENTER // Optional: Center align the layout
+                                layoutParams = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT
+                                )
+                                setBackgroundColor(Color.WHITE) // Set background color
+                            }
                             val imageView = createImageView(binding.root.context, bed, item)
-                            binding.container.addView(imageView)
+                            val textView = createBedsNumber(binding.root.context, bed, item)
+                            parentLayout.addView(imageView)
+                            parentLayout.addView(textView)
+                            binding.container.addView(parentLayout)
                         }
                     }
                 }
@@ -129,12 +151,45 @@ class RoomsAdapter(
             binding.txtVacate.text = "Available : ${occupied}"
         }
 
+        private fun createBedsNumber(
+            context: Context,
+            beds: Beds,
+            item: RoomData.RoomsList
+        ): TextView {
+            // Create a TextView
+            val textView = TextView(context).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    topMargin = 5 // Add some margin between ImageView and TextView
+                    gravity = Gravity.CENTER // Optional: Center align the text
+                }
+                text = beds.number
+                textSize = 14f
+                setTextColor(Color.BLACK)
+            }
+
+            return textView
+        }
+
         private fun createImageView(
             context: Context,
             beds: Beds,
             item: RoomData.RoomsList
         ): ImageView {
-            val imageView = ImageView(context)
+            val imageView = ImageView(context).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    topMargin = 8 // Add some margin between ImageView and TextView
+                    bottomMargin = 8 // Add some margin between ImageView and TextView
+                    rightMargin = 8 // Add some margin between ImageView and TextView
+                    leftMargin = 8 // Add some margin between ImageView and TextView
+                    gravity = Gravity.CENTER // Optional: Center align the text
+                }
+            }
             // Set image properties
             //   imageView.setBackgroundResource(R.drawable.border_bg)
             //   imageView.setPadding(15,15,15,15)
@@ -143,7 +198,12 @@ class RoomsAdapter(
                 imageView.setOnClickListener {
                     bedClickListener?.invoke(item, beds)
                 }
-            } else imageView.setImageResource(R.drawable.ic_bed_occupied) // Replace with your drawable resource
+            } else{ imageView.setImageResource(R.drawable.ic_bed_occupied)
+                imageView.setOnClickListener {
+                    tenantClickListener?.invoke(item, beds)
+                }
+
+            }// Replace with your drawable resource
             imageView.layoutParams = LinearLayout.LayoutParams(
                 150, // Width in pixels
                 150  // Height in pixels

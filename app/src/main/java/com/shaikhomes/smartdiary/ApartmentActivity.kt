@@ -88,6 +88,18 @@ class ApartmentActivity : AppCompatActivity() {
                     intent.putExtra("BED_SELECT",Gson().toJson(beds))
                     startActivity(intent)
                 }
+                setTenantClickListener { roomsList, beds ->
+                    addApartmentViewModel?.getTenants(success = { tenantList ->
+                        if(tenantList.tenant_list.isNotEmpty()) {
+                            val intent =
+                                Intent(this@ApartmentActivity, TenantOverview::class.java)
+                            intent.putExtra("tenant", Gson().toJson(tenantList.tenant_list.first()))
+                            startActivity(intent)
+                        }
+                    }, error = {
+                        showToast(this@ApartmentActivity, it)
+                    }, beds.userId ?: "", "", "", "")
+                }
             }
             roomList.adapter = roomAdapter
             addFlat.setOnClickListener {

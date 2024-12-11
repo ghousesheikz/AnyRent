@@ -73,8 +73,12 @@ class TenantAdapter(
             notifyDataSetChanged()
         } else {
             filteredList = leadsList.filter {
-                it.Name?.contains(query, ignoreCase = true) == true ||  it.details?.contains(query, ignoreCase = true) == true ||
-                        it.MobileNo?.removePrefix("+").let { it?.contains(query, ignoreCase = true) == true }
+                it.Name?.contains(query, ignoreCase = true) == true || it.details?.contains(
+                    query,
+                    ignoreCase = true
+                ) == true ||
+                        it.MobileNo?.removePrefix("+")
+                            .let { it?.contains(query, ignoreCase = true) == true }
             }.toMutableList()
             notifyDataSetChanged()
         }
@@ -109,19 +113,32 @@ class TenantAdapter(
             ),
             TextView.BufferType.SPANNABLE
         )
-        val checkOut = filteredList[position].checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
+        val checkOut =
+            filteredList[position].checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
         val currentDate = currentonlydate("dd-MM-yyyy")
         checkOut?.let {
             val days = calculateDaysBetween(currentDate, it)
             val rent =
                 if (filteredList[position].rent.isNullOrEmpty()) 0 else filteredList[position].rent?.toInt()
             if (days < 0) {
-                holder.rent.text =
-                    if (!filteredList[position].rent.isNullOrEmpty()) "Over Due Amount AED ${rent!! * days}/-" else "AED 0/-"
+                holder.rent.setText(
+                    if (!filteredList[position].rent.isNullOrEmpty()) {
+                        Html.fromHtml(
+                            "<font color='#FF0000'>Over Due Amount AED ${rent!! * days}/-</font>"
+                        )
+                    } else "AED 0/-",
+                    TextView.BufferType.SPANNABLE
+                )
                 holder.dueDays.text = "Due ${days} Days"
             } else {
-                holder.rent.text =
-                    if (!filteredList[position].rent.isNullOrEmpty()) "Remaining Amount AED ${rent!! * days}/-" else "AED 0/-"
+                holder.rent.setText(
+                    if (!filteredList[position].rent.isNullOrEmpty()) {
+                        Html.fromHtml(
+                            "<font color='#34A853'>Remaining Amount AED ${rent!! * days}/-</font>"
+                        )
+                    } else "AED 0/-",
+                    TextView.BufferType.SPANNABLE
+                )
                 holder.dueDays.text = "Remaining ${days} Days"
             }
         }

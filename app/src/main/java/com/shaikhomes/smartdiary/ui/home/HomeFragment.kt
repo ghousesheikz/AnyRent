@@ -179,7 +179,11 @@ class HomeFragment : Fragment() {
                         intent.putExtra("UNPAID_TENANTS", Gson().toJson(unPaidTenantData))
                         startActivity(intent)
                     }
-                } else binding.txtTenantsCount.text = "0"
+                } else {
+                    binding.txtTenantsCount.text = "0"
+                    binding.pendingAmt.text = "AED 0/-"
+                    binding.totalAmt.text = "AED 0/-"
+                }
             }
         }
     }
