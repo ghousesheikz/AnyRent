@@ -122,6 +122,10 @@ class ExpensesAdapter(
                 .transform(CircleTransformation()) // Apply custom circle transformation
                 .into(holder.creditDebit)
         }
+        holder.itemView.rootView.setOnLongClickListener {
+            deleteClickListener?.invoke(item)
+            true
+        }
     }
 
 

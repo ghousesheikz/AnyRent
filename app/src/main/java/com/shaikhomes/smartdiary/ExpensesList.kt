@@ -2,17 +2,23 @@ package com.shaikhomes.smartdiary
 
 import android.graphics.Color
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kevinschildhorn.otpview.OTPView
+import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityExpensesListBinding
 import com.shaikhomes.smartdiary.ui.adapters.ExpensesAdapter
 import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
+import com.shaikhomes.smartdiary.ui.models.ExpensesList
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
+import com.shaikhomes.smartdiary.ui.utils.showToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.exp
 
 class ExpensesList : AppCompatActivity() {
     private lateinit var activityExpensesListBinding: ActivityExpensesListBinding
@@ -35,7 +41,11 @@ class ExpensesList : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         activityExpensesListBinding?.apply {
             expenseList.layoutManager = LinearLayoutManager(this@ExpensesList)
-            expensesAdapter = ExpensesAdapter(this@ExpensesList, arrayListOf(), false)
+            expensesAdapter = ExpensesAdapter(this@ExpensesList, arrayListOf(), false).apply {
+                setDeleteClickListener { expenses->
+                    deleteExpenses(expenses)
+                }
+            }
             expenseList.adapter = expensesAdapter
             todayToggle.isChecked = true
             todayToggle.setTextColor(Color.parseColor("#FFFFFF"))
@@ -133,6 +143,39 @@ class ExpensesList : AppCompatActivity() {
         }
         getExpenses()
 
+    }
+
+    private fun deleteExpenses(expenses: ExpensesList) {
+        val dialogView = layoutInflater.inflate(R.layout.otp_view, null)
+        val otpView = dialogView.findViewById<OTPView>(R.id.otpView)
+        AlertDialog.Builder(this@ExpensesList).apply {
+            this.setMessage("Do you want to delete this expense?")
+            this.setView(dialogView)
+            this.setPositiveButton(
+                "YES"
+            ) { p0, p1 ->
+                if (otpView.getStringFromFields() == "278692") {
+                    expenses.update = "delete"
+                    addApartmentViewModel?.addExpenses(expenses, success = {
+                        if (it.status == "200") {
+                            showToast(this@ExpensesList, "Expenses deleted successfully")
+                            getExpenses()
+                            activityExpensesListBinding.todayToggle.isChecked = true
+                            filterDate = "today"
+                        }
+                    }, error = {
+                        showToast(this@ExpensesList, it)
+                    })
+                } else showToast(this@ExpensesList, "Incorrect OTP")
+            }
+            this.setNegativeButton(
+                "NO"
+            ) { p0, p1 ->
+                p0.dismiss()
+            }
+            this.setCancelable(true)
+            this.show()
+        }
     }
 
     private fun getExpenses() {

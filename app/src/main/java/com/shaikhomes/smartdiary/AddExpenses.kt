@@ -134,7 +134,7 @@ class AddExpenses : AppCompatActivity() {
                     this.setPositiveButton(
                         "YES"
                     ) { p0, p1 ->
-                        if (otpView.getStringFromFields() == "996600") {
+                        if (otpView.getStringFromFields() == "278692") {
                             sendData()
                         } else showToast(this@AddExpenses, "Incorrect OTP")
                     }

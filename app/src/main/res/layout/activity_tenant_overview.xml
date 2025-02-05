@@ -49,6 +49,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tabLayout">
 
+        <ImageView
+            android:id="@+id/circularImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <!-- Circular ImageView -->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/profileImage"
@@ -132,15 +143,16 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Delete"
             android:src="@drawable/ic_change_room" />
+
         <ImageButton
             android:id="@+id/btnChangeDates"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
-            app:tint="@color/teal_700"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Delete"
-            android:src="@drawable/ic_checkin_date" />
+            android:src="@drawable/ic_checkin_date"
+            app:tint="@color/teal_700" />
     </LinearLayout>
 
     <LinearLayout
@@ -260,6 +272,21 @@
 
             <TextView
                 android:id="@+id/checkout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/joinedOn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/c_light_gray_7"
+                android:padding="8dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/securityDeposit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"

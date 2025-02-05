@@ -101,6 +101,18 @@
             app:layout_constraintTop_toBottomOf="@id/joined" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/joinedOn"
+            android:layout_width="@dimen/size_0dp"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_date_small"
+            android:drawablePadding="@dimen/size_8dp"
+            android:gravity="center_vertical"
+            android:padding="@dimen/size_5dp"
+            android:textSize="@dimen/font_12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/checkout" />
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/dueDays"
             android:layout_width="@dimen/size_0dp"
             android:layout_height="wrap_content"
@@ -110,7 +122,7 @@
             android:textSize="@dimen/font_12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/checkout" />
+            app:layout_constraintTop_toBottomOf="@id/joinedOn" />
 
         <LinearLayout
             android:layout_width="@dimen/size_0dp"

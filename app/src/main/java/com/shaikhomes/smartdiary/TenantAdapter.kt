@@ -102,6 +102,17 @@ class TenantAdapter(
             ),
             TextView.BufferType.SPANNABLE
         )
+        holder.joinedOn.setText(
+            Html.fromHtml(
+                "Joined On: <font color='#000E77'>${
+                    filteredList[position].joinedon?.dateFormat(
+                        "dd-MM-yyyy hh:mm:ss",
+                        "dd-MMM-yyyy"
+                    )
+                }</font>"
+            ),
+            TextView.BufferType.SPANNABLE
+        )
         holder.checkout.setText(
             Html.fromHtml(
                 "CheckOut: <font color='#000E77'>${
@@ -167,6 +178,11 @@ class TenantAdapter(
                 .load(filteredList[position].userImage)
                 .transform(CircleTransformation()) // Apply custom circle transformation
                 .into(holder.circularImageView)
+        } else {
+            Glide.with(context)
+                .load(R.drawable.ic_profile)
+                .transform(CircleTransformation()) // Apply custom circle transformation
+                .into(holder.circularImageView)
         }
     }
 
@@ -209,6 +225,7 @@ class TenantAdapter(
         var apartment: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.apartment)
         var circularImageView: ImageView = itemView.findViewById<ImageView>(R.id.circularImageView)
         var joined: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.joined)
+        var joinedOn: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.joinedOn)
         var checkout: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.checkout)
         var dueDays: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.dueDays)
         var contact: AppCompatButton = itemView.findViewById<AppCompatButton>(R.id.contact)

@@ -207,12 +207,21 @@ class TenantDetailsActivity : AppCompatActivity() {
     private fun getTenants() {
         addApartmentViewModel?.getTenants(
             success = {
-                val sortedList = it.tenant_list.sortedWith(compareBy(
-                    { it.details?.toUpperCase(Locale.ROOT)?.substringBefore("-")?.trim()}, // Sort by room number
-                    { it.details?.toUpperCase(Locale.ROOT)?.substringAfter("B")?.toInt() } // Sort by bed number
-                ))
-               // it.tenant_list.sortByDescending { it.details }
-                tenantAdapter?.updateList(sortedList)
+                try {
+                    val sortedList = it.tenant_list.sortedWith(compareBy(
+                        {
+                            it.details?.toUpperCase(Locale.ROOT)?.substringBefore("-")?.trim()
+                        }, // Sort by room number
+                        {
+                            it.details?.toUpperCase(Locale.ROOT)?.substringAfter("B")?.toInt()
+                        } // Sort by bed number
+                    ))
+                    // it.tenant_list.sortByDescending { it.details }
+                    tenantAdapter?.updateList(sortedList)
+                } catch (exp: Exception) {
+                    it.tenant_list.sortByDescending { it.details }
+                    tenantAdapter?.updateList(it.tenant_list.reversed())
+                }
             },
             error = {
                 showToast(this, it)

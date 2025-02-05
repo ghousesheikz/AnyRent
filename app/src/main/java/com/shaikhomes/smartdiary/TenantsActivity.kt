@@ -213,6 +213,9 @@ class TenantsActivity : AppCompatActivity() {
         activityTenantsBinding.editCheckOut.setOnClickListener {
             selectcheckOutDate(activityTenantsBinding.editCheckOut)
         }
+        activityTenantsBinding.editJoiningDate.setOnClickListener {
+            selectCheckInDate(activityTenantsBinding.editJoiningDate)
+        }
         getApartments()
         activityTenantsBinding.addTenant.setOnClickListener(safeClickListener)
         activityTenantsBinding.textDropDownChooseCountry.setOnClickListener {
@@ -291,8 +294,9 @@ class TenantsActivity : AppCompatActivity() {
                     rentstatus = "",
                     duedate = "",
                     paymentmode = "",
-                    securitydeposit = "",
-                    joinedon = currentdate(),
+                    securitydeposit = activityTenantsBinding.editSecurityDeposit.text.toString().trim(),
+                    joinedon = activityTenantsBinding.editJoiningDate.text.toString()
+                        .dateFormat("dd-MM-yyyy", "yyyy-MM-dd"),
                     mailid = "",
                     ProofImageF = "",
                     ProofImageB = "",
@@ -356,6 +360,12 @@ class TenantsActivity : AppCompatActivity() {
         } else if (base64String?.isEmpty() == true) {
             flag = false
             Toast.makeText(this, "Capture User Image", Toast.LENGTH_SHORT).show()
+        }  else if (activityTenantsBinding.editJoiningDate.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Enter Joining Date", Toast.LENGTH_SHORT).show()
+        }  else if (activityTenantsBinding.editSecurityDeposit.text.toString().isEmpty()) {
+            flag = false
+            Toast.makeText(this, "Enter Security Deposit", Toast.LENGTH_SHORT).show()
         }
         return flag
     }

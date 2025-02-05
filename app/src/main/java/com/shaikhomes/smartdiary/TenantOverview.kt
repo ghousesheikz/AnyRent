@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -77,10 +78,27 @@ class TenantOverview : AppCompatActivity() {
             })
             userName.text = tenantList?.Name
             userMobile.text = tenantList?.countrycode?.plus(tenantList?.MobileNo)
-            profileImage.text = tenantList?.Name?.first().toString()
+            if (!tenantList?.userImage.isNullOrEmpty()) {
+                circularImageView.visibility = View.VISIBLE
+                profileImage.visibility = View.GONE
+                Glide.with(this@TenantOverview)
+                    .load(tenantList?.userImage)
+                    .transform(CircleTransformation()) // Apply custom circle transformation
+                    .into(circularImageView)
+            } else {
+                circularImageView.visibility = View.GONE
+                profileImage.visibility = View.VISIBLE
+                profileImage.text = tenantList?.Name?.first().toString()
+            }
             checkin.text = "CheckIn Date : ${
                 tenantList?.checkin?.dateFormat(
                     "dd-MM-yyyy 00:00:00",
+                    "dd-MM-yyyy"
+                )
+            }"
+            joinedOn.text = "Joined On : ${
+                tenantList?.joinedon?.dateFormat(
+                    "dd-MM-yyyy hh:mm:ss",
                     "dd-MM-yyyy"
                 )
             }"
@@ -92,6 +110,7 @@ class TenantOverview : AppCompatActivity() {
             }"
             room.text = tenantList?.details
             rent.text = "Per Day Rent AED ${tenantList?.rent}/-"
+            securityDeposit.text = "Security Deposit AED ${if(tenantList?.securitydeposit.isNullOrEmpty()) "0" else tenantList?.securitydeposit}/-"
             floor.text = "Floor : ${tenantList?.floorno}"
             btnCall.setOnClickListener {
                 try {
@@ -127,7 +146,7 @@ class TenantOverview : AppCompatActivity() {
                             this.setPositiveButton(
                                 "YES"
                             ) { p0, p1 ->
-                                if (otpView.getStringFromFields() == "996600") {
+                                if (otpView.getStringFromFields() == "278692") {
                                     recordPayment(checkOut, totalRent)
                                 } else showToast(this@TenantOverview, "Incorrect OTP")
                             }
@@ -151,7 +170,7 @@ class TenantOverview : AppCompatActivity() {
                         this.setPositiveButton(
                             "YES"
                         ) { p0, p1 ->
-                            if (otpView.getStringFromFields() == "996600") {
+                            if (otpView.getStringFromFields() == "278692") {
                                 recordPayment(checkOut, totalRent)
                             } else showToast(this@TenantOverview, "Incorrect OTP")
                         }
@@ -187,7 +206,7 @@ class TenantOverview : AppCompatActivity() {
                 val number = it.toString().toInt()
                 if (number <= 0) {
                     editCheckOut.setText("")
-                } else editCheckOut.setText(getFutureDate(checkOut,number))
+                } else editCheckOut.setText(getFutureDate(checkOut, number))
             } else editCheckOut.setText("")
         }
         dueDate.text = "Due Since ${checkOut}"
