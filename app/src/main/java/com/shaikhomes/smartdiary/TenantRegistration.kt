@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -73,6 +74,7 @@ class TenantRegistration : AppCompatActivity() {
     private var apartmentList: ApartmentList? = null
     private var flatList: FlatData.FlatList? = null
     private var genderist = arrayListOf<String>()
+    private var rentType:String = "daily"
     var file: File? = null
     var imagePath = ""
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -157,6 +159,26 @@ class TenantRegistration : AppCompatActivity() {
         activityTenantsBinding?.userImage?.setOnClickListener {
             selectImage()
         }
+        activityTenantsBinding?.apply {
+            dayToggle.isChecked = true
+            dayToggle.setTextColor(Color.parseColor("#FFFFFF"))
+            dayToggle.setOnCheckedChangeListener { _, checked ->
+                if (checked) {
+                    rentType = "daily"
+                    monthToggle.isChecked = false
+                    dayToggle.setTextColor(Color.parseColor("#FFFFFF"))
+                    monthToggle.setTextColor(Color.parseColor("#000000"))
+                }
+            }
+            monthToggle.setOnCheckedChangeListener { _, checked ->
+                if (checked) {
+                    rentType = "monthly"
+                    dayToggle.isChecked = false
+                    monthToggle.setTextColor(Color.parseColor("#FFFFFF"))
+                    dayToggle.setTextColor(Color.parseColor("#000000"))
+                }
+            }
+        }
     }
 
     private fun selectImage() {
@@ -224,7 +246,8 @@ class TenantRegistration : AppCompatActivity() {
                     total = "0",
                     countrycode = activityTenantsBinding.textDropDownChooseCountry.text.toString(),
                     details = "${roomsList?.roomname} - B${selectedBed?.number}",
-                    userImage = imagePath
+                    userImage = imagePath,
+                    renttype = rentType
                 )
                 addApartmentViewModel?.addTenant(tenantList, success = {
                     updatebeds(

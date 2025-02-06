@@ -21,6 +21,7 @@ import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.utils.calculateDaysBetween
 import com.shaikhomes.smartdiary.ui.utils.currentonlydate
 import com.shaikhomes.smartdiary.ui.utils.dateFormat
+import com.shaikhomes.smartdiary.ui.utils.makeCamelCase
 
 class TenantAdapter(
     private val context: Context,
@@ -124,6 +125,15 @@ class TenantAdapter(
             ),
             TextView.BufferType.SPANNABLE
         )
+        holder.rentType.setText(
+            Html.fromHtml(
+                "Rent Type: <font color='#000000'><b>${
+                    (filteredList[position].renttype?:"").makeCamelCase()
+                }</b></font>"
+            ),
+            TextView.BufferType.SPANNABLE
+        )
+        if(filteredList[position].renttype.isNullOrEmpty()) holder.rentType.visibility = View.GONE else holder.rentType.visibility = View.VISIBLE
         val checkOut =
             filteredList[position].checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
         val currentDate = currentonlydate("dd-MM-yyyy")
@@ -228,6 +238,7 @@ class TenantAdapter(
         var joinedOn: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.joinedOn)
         var checkout: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.checkout)
         var dueDays: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.dueDays)
+        var rentType: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.rentType)
         var contact: AppCompatButton = itemView.findViewById<AppCompatButton>(R.id.contact)
         var reminder: AppCompatButton = itemView.findViewById<AppCompatButton>(R.id.reminder)
         var tenantLayout: ConstraintLayout =

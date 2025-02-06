@@ -32,6 +32,7 @@ import com.shaikhomes.smartdiary.ui.utils.calculateDaysBetween
 import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.currentonlydate
 import com.shaikhomes.smartdiary.ui.utils.dateFormat
+import com.shaikhomes.smartdiary.ui.utils.makeCamelCase
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import java.lang.Math.abs
 import java.net.URLEncoder
@@ -112,6 +113,7 @@ class TenantOverview : AppCompatActivity() {
             rent.text = "Per Day Rent AED ${tenantList?.rent}/-"
             securityDeposit.text = "Security Deposit AED ${if(tenantList?.securitydeposit.isNullOrEmpty()) "0" else tenantList?.securitydeposit}/-"
             floor.text = "Floor : ${tenantList?.floorno}"
+            rentType.text = "Rent Type : ${tenantList?.renttype.makeCamelCase()}"
             btnCall.setOnClickListener {
                 try {
                     val intent = Intent(

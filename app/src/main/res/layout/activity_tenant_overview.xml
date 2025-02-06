@@ -291,6 +291,14 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/rentType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/c_light_gray_7"
+                android:padding="8dp"
+                android:textSize="14sp" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

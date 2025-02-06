@@ -55,6 +55,16 @@ fun Context.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
+fun String?.makeCamelCase(): String? {
+    return try {
+        if (this?.split(" ")?.isNotEmpty() == true) {
+            split(" ").joinToString(" ") { it.replaceFirstChar {character ->character.uppercase() }  }
+        } else this
+    } catch (exp: Exception) {
+        this?.lowercase()?.  replaceFirstChar {character ->character.uppercase(Locale.getDefault()) }
+    }
+}
+
 fun isAccessibilityOn(
     context: Context,
     clazz: Class<out AccessibilityService?>
