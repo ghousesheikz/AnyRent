@@ -23,6 +23,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.Random
+import kotlin.math.round
 
 fun currentdate(): String {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -194,4 +195,20 @@ fun isSameWeek(date1: Calendar, date2: Calendar): Boolean {
 fun isSameMonth(date1: Calendar, date2: Calendar): Boolean {
     return date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) &&
             date1.get(Calendar.MONTH) == date2.get(Calendar.MONTH)
+}
+
+fun getFutureDate(checkoutDate: String, daysToAdd: Int): String {
+    val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    // Parse the string into a Date object
+    val date = dateFormat.parse(checkoutDate)
+    val calendar = Calendar.getInstance()
+    if (date != null) {
+        calendar.time = date
+    }
+    calendar.add(Calendar.DAY_OF_MONTH, daysToAdd)
+    return dateFormat.format(calendar.time)
+}
+
+fun calculateCharge(amount: Int, percentage: Int): Int {
+    return round((amount * percentage) / 100.0).toInt()
 }

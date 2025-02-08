@@ -28,10 +28,12 @@ import com.shaikhomes.smartdiary.ui.apartment.AddApartmentViewModel
 import com.shaikhomes.smartdiary.ui.customviews.SafeClickListener
 import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
+import com.shaikhomes.smartdiary.ui.utils.calculateCharge
 import com.shaikhomes.smartdiary.ui.utils.calculateDaysBetween
 import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.currentonlydate
 import com.shaikhomes.smartdiary.ui.utils.dateFormat
+import com.shaikhomes.smartdiary.ui.utils.getFutureDate
 import com.shaikhomes.smartdiary.ui.utils.makeCamelCase
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import java.lang.Math.abs
@@ -134,7 +136,11 @@ class TenantOverview : AppCompatActivity() {
                 if (tenantList?.rent.isNullOrEmpty()) 0 else tenantList?.rent?.toInt()
             checkOut?.let {
                 val days = calculateDaysBetween(currentDate, it)
-                var totalRent = rent!! * days
+                var totalRent =if(tenantList?.renttype == "monthly") {
+                    var penality = calculateCharge(rent!!, 1) * days
+                    penality = kotlin.math.abs(penality)
+                    rent + penality
+                } else rent!! * days
                 if (days < 0) {
                     dueLayout.visibility = View.VISIBLE
                     dueText.text =
@@ -210,6 +216,11 @@ class TenantOverview : AppCompatActivity() {
                     editCheckOut.setText("")
                 } else editCheckOut.setText(getFutureDate(checkOut, number))
             } else editCheckOut.setText("")
+        }
+        if(tenantList?.renttype == "monthly"){
+            editCheckOutDays.setText("30")
+            editCheckOutDays.isClickable = false
+            editCheckOutDays.isEnabled = false
         }
         dueDate.text = "Due Since ${checkOut}"
         val safeClickListener = SafeClickListener {
@@ -336,18 +347,6 @@ class TenantOverview : AppCompatActivity() {
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
-    }
-
-    fun getFutureDate(checkoutDate: String, daysToAdd: Int): String {
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-        // Parse the string into a Date object
-        val date = dateFormat.parse(checkoutDate)
-        val calendar = Calendar.getInstance()
-        if (date != null) {
-            calendar.time = date
-        }
-        calendar.add(Calendar.DAY_OF_MONTH, daysToAdd)
-        return dateFormat.format(calendar.time)
     }
 
     override fun onSupportNavigateUp(): Boolean {

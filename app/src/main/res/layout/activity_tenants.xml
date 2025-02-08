@@ -126,6 +126,17 @@
             app:layout_constraintTop_toBottomOf="@id/bedsSpinner"
             app:layout_constraintWidth_percent="0.9" />
 
+        <Spinner
+            android:id="@+id/rentTypeSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/genderSpinner"
+            app:layout_constraintWidth_percent="0.9" />
+
         <EditText
             android:id="@+id/editCheckIn"
             android:layout_width="0dp"
@@ -137,7 +148,7 @@
             android:padding="@dimen/size_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/genderSpinner"
+            app:layout_constraintTop_toBottomOf="@id/rentTypeSpinner"
             app:layout_constraintWidth_percent="0.9" />
 
         <EditText
@@ -153,41 +164,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editCheckIn"
             app:layout_constraintWidth_percent="0.9" />
-        <ToggleButton
-            android:id="@+id/dayToggle"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/size_40dp"
-            android:layout_marginTop="@dimen/size_8dp"
-            android:layout_marginEnd="@dimen/size_8dp"
-            android:layout_weight="1"
-            android:background="@drawable/toggle_background"
-            android:textAllCaps="false"
-            android:textOff="Daily"
-            android:textOn="Daily"
-            android:textSize="@dimen/font_12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/monthToggle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editCheckOut"
-            app:layout_constraintWidth_percent="0.4" />
 
-        <ToggleButton
-            android:id="@+id/monthToggle"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/size_40dp"
-            android:layout_marginTop="@dimen/size_8dp"
-            android:layout_marginEnd="@dimen/size_8dp"
-            android:layout_weight="1"
-            android:background="@drawable/toggle_background"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textOff="Monthly"
-            android:textOn="Monthly"
-            android:textSize="@dimen/font_12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/dayToggle"
-            app:layout_constraintTop_toBottomOf="@id/editCheckOut"
-            app:layout_constraintWidth_percent="0.4" />
+
         <EditText
             android:id="@+id/editRentPerDay"
             android:layout_width="0dp"
@@ -199,7 +177,7 @@
             android:padding="@dimen/size_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dayToggle"
+            app:layout_constraintTop_toBottomOf="@id/editCheckOut"
             app:layout_constraintWidth_percent="0.9" />
 
         <EditText

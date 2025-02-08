@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -44,6 +43,7 @@ import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.dateFormat
 import com.shaikhomes.smartdiary.ui.utils.getCountryList
+import com.shaikhomes.smartdiary.ui.utils.getFutureDate
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import retrofit2.Call
 import retrofit2.Callback
@@ -87,7 +87,7 @@ class TenantsActivity : AppCompatActivity() {
     private var selectFlat: String? = null
     private var selectRoom: String? = null
     private var selectBed: String? = null
-    private var rentType:String = "daily"
+    private var rentType: String = "daily"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityTenantsBinding = ActivityTenantsBinding.inflate(layoutInflater)
@@ -210,7 +210,7 @@ class TenantsActivity : AppCompatActivity() {
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
         activityTenantsBinding.editCheckIn.setOnClickListener {
-            selectCheckInDate(activityTenantsBinding.editCheckIn)
+            selectCheckInDate(activityTenantsBinding.editCheckIn, rentType == "monthly")
         }
         activityTenantsBinding.editCheckOut.setOnClickListener {
             selectcheckOutDate(activityTenantsBinding.editCheckOut)
@@ -245,25 +245,30 @@ class TenantsActivity : AppCompatActivity() {
         activityTenantsBinding?.userImage?.setOnClickListener {
             selectImage()
         }
-        activityTenantsBinding?.apply {
-            dayToggle.isChecked = true
-            dayToggle.setTextColor(Color.parseColor("#FFFFFF"))
-            dayToggle.setOnCheckedChangeListener { _, checked ->
-                if (checked) {
-                    rentType = "daily"
-                    monthToggle.isChecked = false
-                    dayToggle.setTextColor(Color.parseColor("#FFFFFF"))
-                    monthToggle.setTextColor(Color.parseColor("#000000"))
+        activityTenantsBinding.rentTypeSpinner?.apply {
+            rentType = "daily"
+            adapter = ArrayAdapter(
+                this@TenantsActivity,
+                R.layout.spinner_item, arrayListOf("daily", "monthly")
+            )
+            onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        p0: AdapterView<*>?,
+                        p1: View?,
+                        p2: Int,
+                        p3: Long
+                    ) {
+                        val selectedItem = p0?.getItemAtPosition(p2).toString()
+                        rentType = selectedItem
+                        activityTenantsBinding.editCheckOut.setText("")
+                        activityTenantsBinding.editCheckIn.setText("")
+                        activityTenantsBinding.editCheckOut.isClickable = true
+                        activityTenantsBinding.editCheckOut.isEnabled = true
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {}
                 }
-            }
-            monthToggle.setOnCheckedChangeListener { _, checked ->
-                if (checked) {
-                    rentType = "monthly"
-                    dayToggle.isChecked = false
-                    monthToggle.setTextColor(Color.parseColor("#FFFFFF"))
-                    dayToggle.setTextColor(Color.parseColor("#000000"))
-                }
-            }
         }
     }
 
@@ -316,7 +321,8 @@ class TenantsActivity : AppCompatActivity() {
                     rentstatus = "",
                     duedate = "",
                     paymentmode = "",
-                    securitydeposit = activityTenantsBinding.editSecurityDeposit.text.toString().trim(),
+                    securitydeposit = activityTenantsBinding.editSecurityDeposit.text.toString()
+                        .trim(),
                     joinedon = activityTenantsBinding.editJoiningDate.text.toString()
                         .dateFormat("dd-MM-yyyy", "yyyy-MM-dd"),
                     mailid = "",
@@ -383,10 +389,10 @@ class TenantsActivity : AppCompatActivity() {
         } else if (base64String?.isEmpty() == true) {
             flag = false
             Toast.makeText(this, "Capture User Image", Toast.LENGTH_SHORT).show()
-        }  else if (activityTenantsBinding.editJoiningDate.text.toString().isEmpty()) {
+        } else if (activityTenantsBinding.editJoiningDate.text.toString().isEmpty()) {
             flag = false
             Toast.makeText(this, "Enter Joining Date", Toast.LENGTH_SHORT).show()
-        }  else if (activityTenantsBinding.editSecurityDeposit.text.toString().isEmpty()) {
+        } else if (activityTenantsBinding.editSecurityDeposit.text.toString().isEmpty()) {
             flag = false
             Toast.makeText(this, "Enter Security Deposit", Toast.LENGTH_SHORT).show()
         }
@@ -633,13 +639,28 @@ class TenantsActivity : AppCompatActivity() {
         return true
     }
 
-    private fun selectCheckInDate(checkIn: EditText) {
+    private fun selectCheckInDate(checkIn: EditText, isCheckIn: Boolean? = false) {
         var calendar = Calendar.getInstance()
         val datePickerDialog = this.let { it1 ->
             DatePickerDialog(
                 it1,
                 { _, year, monthOfYear, dayOfMonth ->
-                    checkIn.setText("$dayOfMonth-${monthOfYear.plus(1)}-$year")
+                    var checkinDate="$dayOfMonth-${monthOfYear.plus(1)}-$year"
+                    checkinDate = checkinDate.dateFormat("dd-MM-yyyy","dd-MM-yyyy")
+                    checkIn.setText(checkinDate)
+                    if (isCheckIn == true) {
+                        activityTenantsBinding.editCheckOut.setText(
+                            getFutureDate(
+                                checkIn.text.toString().trim(), 30
+                            )
+                        )
+                        activityTenantsBinding.editCheckOut.isClickable = false
+                        activityTenantsBinding.editCheckOut.isEnabled = false
+                    } else {
+                        activityTenantsBinding.editCheckOut.setText("")
+                        activityTenantsBinding.editCheckOut.isClickable = true
+                        activityTenantsBinding.editCheckOut.isEnabled = true
+                    }
 
                 },
                 calendar.get(Calendar.YEAR),
@@ -657,8 +678,9 @@ class TenantsActivity : AppCompatActivity() {
             DatePickerDialog(
                 it1,
                 { _, year, monthOfYear, dayOfMonth ->
-                    checkOut.setText("$dayOfMonth-${monthOfYear.plus(1)}-$year")
-
+                    var checkinDate="$dayOfMonth-${monthOfYear.plus(1)}-$year"
+                    checkinDate = checkinDate.dateFormat("dd-MM-yyyy","dd-MM-yyyy")
+                    checkOut.setText(checkinDate)
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),

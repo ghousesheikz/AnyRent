@@ -18,10 +18,12 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.smartdiary.ui.models.TenantList
+import com.shaikhomes.smartdiary.ui.utils.calculateCharge
 import com.shaikhomes.smartdiary.ui.utils.calculateDaysBetween
 import com.shaikhomes.smartdiary.ui.utils.currentonlydate
 import com.shaikhomes.smartdiary.ui.utils.dateFormat
 import com.shaikhomes.smartdiary.ui.utils.makeCamelCase
+import java.lang.Math.abs
 
 class TenantAdapter(
     private val context: Context,
@@ -144,9 +146,19 @@ class TenantAdapter(
             if (days < 0) {
                 holder.rent.setText(
                     if (!filteredList[position].rent.isNullOrEmpty()) {
-                        Html.fromHtml(
-                            "<font color='#FF0000'>Over Due Amount AED ${rent!! * days}/-</font>"
-                        )
+                        val rentType = filteredList[position].renttype
+                        if(rentType == "monthly"){
+                            var penality = calculateCharge(rent!!,1) * days
+                            penality = kotlin.math.abs(penality)
+                            val total = rent + penality
+                            Html.fromHtml(
+                                "<font color='#FF0000'>Over Due Amount AED ${rent!!}/- Penality AED ${penality}/- Total AED ${total}/-</font>"
+                            )
+                        }else {
+                            Html.fromHtml(
+                                "<font color='#FF0000'>Over Due Amount AED ${rent!! * days}/-</font>"
+                            )
+                        }
                     } else "AED 0/-",
                     TextView.BufferType.SPANNABLE
                 )
@@ -154,9 +166,16 @@ class TenantAdapter(
             } else {
                 holder.rent.setText(
                     if (!filteredList[position].rent.isNullOrEmpty()) {
-                        Html.fromHtml(
-                            "<font color='#34A853'>Remaining Amount AED ${rent!! * days}/-</font>"
-                        )
+                        val rentType = filteredList[position].renttype
+                        if(rentType == "monthly"){
+                            Html.fromHtml(
+                                "<font color='#34A853'>Paid AED ${rent!!}/-</font>"
+                            )
+                        }else {
+                            Html.fromHtml(
+                                "<font color='#34A853'>Remaining Amount AED ${rent!! * days}/-</font>"
+                            )
+                        }
                     } else "AED 0/-",
                     TextView.BufferType.SPANNABLE
                 )
