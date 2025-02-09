@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Build
 import android.provider.Settings
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -209,6 +210,6 @@ fun getFutureDate(checkoutDate: String, daysToAdd: Int): String {
     return dateFormat.format(calendar.time)
 }
 
-fun calculateCharge(amount: Int, percentage: Int): Int {
-    return round((amount * percentage) / 100.0).toInt()
+fun calculateCharge(amount: Double, percentage: Double): Double {
+    return amount * 0.1 / 100
 }

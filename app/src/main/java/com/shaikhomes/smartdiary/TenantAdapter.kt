@@ -142,13 +142,13 @@ class TenantAdapter(
         checkOut?.let {
             val days = calculateDaysBetween(currentDate, it)
             val rent =
-                if (filteredList[position].rent.isNullOrEmpty()) 0 else filteredList[position].rent?.toInt()
+                if (filteredList[position].rent.isNullOrEmpty()) 0.0 else filteredList[position].rent?.toDouble()
             if (days < 0) {
                 holder.rent.setText(
                     if (!filteredList[position].rent.isNullOrEmpty()) {
                         val rentType = filteredList[position].renttype
                         if(rentType == "monthly"){
-                            var penality = calculateCharge(rent!!,1) * days
+                            var penality = calculateCharge(rent!!,0.1) * days
                             penality = kotlin.math.abs(penality)
                             val total = rent + penality
                             Html.fromHtml(

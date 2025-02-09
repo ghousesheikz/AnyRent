@@ -153,7 +153,7 @@ class TenantRegistration : AppCompatActivity() {
             selectCheckInDate(activityTenantsBinding.editCheckIn, rentType == "monthly")
         }
         activityTenantsBinding.editJoiningDate.setOnClickListener {
-            selectCheckInDate(activityTenantsBinding.editJoiningDate)
+            selectJoiningDate(activityTenantsBinding.editJoiningDate)
         }
         activityTenantsBinding.editCheckOut.setOnClickListener {
             selectcheckOutDate(activityTenantsBinding.editCheckOut)
@@ -355,14 +355,14 @@ class TenantRegistration : AppCompatActivity() {
         )
     }
 
-    private fun selectCheckInDate(checkIn: EditText,isCheckIn:Boolean?=false) {
+    private fun selectCheckInDate(checkIn: EditText, isCheckIn: Boolean? = false) {
         var calendar = Calendar.getInstance()
         val datePickerDialog = this.let { it1 ->
             DatePickerDialog(
                 it1,
                 { _, year, monthOfYear, dayOfMonth ->
-                    var checkinDate="$dayOfMonth-${monthOfYear.plus(1)}-$year"
-                    checkinDate = checkinDate.dateFormat("dd-MM-yyyy","dd-MM-yyyy")
+                    var checkinDate = "$dayOfMonth-${monthOfYear.plus(1)}-$year"
+                    checkinDate = checkinDate.dateFormat("dd-MM-yyyy", "dd-MM-yyyy")
                     checkIn.setText(checkinDate)
                     if (isCheckIn == true) {
                         activityTenantsBinding.editCheckOut.setText(
@@ -387,14 +387,33 @@ class TenantRegistration : AppCompatActivity() {
         datePickerDialog?.show()
     }
 
+    private fun selectJoiningDate(checkIn: EditText) {
+        var calendar = Calendar.getInstance()
+        val datePickerDialog = this.let { it1 ->
+            DatePickerDialog(
+                it1,
+                { _, year, monthOfYear, dayOfMonth ->
+                    var checkinDate = "$dayOfMonth-${monthOfYear.plus(1)}-$year"
+                    checkinDate = checkinDate.dateFormat("dd-MM-yyyy", "dd-MM-yyyy")
+                    checkIn.setText(checkinDate)
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+        }
+        // datePickerDialog?.datePicker?.minDate = calendar.timeInMillis
+        datePickerDialog?.show()
+    }
+
     private fun selectcheckOutDate(checkOut: EditText) {
         var calendar = Calendar.getInstance()
         val datePickerDialog = this.let { it1 ->
             DatePickerDialog(
                 it1,
                 { _, year, monthOfYear, dayOfMonth ->
-                    var checkinDate="$dayOfMonth-${monthOfYear.plus(1)}-$year"
-                    checkinDate = checkinDate.dateFormat("dd-MM-yyyy","dd-MM-yyyy")
+                    var checkinDate = "$dayOfMonth-${monthOfYear.plus(1)}-$year"
+                    checkinDate = checkinDate.dateFormat("dd-MM-yyyy", "dd-MM-yyyy")
                     checkOut.setText(checkinDate)
                 },
                 calendar.get(Calendar.YEAR),

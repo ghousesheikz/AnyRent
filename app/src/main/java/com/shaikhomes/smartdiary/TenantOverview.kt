@@ -133,18 +133,19 @@ class TenantOverview : AppCompatActivity() {
             val checkOut = tenantList?.checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
             val currentDate = currentonlydate("dd-MM-yyyy")
             val rent =
-                if (tenantList?.rent.isNullOrEmpty()) 0 else tenantList?.rent?.toInt()
+                if (tenantList?.rent.isNullOrEmpty()) 0.0 else tenantList?.rent?.toDouble()
             checkOut?.let {
                 val days = calculateDaysBetween(currentDate, it)
+                var penality = 0.0
                 var totalRent =if(tenantList?.renttype == "monthly") {
-                    var penality = calculateCharge(rent!!, 1) * days
+                    penality = calculateCharge(rent!!, 0.1) * days
                     penality = kotlin.math.abs(penality)
                     rent + penality
                 } else rent!! * days
                 if (days < 0) {
                     dueLayout.visibility = View.VISIBLE
                     dueText.text =
-                        "${tenantList?.Name} have a due of AED ${abs(totalRent)}/- \nSince ${checkOut}"
+                        "${tenantList?.Name} have a due of AED ${abs(totalRent)}/-  with penality AED ${penality}/-\nSince ${checkOut}"
                     btnRecordPayment.setOnClickListener {
                         val dialogView = layoutInflater.inflate(R.layout.otp_view, null)
                         val otpView = dialogView.findViewById<OTPView>(R.id.otpView)
@@ -192,12 +193,18 @@ class TenantOverview : AppCompatActivity() {
                     }
                 }
             }
+            btnEdit.setOnClickListener {
+                val intent = Intent(this@TenantOverview, EditTenant::class.java)
+                intent.putExtra("edit_tenant", Gson().toJson(tenantList))
+                startActivity(intent)
+                finish()
+            }
         }
         getApartment(tenantList?.apartmentId)
         getFlat(tenantList?.apartmentId, tenantList?.floorno)
     }
 
-    private fun recordPayment(checkOut: String, totalRent: Long) {
+    private fun recordPayment(checkOut: String, totalRent: Double) {
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.record_payment, null)
         val editCheckIn = view.findViewById<EditText>(R.id.editCheckIn)

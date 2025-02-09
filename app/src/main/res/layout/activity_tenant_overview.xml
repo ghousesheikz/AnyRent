@@ -118,6 +118,14 @@
             android:src="@drawable/ic_call" />
 
         <ImageButton
+            android:id="@+id/btnEdit"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Edit"
+            android:src="@drawable/ic_edit" />
+
+        <ImageButton
             android:id="@+id/btnMessage"
             android:layout_width="50dp"
             android:layout_height="50dp"
