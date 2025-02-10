@@ -13,6 +13,10 @@
         <item name="fab_colorRipple">#1B5E20</item>
     </style>
 
+    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
     <style name="CountryCode">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:clickable">true</item>

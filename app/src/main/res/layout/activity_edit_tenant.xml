@@ -129,13 +129,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_text_container"
             app:layout_constraintWidth_percent="0.9" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_10dp"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:text="Rent Type"
+            android:textSize="@dimen/font_16sp" />
+        <Spinner
+            android:id="@+id/rentTypeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_15dp"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_marginEnd="@dimen/size_15dp"
+            android:background="@drawable/edittext_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/genderSpinner"
+            app:layout_constraintWidth_percent="0.9" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/size_10dp"
             android:layout_marginTop="@dimen/size_15dp"
-            android:text="Rent"
+            android:text="Rent Amount"
             android:textSize="@dimen/font_16sp" />
 
         <EditText
@@ -145,6 +164,7 @@
             android:layout_marginStart="@dimen/size_15dp"
             android:layout_marginTop="@dimen/size_5dp"
             android:layout_marginEnd="@dimen/size_15dp"
+            android:inputType="number"
             android:background="@drawable/edittext_bg"
             android:hint="Rent"
             android:padding="@dimen/size_8dp"

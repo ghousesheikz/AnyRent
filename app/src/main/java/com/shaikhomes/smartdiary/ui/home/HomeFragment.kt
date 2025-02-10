@@ -26,6 +26,7 @@ import com.shaikhomes.smartdiary.ui.models.TenantData
 import com.shaikhomes.smartdiary.ui.models.TenantList
 import com.shaikhomes.smartdiary.ui.utils.ImagePicker
 import com.shaikhomes.smartdiary.ui.utils.PrefManager
+import com.shaikhomes.smartdiary.ui.utils.calculateCharge
 import com.shaikhomes.smartdiary.ui.utils.calculateDaysBetween
 import com.shaikhomes.smartdiary.ui.utils.currentonlydate
 import com.shaikhomes.smartdiary.ui.utils.dateFormat
@@ -109,18 +110,18 @@ class HomeFragment : Fragment() {
                     val todaysExpenses =
                         getExpensesList(expensesData.expensesList, currentDay = true)
                     var amount = 0
-                    todaysExpenses.forEach { records->
-                        if(!records.creditAmount.isNullOrEmpty()) amount += records.creditAmount?.toInt()!!
-                        if(!records.debitAmount.isNullOrEmpty()) amount -= records.debitAmount?.toInt()!!
+                    todaysExpenses.forEach { records ->
+                        if (!records.creditAmount.isNullOrEmpty()) amount += records.creditAmount?.toInt()!!
+                        if (!records.debitAmount.isNullOrEmpty()) amount -= records.debitAmount?.toInt()!!
                     }
-                    withContext(Dispatchers.Main){
+                    withContext(Dispatchers.Main) {
                         binding.txtExpense.setText("AED ${amount}/-")
                         binding.expenseLayout.setOnClickListener {
                             startActivity(Intent(requireContext(), ExpensesList::class.java))
                         }
                     }
-                }else {
-                    withContext(Dispatchers.Main){
+                } else {
+                    withContext(Dispatchers.Main) {
                         binding.txtExpense.setText("AED 0/-")
                     }
                 }
@@ -199,7 +200,11 @@ class HomeFragment : Fragment() {
                     if (tenantList.rent.isNullOrEmpty()) 0 else tenantList.rent?.toInt()
                 checkOut?.let {
                     val days = calculateDaysBetween(currentDate, it)
-                    val totalRent = rent!! * days
+                    val totalRent = if (tenantList.renttype == "monthly") {
+                        var penality = calculateCharge((rent?:0).toDouble(), 0.1) * days
+                        penality = kotlin.math.abs(penality)
+                        ((rent?:0).toDouble() + penality).toLong()
+                    } else (rent!! * days)
                     pendingAmt += kotlin.math.abs(totalRent)
                 }
             }

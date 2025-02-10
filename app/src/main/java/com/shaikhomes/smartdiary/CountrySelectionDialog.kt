@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.Keep
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.DialogCountrySelectionBinding
 import com.shaikhomes.smartdiary.ui.models.CountryCode
 import kotlinx.coroutines.CoroutineScope
@@ -20,6 +21,11 @@ class CountrySelectionDialog : BottomSheetDialogFragment() {
     private var adapter: CountrySelectionAdapter? = null
     private var countryList: List<CountryCode>? = emptyList()
     private lateinit var dialogCountrySelectinBinding: DialogCountrySelectionBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

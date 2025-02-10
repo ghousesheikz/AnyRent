@@ -265,6 +265,11 @@ class TenantsActivity : AppCompatActivity() {
                         activityTenantsBinding.editCheckIn.setText("")
                         activityTenantsBinding.editCheckOut.isClickable = true
                         activityTenantsBinding.editCheckOut.isEnabled = true
+                        if (rentType == "monthly") {
+                            activityTenantsBinding.editRentPerDay.setHint("Rent Per Month")
+                        } else {
+                            activityTenantsBinding.editRentPerDay.setHint("Rent Per Day")
+                        }
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -645,8 +650,8 @@ class TenantsActivity : AppCompatActivity() {
             DatePickerDialog(
                 it1,
                 { _, year, monthOfYear, dayOfMonth ->
-                    var checkinDate="$dayOfMonth-${monthOfYear.plus(1)}-$year"
-                    checkinDate = checkinDate.dateFormat("dd-MM-yyyy","dd-MM-yyyy")
+                    var checkinDate = "$dayOfMonth-${monthOfYear.plus(1)}-$year"
+                    checkinDate = checkinDate.dateFormat("dd-MM-yyyy", "dd-MM-yyyy")
                     checkIn.setText(checkinDate)
                     if (isCheckIn == true) {
                         activityTenantsBinding.editCheckOut.setText(
@@ -678,8 +683,8 @@ class TenantsActivity : AppCompatActivity() {
             DatePickerDialog(
                 it1,
                 { _, year, monthOfYear, dayOfMonth ->
-                    var checkinDate="$dayOfMonth-${monthOfYear.plus(1)}-$year"
-                    checkinDate = checkinDate.dateFormat("dd-MM-yyyy","dd-MM-yyyy")
+                    var checkinDate = "$dayOfMonth-${monthOfYear.plus(1)}-$year"
+                    checkinDate = checkinDate.dateFormat("dd-MM-yyyy", "dd-MM-yyyy")
                     checkOut.setText(checkinDate)
                 },
                 calendar.get(Calendar.YEAR),

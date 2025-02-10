@@ -68,7 +68,7 @@ class RoomsAvailableActivity : AppCompatActivity() {
         addApartmentViewModel?.getRooms(
             success = {
                 if (it.roomsList.isNotEmpty()) {
-                    roomAdapter?.updateList(it.roomsList)
+                    roomAdapter?.updateList(it.roomsList.sortedWith(compareBy { extractNumber(it.roomname?:"") }))
                 } else roomAdapter?.updateList(arrayListOf())
             },
             error = {
@@ -78,6 +78,12 @@ class RoomsAvailableActivity : AppCompatActivity() {
             floorno = "",
             flatno = ""
         )
+    }
+
+    fun extractNumber(input: String): Int {
+        val regex = Regex("\\d+")
+        val match = regex.find(input)
+        return match?.value?.toInt() ?: Int.MAX_VALUE // If no number, treat it as the largest possible value
     }
 
     override fun onSupportNavigateUp(): Boolean {

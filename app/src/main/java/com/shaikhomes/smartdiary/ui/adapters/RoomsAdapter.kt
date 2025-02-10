@@ -2,6 +2,7 @@ package com.shaikhomes.smartdiary.ui.adapters
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -96,6 +97,7 @@ class RoomsAdapter(
                 binding.floorName.apply {
                     text = item.roomname
                 }
+                Log.v("ROOM_NAME",item.roomname.toString())
                 binding.txtCapacity.text = "Capacity : ${item.roomcapacity}"
                 binding.root.isActivated = selectionPosition == position
                 binding.deleteRoom.setOnClickListener {

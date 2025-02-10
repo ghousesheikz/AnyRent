@@ -23,7 +23,6 @@ import com.shaikhomes.smartdiary.ui.utils.calculateDaysBetween
 import com.shaikhomes.smartdiary.ui.utils.currentonlydate
 import com.shaikhomes.smartdiary.ui.utils.dateFormat
 import com.shaikhomes.smartdiary.ui.utils.makeCamelCase
-import java.lang.Math.abs
 
 class TenantAdapter(
     private val context: Context,
@@ -128,14 +127,23 @@ class TenantAdapter(
             TextView.BufferType.SPANNABLE
         )
         holder.rentType.setText(
-            Html.fromHtml(
-                "Rent Type: <font color='#000000'><b>${
-                    (filteredList[position].renttype?:"").makeCamelCase()
-                }</b></font>"
-            ),
+            if ((filteredList[position].renttype == "monthly")) {
+                Html.fromHtml(
+                    "Rent Type: <font color='#FF0000'><b>${
+                        (filteredList[position].renttype ?: "").makeCamelCase()
+                    }</b></font>"
+                )
+            }else{
+                Html.fromHtml(
+                    "Rent Type: <font color='#34A853'><b>${
+                        (filteredList[position].renttype ?: "").makeCamelCase()
+                    }</b></font>"
+                )
+            },
             TextView.BufferType.SPANNABLE
         )
-        if(filteredList[position].renttype.isNullOrEmpty()) holder.rentType.visibility = View.GONE else holder.rentType.visibility = View.VISIBLE
+        if (filteredList[position].renttype.isNullOrEmpty()) holder.rentType.visibility =
+            View.GONE else holder.rentType.visibility = View.VISIBLE
         val checkOut =
             filteredList[position].checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
         val currentDate = currentonlydate("dd-MM-yyyy")
@@ -147,14 +155,14 @@ class TenantAdapter(
                 holder.rent.setText(
                     if (!filteredList[position].rent.isNullOrEmpty()) {
                         val rentType = filteredList[position].renttype
-                        if(rentType == "monthly"){
-                            var penality = calculateCharge(rent!!,0.1) * days
+                        if (rentType == "monthly") {
+                            var penality = calculateCharge(rent!!, 0.1) * days
                             penality = kotlin.math.abs(penality)
                             val total = rent + penality
                             Html.fromHtml(
                                 "<font color='#FF0000'>Over Due Amount AED ${rent!!}/- Penality AED ${penality}/- Total AED ${total}/-</font>"
                             )
-                        }else {
+                        } else {
                             Html.fromHtml(
                                 "<font color='#FF0000'>Over Due Amount AED ${rent!! * days}/-</font>"
                             )
@@ -167,11 +175,11 @@ class TenantAdapter(
                 holder.rent.setText(
                     if (!filteredList[position].rent.isNullOrEmpty()) {
                         val rentType = filteredList[position].renttype
-                        if(rentType == "monthly"){
+                        if (rentType == "monthly") {
                             Html.fromHtml(
                                 "<font color='#34A853'>Paid AED ${rent!!}/-</font>"
                             )
-                        }else {
+                        } else {
                             Html.fromHtml(
                                 "<font color='#34A853'>Remaining Amount AED ${rent!! * days}/-</font>"
                             )

@@ -181,6 +181,11 @@ class TenantRegistration : AppCompatActivity() {
                         activityTenantsBinding.editCheckIn.setText("")
                         activityTenantsBinding.editCheckOut.isClickable = true
                         activityTenantsBinding.editCheckOut.isEnabled = true
+                        if (rentType == "monthly") {
+                            activityTenantsBinding.editRentPerDay.setHint("Rent Per Month")
+                        } else {
+                            activityTenantsBinding.editRentPerDay.setHint("Rent Per Day")
+                        }
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {}

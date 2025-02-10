@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
@@ -63,6 +64,7 @@ class EditTenant : AppCompatActivity() {
     private val requestCodeCameraPermission = 101
     private var photoUri: Uri? = null
     private val requestCodeStoragePermission = 102
+    private var rentType: String = "daily"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,12 +94,41 @@ class EditTenant : AppCompatActivity() {
             }
             editName.setText(tenantList?.Name)
             editNumber.setText(tenantList?.MobileNo)
+            textDropDownChooseCountry.setText(tenantList?.countrycode)
             genderist.add("male")
             genderist.add("female")
             genderSpinner.adapter = ArrayAdapter(
                 this@EditTenant,
                 R.layout.spinner_item, genderist!!
             )
+            rentTypeSpinner?.apply {
+                adapter = ArrayAdapter(
+                    this@EditTenant,
+                    R.layout.spinner_item, arrayListOf("daily", "monthly")
+                )
+                onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            p0: AdapterView<*>?,
+                            p1: View?,
+                            p2: Int,
+                            p3: Long
+                        ) {
+                            val selectedItem = p0?.getItemAtPosition(p2).toString()
+                            rentType = selectedItem
+                            if (rentType == "monthly") {
+                                editRentPerDay.setHint("Rent Per Month")
+                            } else {
+                                editRentPerDay.setHint("Rent Per Day")
+                            }
+                        }
+
+                        override fun onNothingSelected(p0: AdapterView<*>?) {}
+                    }
+                if (tenantList?.renttype == "monthly") {
+                    setSelection(1)
+                } else setSelection(0)
+            }
             if (tenantList?.Gender == "male") {
                 genderSpinner.setSelection(0)
             } else if (tenantList?.Gender == "female") {
@@ -145,6 +176,7 @@ class EditTenant : AppCompatActivity() {
                 tenantList?.UpdatedOn = currentdate()
                 tenantList?.duedate =
                     tenantList?.duedate?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                tenantList?.renttype = rentType
                 tenantList?.update = "update"
                 addApartmentViewModel?.addTenant(tenantList!!, success = {
                     showToast(this, "Tenant Updated Successfully")
