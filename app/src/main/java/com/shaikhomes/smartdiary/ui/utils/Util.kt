@@ -211,5 +211,5 @@ fun getFutureDate(checkoutDate: String, daysToAdd: Int): String {
 }
 
 fun calculateCharge(amount: Double, percentage: Double): Double {
-    return amount * 0.1 / 100
+    return amount * 0 / 100
 }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -38,9 +39,7 @@ import com.shaikhomes.smartdiary.ui.utils.makeCamelCase
 import com.shaikhomes.smartdiary.ui.utils.showToast
 import java.lang.Math.abs
 import java.net.URLEncoder
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 
 
 class TenantOverview : AppCompatActivity() {
@@ -113,7 +112,8 @@ class TenantOverview : AppCompatActivity() {
             }"
             room.text = tenantList?.details
             rent.text = "Per Day Rent AED ${tenantList?.rent}/-"
-            securityDeposit.text = "Security Deposit AED ${if(tenantList?.securitydeposit.isNullOrEmpty()) "0" else tenantList?.securitydeposit}/-"
+            securityDeposit.text =
+                "Security Deposit AED ${if (tenantList?.securitydeposit.isNullOrEmpty()) "0" else tenantList?.securitydeposit}/-"
             floor.text = "Floor : ${tenantList?.floorno}"
             rentType.text = "Rent Type : ${tenantList?.renttype.makeCamelCase()}"
             btnCall.setOnClickListener {
@@ -137,15 +137,24 @@ class TenantOverview : AppCompatActivity() {
             checkOut?.let {
                 val days = calculateDaysBetween(currentDate, it)
                 var penality = 0.0
-                var totalRent =if(tenantList?.renttype == "monthly") {
+                var totalRent = if (tenantList?.renttype == "monthly") {
                     penality = calculateCharge(rent!!, 0.1) * days
                     penality = kotlin.math.abs(penality)
                     rent + penality
                 } else rent!! * days
-                if (days < 0) {
+                if (days < 0 || tenantList?.rentstatus == "pending") {
                     dueLayout.visibility = View.VISIBLE
-                    dueText.text =
-                        "${tenantList?.Name} have a due of AED ${abs(totalRent)}/-  with penality AED ${penality}/-\nSince ${checkOut}"
+                    if (tenantList?.rentstatus == "pending") {
+                        val paidAmt =
+                            if (tenantList?.paid.isNullOrEmpty()) 0 else (tenantList?.paid
+                                ?: "0").toInt()
+                        val dueAmt = totalRent - paidAmt
+                        dueText.text =
+                            "${tenantList?.Name} have a due of AED ${abs(dueAmt)}/-  Paid Amount AED ${paidAmt}/- Total Amount AED ${totalRent}/-\nSince ${checkOut}"
+                    } else {
+                        dueText.text =
+                            "${tenantList?.Name} have a due of AED ${abs(totalRent)}/-  with penality AED ${penality}/-\nSince ${checkOut}"
+                    }
                     btnRecordPayment.setOnClickListener {
                         val dialogView = layoutInflater.inflate(R.layout.otp_view, null)
                         val otpView = dialogView.findViewById<OTPView>(R.id.otpView)
@@ -210,6 +219,8 @@ class TenantOverview : AppCompatActivity() {
         val editCheckIn = view.findViewById<EditText>(R.id.editCheckIn)
         val editCheckOut = view.findViewById<EditText>(R.id.editCheckOut)
         val editCheckOutDays = view.findViewById<EditText>(R.id.editCheckOutDays)
+        val editAmountReceived = view.findViewById<EditText>(R.id.editAmountReceived)
+        val editDueDate = view.findViewById<EditText>(R.id.editDueDate)
         val dueDate = view.findViewById<TextView>(R.id.dueDate)
         val updateButton = view.findViewById<Button>(R.id.updateButton)
 //        editCheckIn.setOnClickListener {
@@ -224,10 +235,34 @@ class TenantOverview : AppCompatActivity() {
                 } else editCheckOut.setText(getFutureDate(checkOut, number))
             } else editCheckOut.setText("")
         }
-        if(tenantList?.renttype == "monthly"){
+        if (tenantList?.renttype == "monthly") {
             editCheckOutDays.setText("30")
             editCheckOutDays.isClickable = false
             editCheckOutDays.isEnabled = false
+            if (tenantList?.rentstatus == "pending") {
+                editAmountReceived.setText(tenantList?.paid)
+                editCheckOut.setText(checkOut)
+            } else {
+                editAmountReceived.setText(tenantList?.rent)
+            }
+            editAmountReceived.doAfterTextChanged {
+                if (it.toString().isNotEmpty()) {
+                    val number = it.toString().toInt()
+                    val rent = tenantList?.rent?.toInt()
+                    if (number <= 0) {
+                        editAmountReceived.setText("1")
+                    } else if (number > rent!!) {
+                        editAmountReceived.setText(tenantList?.rent)
+                    } else {
+                        val rentPerDay = rent / 30
+                        val daysCovered = number / rentPerDay
+                        Log.v("DAYS_COVERED", daysCovered.toString())
+                        editDueDate.setText(getFutureDate(checkOut, daysCovered))
+                    }
+                }
+            }
+        } else {
+            editAmountReceived.setText("0")
         }
         dueDate.text = "Due Since ${checkOut}"
         val safeClickListener = SafeClickListener {
@@ -235,7 +270,17 @@ class TenantOverview : AppCompatActivity() {
                 Toast.makeText(this, "Please select checkin date", Toast.LENGTH_SHORT).show()
             } else if (editCheckOut.text.toString().isNullOrEmpty()) {
                 Toast.makeText(this, "Please select checkout date", Toast.LENGTH_SHORT).show()
+            } else if (editAmountReceived.text.toString()
+                    .isNullOrEmpty() || editAmountReceived.text.toString() == "0"
+            ) {
+                Toast.makeText(this, "Please enter received amount", Toast.LENGTH_SHORT).show()
             } else {
+                val amtReceived = editAmountReceived.text.toString().toInt()
+                val rent = tenantList?.rent?.toInt()
+                var status = ""
+                if (amtReceived == rent) {
+                    status = "completed"
+                } else status = "pending"
                 tenantList?.checkin =
                     editCheckIn.text.toString().dateFormat("dd-MM-yyyy", "yyyy-MM-dd")
                 tenantList?.checkout =
@@ -247,8 +292,11 @@ class TenantOverview : AppCompatActivity() {
                 tenantList?.joinedon =
                     tenantList?.joinedon?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
                 tenantList?.update = "update"
+                tenantList?.rentstatus = status
+                tenantList?.paid = amtReceived.toString()
                 //Log.v("TENANT_UPDATE", Gson().toJson(tenantList))
                 addApartmentViewModel?.addTenant(tenantList!!, success = {
+                    bottomSheetDialog.dismiss()
                     showToast(this, "Tenant Updated Successfully")
                     onBackPressed()
                 }, error = {

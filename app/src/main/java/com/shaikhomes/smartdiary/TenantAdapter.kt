@@ -133,7 +133,7 @@ class TenantAdapter(
                         (filteredList[position].renttype ?: "").makeCamelCase()
                     }</b></font>"
                 )
-            }else{
+            } else {
                 Html.fromHtml(
                     "Rent Type: <font color='#34A853'><b>${
                         (filteredList[position].renttype ?: "").makeCamelCase()
@@ -151,7 +151,7 @@ class TenantAdapter(
             val days = calculateDaysBetween(currentDate, it)
             val rent =
                 if (filteredList[position].rent.isNullOrEmpty()) 0.0 else filteredList[position].rent?.toDouble()
-            if (days < 0) {
+            if (days < 0 || filteredList[position].rentstatus == "pending") {
                 holder.rent.setText(
                     if (!filteredList[position].rent.isNullOrEmpty()) {
                         val rentType = filteredList[position].renttype
@@ -159,9 +159,18 @@ class TenantAdapter(
                             var penality = calculateCharge(rent!!, 0.1) * days
                             penality = kotlin.math.abs(penality)
                             val total = rent + penality
-                            Html.fromHtml(
-                                "<font color='#FF0000'>Over Due Amount AED ${rent!!}/- Penality AED ${penality}/- Total AED ${total}/-</font>"
-                            )
+                            val paidAmt =
+                                if (filteredList[position].paid.isNullOrEmpty()) 0 else (filteredList[position].paid?:"0").toInt()
+                            val dueAmt = total - paidAmt
+                            if (filteredList[position].rentstatus == "pending") {
+                                Html.fromHtml(
+                                    "<font color='#FF0000'>Due Amount AED ${dueAmt!!}/- Paid Amount AED ${paidAmt}/- Total AED ${total}/-</font>"
+                                )
+                            } else {
+                                Html.fromHtml(
+                                    "<font color='#FF0000'>Over Due Amount AED ${rent!!}/- Penality AED ${penality}/- Total AED ${total}/-</font>"
+                                )
+                            }
                         } else {
                             Html.fromHtml(
                                 "<font color='#FF0000'>Over Due Amount AED ${rent!! * days}/-</font>"
@@ -170,7 +179,7 @@ class TenantAdapter(
                     } else "AED 0/-",
                     TextView.BufferType.SPANNABLE
                 )
-                holder.dueDays.text = "Due ${days} Days"
+                holder.dueDays.text = if (days > 0) "Remaining ${days} Days" else "Due ${days} Days"
             } else {
                 holder.rent.setText(
                     if (!filteredList[position].rent.isNullOrEmpty()) {

@@ -51,8 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_15dp"
         android:background="@drawable/edittext_bg"
-        android:inputType="number"
         android:hint="Enter Days"
+        android:inputType="number"
         android:padding="@dimen/size_8dp" />
 
     <EditText
@@ -63,6 +63,26 @@
         android:background="@drawable/edittext_bg"
         android:editable="false"
         android:hint="CheckOut Date"
+        android:padding="@dimen/size_8dp" />
+
+    <EditText
+        android:id="@+id/editAmountReceived"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Amount Received"
+        android:inputType="number"
+        android:padding="@dimen/size_8dp" />
+
+    <EditText
+        android:id="@+id/editDueDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:background="@drawable/edittext_bg"
+        android:editable="false"
+        android:hint="Due Date"
         android:padding="@dimen/size_8dp" />
 
     <Button
