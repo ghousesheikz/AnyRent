@@ -240,7 +240,7 @@ class TenantOverview : AppCompatActivity() {
             editCheckOutDays.isClickable = false
             editCheckOutDays.isEnabled = false
             if (tenantList?.rentstatus == "pending") {
-                editAmountReceived.setText(tenantList?.paid)
+                editAmountReceived.setText("1")
                 editCheckOut.setText(checkOut)
             } else {
                 editAmountReceived.setText(tenantList?.rent)
@@ -249,19 +249,23 @@ class TenantOverview : AppCompatActivity() {
                 if (it.toString().isNotEmpty()) {
                     val number = it.toString().toInt()
                     val rent = tenantList?.rent?.toInt()
+                    val pending = (tenantList?.paid?:"0").toInt() + number
                     if (number <= 0) {
                         editAmountReceived.setText("1")
                     } else if (number > rent!!) {
                         editAmountReceived.setText(tenantList?.rent)
+                    } else if (pending > rent!!) {
+                        editAmountReceived.setText("1")
                     } else {
                         val rentPerDay = rent / 30
                         val daysCovered = number / rentPerDay
                         Log.v("DAYS_COVERED", daysCovered.toString())
-                        editDueDate.setText(getFutureDate(checkOut, daysCovered))
+                        //editDueDate.setText(getFutureDate(checkOut, daysCovered))
                     }
                 }
             }
         } else {
+            editAmountReceived.visibility = View.GONE
             editAmountReceived.setText("0")
         }
         dueDate.text = "Due Since ${checkOut}"
@@ -271,14 +275,14 @@ class TenantOverview : AppCompatActivity() {
             } else if (editCheckOut.text.toString().isNullOrEmpty()) {
                 Toast.makeText(this, "Please select checkout date", Toast.LENGTH_SHORT).show()
             } else if (editAmountReceived.text.toString()
-                    .isNullOrEmpty() || editAmountReceived.text.toString() == "0"
+                    .isNullOrEmpty() || editAmountReceived.text.toString() == "0" && tenantList?.renttype == "monthly"
             ) {
                 Toast.makeText(this, "Please enter received amount", Toast.LENGTH_SHORT).show()
             } else {
-                val amtReceived = editAmountReceived.text.toString().toInt()
+                val amtReceived = if(tenantList?.rentstatus=="pending") (editAmountReceived.text.toString().toInt()+ (tenantList?.paid?:"0").toInt()) else  editAmountReceived.text.toString().toInt()
                 val rent = tenantList?.rent?.toInt()
                 var status = ""
-                if (amtReceived == rent) {
+                if (amtReceived == rent || tenantList?.renttype != "monthly") {
                     status = "completed"
                 } else status = "pending"
                 tenantList?.checkin =

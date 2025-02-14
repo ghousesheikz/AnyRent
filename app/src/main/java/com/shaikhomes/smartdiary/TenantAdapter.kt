@@ -106,7 +106,7 @@ class TenantAdapter(
         )
         holder.joinedOn.setText(
             Html.fromHtml(
-                "Joined On: <font color='#000E77'>${
+                "Joined On: <font color='#000000'>${
                     filteredList[position].joinedon?.dateFormat(
                         "dd-MM-yyyy hh:mm:ss",
                         "dd-MMM-yyyy"
