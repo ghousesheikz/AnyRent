@@ -150,7 +150,7 @@ class TenantOverview : AppCompatActivity() {
                                 ?: "0").toInt()
                         val dueAmt = totalRent - paidAmt
                         dueText.text =
-                            "${tenantList?.Name} have a due of AED ${abs(dueAmt)}/-  Paid Amount AED ${paidAmt}/- Total Amount AED ${totalRent}/-\nSince ${checkOut}"
+                            "${tenantList?.Name} have a due of AED ${abs(dueAmt)}/-  Paid Amount AED ${paidAmt}/- Total Amount AED ${totalRent}/-"
                     } else {
                         dueText.text =
                             "${tenantList?.Name} have a due of AED ${abs(totalRent)}/-  with penality AED ${penality}/-\nSince ${checkOut}"
@@ -240,7 +240,8 @@ class TenantOverview : AppCompatActivity() {
             editCheckOutDays.isClickable = false
             editCheckOutDays.isEnabled = false
             if (tenantList?.rentstatus == "pending") {
-                editAmountReceived.setText("1")
+                dueDate.visibility = View.INVISIBLE
+                editAmountReceived.setText("0")
                 editCheckOut.setText(checkOut)
             } else {
                 editAmountReceived.setText(tenantList?.rent)
@@ -250,12 +251,14 @@ class TenantOverview : AppCompatActivity() {
                     val number = it.toString().toInt()
                     val rent = tenantList?.rent?.toInt()
                     val pending = (tenantList?.paid?:"0").toInt() + number
-                    if (number <= 0) {
-                        editAmountReceived.setText("1")
+                    if (number < 0) {
+                        editAmountReceived.setText("0")
                     } else if (number > rent!!) {
+                        showToast(this,"Amount Exceeded")
                         editAmountReceived.setText(tenantList?.rent)
                     } else if (pending > rent!!) {
-                        editAmountReceived.setText("1")
+                        showToast(this,"Amount Exceeded")
+                        editAmountReceived.setText("0")
                     } else {
                         val rentPerDay = rent / 30
                         val daysCovered = number / rentPerDay

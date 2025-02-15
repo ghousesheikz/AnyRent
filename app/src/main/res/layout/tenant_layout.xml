@@ -31,21 +31,33 @@
             android:src="@drawable/ic_profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rentAmt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:lineSpacingMultiplier="1"
+            android:paddingStart="@dimen/size_5dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/app_name" />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tenantName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
             android:lineSpacingMultiplier="1"
-            android:paddingTop="@dimen/size_10dp"
+            android:paddingTop="@dimen/size_5dp"
             android:paddingStart="@dimen/size_5dp"
             android:textColor="@color/black"
             android:textSize="@dimen/font_16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rentAmt"
             tools:text="@string/app_name" />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/joinedOn"

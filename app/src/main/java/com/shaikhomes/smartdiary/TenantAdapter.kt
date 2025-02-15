@@ -115,6 +115,14 @@ class TenantAdapter(
             ),
             TextView.BufferType.SPANNABLE
         )
+        holder.rentAmt.setText(
+            Html.fromHtml(
+                "Rent AED <font color='#000000'>${
+                    filteredList[position].rent
+                }/-</font>"
+            ),
+            TextView.BufferType.SPANNABLE
+        )
         holder.checkout.setText(
             Html.fromHtml(
                 "CheckOut: <font color='#000E77'>${
@@ -164,11 +172,11 @@ class TenantAdapter(
                             val dueAmt = total - paidAmt
                             if (filteredList[position].rentstatus == "pending") {
                                 Html.fromHtml(
-                                    "<font color='#FF0000'>Due Amount AED ${dueAmt!!}/- Paid Amount AED ${paidAmt}/- Total AED ${total}/-</font>"
+                                    "<font color='#FF0000'>Due Amount AED ${dueAmt!!}/- Paid Amount AED ${paidAmt}/-</font>"
                                 )
                             } else {
                                 Html.fromHtml(
-                                    "<font color='#FF0000'>Over Due Amount AED ${rent!!}/- Penality AED ${penality}/- Total AED ${total}/-</font>"
+                                    "<font color='#FF0000'>Over Due Amount AED ${rent!!}/- Penality AED ${penality}/-</font>"
                                 )
                             }
                         } else {
@@ -264,8 +272,8 @@ class TenantAdapter(
     }
 
     inner class LeadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tenantName: AppCompatTextView =
-            itemView.findViewById<AppCompatTextView>(R.id.tenantName)
+        var tenantName: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.tenantName)
+        var rentAmt: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.rentAmt)
         var rent: AppCompatTextView =
             itemView.findViewById<AppCompatTextView>(R.id.rent)
         var apartment: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.apartment)
