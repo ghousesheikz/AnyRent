@@ -46,10 +46,15 @@ class RoomsAdapter(
     }
 
     private var bedClickListener: ((RoomData.RoomsList, Beds) -> Unit)? = null
+    private var qrCodeClickListener: ((RoomData.RoomsList, Beds) -> Unit)? = null
     private var tenantClickListener: ((RoomData.RoomsList, Beds) -> Unit)? = null
 
     fun setBedClickListener(leadList: (RoomData.RoomsList, Beds) -> Unit) {
         this.bedClickListener = leadList
+    }
+
+    fun setQRCodeClickListener(leadList: (RoomData.RoomsList, Beds) -> Unit) {
+        this.qrCodeClickListener = leadList
     }
 
     fun setTenantClickListener(leadList: (RoomData.RoomsList, Beds) -> Unit) {
@@ -97,7 +102,7 @@ class RoomsAdapter(
                 binding.floorName.apply {
                     text = item.roomname
                 }
-                Log.v("ROOM_NAME",item.roomname.toString())
+                Log.v("ROOM_NAME", item.roomname.toString())
                 binding.txtCapacity.text = "Capacity : ${item.roomcapacity}"
                 binding.root.isActivated = selectionPosition == position
                 binding.deleteRoom.setOnClickListener {
@@ -129,9 +134,11 @@ class RoomsAdapter(
                                 setBackgroundColor(Color.WHITE) // Set background color
                             }
                             val imageView = createImageView(binding.root.context, bed, item)
+                            val qrCodeView = createQRCode(binding.root.context, bed, item)
                             val textView = createBedsNumber(binding.root.context, bed, item)
                             parentLayout.addView(imageView)
                             parentLayout.addView(textView)
+                            parentLayout.addView(qrCodeView)
                             binding.container.addView(parentLayout)
                         }
                     }
@@ -175,6 +182,43 @@ class RoomsAdapter(
             return textView
         }
 
+        private fun createQRCode(
+            context: Context,
+            beds: Beds,
+            item: RoomData.RoomsList
+        ): ImageView {
+            val imageView = ImageView(context).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    topMargin = 8 // Add some margin between ImageView and TextView
+                    bottomMargin = 2 // Add some margin between ImageView and TextView
+                    rightMargin = 8 // Add some margin between ImageView and TextView
+                    leftMargin = 8 // Add some margin between ImageView and TextView
+                    gravity = Gravity.CENTER // Optional: Center align the text
+                }
+            }
+            // Set image properties
+            //   imageView.setBackgroundResource(R.drawable.border_bg)
+            //   imageView.setPadding(15,15,15,15)
+            if (beds.userId.isNullOrEmpty()) {
+                imageView.setImageResource(R.drawable.ic_qr_code) // Replace with your drawable resource
+                imageView.setOnClickListener {
+                    qrCodeClickListener?.invoke(item, beds)
+                }
+                imageView.visibility = View.VISIBLE
+            } else imageView.visibility = View.GONE
+            imageView.layoutParams = LinearLayout.LayoutParams(
+                80, // Width in pixels
+                80  // Height in pixels
+            ).apply {
+                setMargins(15, 15, 15, 5) // Add some margin between views
+            }
+            imageView.scaleType = ImageView.ScaleType.CENTER_CROP // Optional: Adjust scaling
+            return imageView
+        }
+
         private fun createImageView(
             context: Context,
             beds: Beds,
@@ -200,7 +244,8 @@ class RoomsAdapter(
                 imageView.setOnClickListener {
                     bedClickListener?.invoke(item, beds)
                 }
-            } else{ imageView.setImageResource(R.drawable.ic_bed_occupied)
+            } else {
+                imageView.setImageResource(R.drawable.ic_bed_occupied)
                 imageView.setOnClickListener {
                     tenantClickListener?.invoke(item, beds)
                 }

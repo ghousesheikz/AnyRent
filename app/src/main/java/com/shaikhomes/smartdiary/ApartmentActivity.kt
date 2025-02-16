@@ -1,8 +1,11 @@
 package com.shaikhomes.smartdiary
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -20,6 +23,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.WriterException
+import com.google.zxing.qrcode.QRCodeWriter
 import com.shaikhomes.anyrent.R
 import com.shaikhomes.anyrent.databinding.ActivityApartmentBinding
 import com.shaikhomes.smartdiary.ui.adapters.FlatAdapter
@@ -35,6 +41,10 @@ import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.hideKeyboard
 import com.shaikhomes.smartdiary.ui.utils.showToast
+import java.io.File
+import java.io.FileOutputStream
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 class ApartmentActivity : AppCompatActivity() {
     private lateinit var activityApartmentBinding: ActivityApartmentBinding
@@ -84,13 +94,31 @@ class ApartmentActivity : AppCompatActivity() {
                 }
                 setBedClickListener { roomsList, beds ->
                     val intent = Intent(this@ApartmentActivity, TenantRegistration::class.java)
-                    intent.putExtra("ROOM_SELECT",Gson().toJson(roomsList))
-                    intent.putExtra("BED_SELECT",Gson().toJson(beds))
+                    intent.putExtra("ROOM_SELECT", Gson().toJson(roomsList))
+                    intent.putExtra("BED_SELECT", Gson().toJson(beds))
                     startActivity(intent)
+                }
+                setQRCodeClickListener { roomsList, beds ->
+                    var encDetails = "${roomsList?.roomname} - B${beds?.number}"
+                    encDetails = encDetails.replace(" ", "%20")
+                    val url =
+                        "https://myhotelsbooking.com/TenantRegistrationForm/?apartment=${roomsList.apartmentid}&floorno=${roomsList?.floorno}&roomno=${roomsList?.ID}&flatno=${roomsList?.flatno}&details=${encDetails}"
+                    // Generate QR Code
+                    val bitmap = generateQRCode(url)
+                    if (bitmap != null) {
+                        // Show QR code in a popup dialog
+                        showQRCodeDialog(bitmap, url)
+                    } else {
+                        Toast.makeText(
+                            this@ApartmentActivity,
+                            "Failed to generate QR Code",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
                 setTenantClickListener { roomsList, beds ->
                     addApartmentViewModel?.getTenants(success = { tenantList ->
-                        if(tenantList.tenant_list.isNotEmpty()) {
+                        if (tenantList.tenant_list.isNotEmpty()) {
                             val intent =
                                 Intent(this@ApartmentActivity, TenantOverview::class.java)
                             intent.putExtra("tenant", Gson().toJson(tenantList.tenant_list.first()))
@@ -549,5 +577,74 @@ class ApartmentActivity : AppCompatActivity() {
             apartmentid = apartmentList?.ID.toString(),
             floor
         )
+    }
+
+    private fun showQRCodeDialog(bitmap: Bitmap, url: String) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_qr_code)
+
+        val imageView: ImageView = dialog.findViewById(R.id.dialogImageView)
+        val shareButton: ImageView = dialog.findViewById(R.id.dialogShareButton)
+
+        imageView.setImageBitmap(bitmap)
+
+        // Share QR Code
+        shareButton.setOnClickListener {
+            shareQRCode(bitmap,url)
+        }
+
+        dialog.show()
+    }
+
+    private fun shareQRCode(bitmap: Bitmap?, url:String) {
+        if (bitmap == null) {
+            Toast.makeText(this, "No QR Code to share", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        try {
+
+            val tempUri = saveImageToCache(bitmap)
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "*/*"
+                putExtra(Intent.EXTRA_STREAM, tempUri)
+                putExtra(Intent.EXTRA_TEXT, "Scan this QR code or visit: $url")
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            startActivity(Intent.createChooser(shareIntent, "Share QR Code"))
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error sharing QR Code", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+        }
+    }
+
+    private fun saveImageToCache(bitmap: Bitmap): android.net.Uri {
+        val cachePath = File(cacheDir, "images")
+        cachePath.mkdirs() // Create folder if it doesn't exist
+        val file = File(cachePath, "qr_code.png")
+        val fileOutputStream = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+        fileOutputStream.close()
+        return androidx.core.content.FileProvider.getUriForFile(this, "com.shaikhomes.anyrent.provider", file)
+    }
+
+    private fun generateQRCode(text: String): Bitmap? {
+        return try {
+            val writer = QRCodeWriter()
+            val bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, 512, 512)
+            val width = bitMatrix.width
+            val height = bitMatrix.height
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+            for (x in 0 until width) {
+                for (y in 0 until height) {
+                    bitmap.setPixel(x, y, if (bitMatrix[x, y]) -0x1000000 else -0x1)
+                }
+            }
+            bitmap
+        } catch (e: WriterException) {
+            e.printStackTrace()
+            null
+        }
     }
 }
