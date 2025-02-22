@@ -16,8 +16,10 @@ import com.google.gson.reflect.TypeToken
 import com.shaikhomes.anyrent.databinding.FragmentHomeBinding
 import com.shaikhomes.smartdiary.ExpensesList
 import com.shaikhomes.smartdiary.RoomsAvailableActivity
+import com.shaikhomes.smartdiary.TenantApproval
 import com.shaikhomes.smartdiary.UnPaidTenantsDetails
 import com.shaikhomes.smartdiary.ui.PropertyActivity
+import com.shaikhomes.smartdiary.ui.customviews.SafeClickListener
 import com.shaikhomes.smartdiary.ui.models.ApartmentData
 import com.shaikhomes.smartdiary.ui.models.Beds
 import com.shaikhomes.smartdiary.ui.models.PropertyData
@@ -91,6 +93,20 @@ class HomeFragment : Fragment() {
             }
         }
         binding.currentMonth.text = currentonlydate("MMMM")
+        binding.approvalLayout.setOnClickListener(onClick)
+        binding.btnGo.setOnClickListener(onClick)
+        binding.txtApprovalCount.setOnClickListener(onClick)
+    }
+
+    val onClick = SafeClickListener {
+        if (prefmanager.selectedApartment != null) {
+            requireActivity().startActivity(
+                Intent(
+                    requireContext(),
+                    TenantApproval::class.java
+                )
+            )
+        }
     }
 
     override fun onResume() {
@@ -101,6 +117,31 @@ class HomeFragment : Fragment() {
             ImagePicker.isNotificationsPermissionRequired(requireContext(), this)
         }
         getExpenses()
+        getTenantApproval()
+    }
+
+    private fun getTenantApproval() {
+        if (prefmanager.selectedApartment != null && prefmanager.selectedApartment?.ID != null) {
+            homeViewModel?.getTenants(success = { tenantList ->
+                getTotalApprovalTenents(prefmanager.selectedApartment?.ID.toString(), tenantList)
+            }, error = {
+                showToast(requireContext(), it)
+            }, "", "", "0", "")
+        }
+    }
+
+    private fun getTotalApprovalTenents(id: String, tenantData: TenantData) {
+        if (tenantData.tenant_list.isNotEmpty()) {
+            tenantData.tenant_list.filter { it.apartmentId == id }.let { tenantListData ->
+                if (tenantListData.isNotEmpty()) {
+                    binding.txtApprovalCount.text = tenantListData.size.toString()
+                } else {
+                    binding.txtApprovalCount.text = "0"
+                }
+            }
+        } else {
+            binding.txtApprovalCount.text = "0"
+        }
     }
 
     private fun getExpenses() {
@@ -201,9 +242,9 @@ class HomeFragment : Fragment() {
                 checkOut?.let {
                     val days = calculateDaysBetween(currentDate, it)
                     val totalRent = if (tenantList.renttype == "monthly") {
-                        var penality = calculateCharge((rent?:0).toDouble(), 0.1) * days
+                        var penality = calculateCharge((rent ?: 0).toDouble(), 0.1) * days
                         penality = kotlin.math.abs(penality)
-                        ((rent?:0).toDouble() + penality).toLong()
+                        ((rent ?: 0).toDouble() + penality).toLong()
                     } else (rent!! * days)
                     pendingAmt += kotlin.math.abs(totalRent)
                 }
