@@ -22,7 +22,6 @@ import com.shaikhomes.smartdiary.ui.utils.PrefManager
 import com.shaikhomes.smartdiary.ui.utils.currentdate
 import com.shaikhomes.smartdiary.ui.utils.dateFormat
 import com.shaikhomes.smartdiary.ui.utils.showToast
-import java.util.Locale
 
 class TenantApproval : AppCompatActivity() {
     private lateinit var activityTenantApprovalBinding: ActivityTenantApprovalBinding
@@ -120,17 +119,17 @@ class TenantApproval : AppCompatActivity() {
                 it.tenant_list.filter { it.apartmentId == prefmanager.selectedApartment?.ID.toString() }
                     .let { tenantListData ->
                         try {
-/*
-                            val sortedList = tenantListData.sortedWith(compareBy(
-                                {
-                                    it.details?.toUpperCase(Locale.ROOT)?.substringBefore("-")
-                                        ?.trim()
-                                }, // Sort by room number
-                                {
-                                    it.details?.toUpperCase(Locale.ROOT)?.substringAfter("B")
-                                        ?.toInt()
-                                } // Sort by bed number
-                            ))*/
+                            /*
+                                                        val sortedList = tenantListData.sortedWith(compareBy(
+                                                            {
+                                                                it.details?.toUpperCase(Locale.ROOT)?.substringBefore("-")
+                                                                    ?.trim()
+                                                            }, // Sort by room number
+                                                            {
+                                                                it.details?.toUpperCase(Locale.ROOT)?.substringAfter("B")
+                                                                    ?.toInt()
+                                                            } // Sort by bed number
+                                                        ))*/
                             // it.tenant_list.sortByDescending { it.details }
                             tenantAdapter?.updateList(tenantListData)
                         } catch (exp: Exception) {
@@ -203,10 +202,10 @@ class TenantApproval : AppCompatActivity() {
             this.setPositiveButton(
                 "YES"
             ) { p0, p1 ->
-                if (roomData != null) {
-                    deleteBedData(roomData, tenant, { inserted ->
-                        if (inserted) {
-                            if (otpView.getStringFromFields() == "009289") {
+                if (otpView.getStringFromFields() == "778899") {
+                    if (roomData != null) {
+                        deleteBedData(roomData, tenant, { inserted ->
+                            if (inserted) {
                                 tenant.Active = "1"
                                 tenant.checkin =
                                     tenant.checkin?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
@@ -235,10 +234,10 @@ class TenantApproval : AppCompatActivity() {
                                     showToast(this@TenantApproval, it)
                                 })
                             } else showToast(this@TenantApproval, "Incorrect OTP")
-                        }
-                    })
-                }
 
+                        })
+                    }
+                }
             }
             this.setNegativeButton(
                 "NO"
