@@ -31,6 +31,7 @@
             android:src="@drawable/ic_profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/rentAmt"
             android:layout_width="0dp"
@@ -44,14 +45,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/app_name" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tenantName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
             android:lineSpacingMultiplier="1"
-            android:paddingTop="@dimen/size_5dp"
             android:paddingStart="@dimen/size_5dp"
+            android:paddingTop="@dimen/size_5dp"
             android:textColor="@color/black"
             android:textSize="@dimen/font_16sp"
             android:textStyle="bold"
@@ -59,28 +61,30 @@
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
             app:layout_constraintTop_toBottomOf="@+id/rentAmt"
             tools:text="@string/app_name" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/joinedOn"
             android:layout_width="@dimen/size_0dp"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/size_8dp"
-            android:paddingStart="@dimen/size_5dp"
             android:gravity="center_vertical"
             android:padding="@dimen/size_1dp"
+            android:paddingStart="@dimen/size_5dp"
             android:textSize="@dimen/font_12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
             app:layout_constraintTop_toBottomOf="@id/tenantName" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/rent"
             android:layout_width="@dimen/size_0dp"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/size_8dp"
             android:gravity="center_vertical"
-            android:visibility="gone"
             android:paddingStart="@dimen/size_5dp"
             android:paddingBottom="@dimen/size_5dp"
             android:textSize="@dimen/font_12sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
             app:layout_constraintTop_toBottomOf="@id/joinedOn" />
@@ -88,8 +92,8 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/apartment"
             android:layout_width="@dimen/size_0dp"
-            android:layout_marginTop="@dimen/size_10dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_10dp"
             android:drawableStart="@drawable/ic_small_bed"
             android:drawablePadding="@dimen/size_8dp"
             android:gravity="center_vertical"
@@ -131,9 +135,9 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/size_8dp"
             android:gravity="center_vertical"
-            android:visibility="gone"
             android:padding="@dimen/size_5dp"
             android:textSize="@dimen/font_12sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/checkout" />
@@ -161,35 +165,34 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/contact"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/size_40dp"
-                android:layout_margin="@dimen/size_8dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size_5dp"
                 android:layout_weight="0.5"
-                android:background="@drawable/button_bg"
-                android:drawableStart="@drawable/ic_call"
-                android:drawablePadding="@dimen/size_8dp"
-                android:drawableTint="@color/white"
+                android:background="?selectableItemBackgroundBorderless"
+                android:drawableTop="@drawable/ic_call"
+                android:drawablePadding="@dimen/size_5dp"
+                android:drawableTint="@color/c_black_1"
                 android:paddingStart="@dimen/size_20dp"
                 android:text="Contact"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/purple_500"
                 android:textSize="@dimen/font_16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/approve"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/size_40dp"
-                android:layout_margin="@dimen/size_8dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size_5dp"
                 android:layout_weight="0.5"
-                android:visibility="visible"
-                android:background="@drawable/button_bg"
-                android:drawableStart="@drawable/ic_bell"
-                android:drawablePadding="@dimen/size_8dp"
-                android:drawableTint="@color/white"
+                android:background="?selectableItemBackgroundBorderless"
+                android:drawableTop="@drawable/ic_approve"
+                android:drawablePadding="@dimen/size_5dp"
                 android:paddingStart="@dimen/size_20dp"
                 android:text="Approve"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font_16sp" />
+                android:textColor="@color/purple_200"
+                android:textSize="@dimen/font_16sp"
+                android:visibility="visible" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
