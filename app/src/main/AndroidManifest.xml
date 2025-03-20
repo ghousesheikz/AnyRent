@@ -31,46 +31,49 @@
         android:theme="@style/Theme.SmartDiary"
         tools:targetApi="31">
         <activity
-            android:name="com.shaikhomes.smartdiary.TenantApproval"
+            android:name=".SwapBedsActivity"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.EditTenant"
+            android:name=".TenantApproval"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.ExpensesList"
+            android:name=".EditTenant"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.AddExpenses"
+            android:name=".ExpensesList"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.TenantOverview"
+            android:name=".AddExpenses"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.UnPaidTenantsDetails"
+            android:name=".TenantOverview"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.TenantRegistration"
+            android:name=".UnPaidTenantsDetails"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.RoomsAvailableActivity"
+            android:name=".TenantRegistration"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.TenantDetailsActivity"
+            android:name=".RoomsAvailableActivity"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.TenantsActivity"
+            android:name=".TenantDetailsActivity"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.ApartmentActivity"
+            android:name=".TenantsActivity"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.ui.PropertyActivity"
+            android:name=".ApartmentActivity"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.ui.UserRegister"
+            android:name=".ui.PropertyActivity"
             android:exported="false" />
         <activity
-            android:name="com.shaikhomes.smartdiary.SplashActivity"
+            android:name=".ui.UserRegister"
+            android:exported="false" />
+        <activity
+            android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.SmartDiary.NoActionBar">
             <intent-filter>
@@ -79,20 +82,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--
- <service
-             android:name=".ui.utils.WhatsappAccessibilityService"
-             android:label="My Whatsapp Service"
-             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-             android:exported="true">
-             <meta-data
-                 android:name="android.accessibilityservice"
-                 android:resource="@xml/whatsappservice" />
-             <intent-filter>
-                 <action android:name="android.accessibilityservice.AccessinilityService" />
-             </intent-filter>
-         </service>
-        -->
+
+        <service
+            android:name=".WhatsappAccessibilityService"
+            android:exported="true"
+            android:label="My Whatsapp Service"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/whatsappservice" />
+
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessinilityService" />
+            </intent-filter>
+        </service>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.shaikhomes.anyrent.provider"
@@ -104,11 +108,11 @@
         </provider>
 
         <activity
-            android:name="com.shaikhomes.smartdiary.LoginActivity"
+            android:name=".LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.SmartDiary.NoActionBar" />
         <activity
-            android:name="com.shaikhomes.smartdiary.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.SmartDiary.NoActionBar" />

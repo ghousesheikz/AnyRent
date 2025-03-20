@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/c_light_gray_7"
-    tools:context="com.shaikhomes.smartdiary.ExpensesList">
+    tools:context="com.shaikhomes.anyrent.ExpensesList">
 
     <LinearLayout
         android:id="@+id/filterLayout"

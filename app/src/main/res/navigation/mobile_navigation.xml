@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.shaikhomes.smartdiary.ui.home.HomeFragment"
+        android:name="com.shaikhomes.anyrent.ui.home.HomeFragment"
         android:label="Dashboard"
         tools:layout="@layout/fragment_home">
         <action
@@ -93,7 +93,7 @@
 
     <fragment
         android:id="@+id/nav_addlead"
-        android:name="com.shaikhomes.smartdiary.ui.addlead.AddLeadFragment"
+        android:name="com.shaikhomes.anyrent.ui.addlead.AddLeadFragment"
         android:label="Add Lead"
         tools:layout="@layout/fragment_addlead">
 
@@ -110,14 +110,14 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.shaikhomes.smartdiary.ui.gallery.GalleryFragment"
+        android:name="com.shaikhomes.anyrent.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
 
     <fragment
         android:id="@+id/nav_addavailability"
-        android:name="com.shaikhomes.smartdiary.ui.apartment.AddApartmentFragment"
+        android:name="com.shaikhomes.anyrent.ui.apartment.AddApartmentFragment"
         android:label="@string/availabilities"
         tools:layout="@layout/fragment_add_apartment">
         <action
@@ -133,27 +133,27 @@
     </fragment>
     <fragment
         android:id="@+id/nav_availabilities"
-        android:name="com.shaikhomes.smartdiary.ui.availability.AvailabilityFragment"
+        android:name="com.shaikhomes.anyrent.ui.availability.AvailabilityFragment"
         android:label="@string/availabilities"
         tools:layout="@layout/fragment_availability" />
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.shaikhomes.smartdiary.ui.slideshow.SlideshowFragment"
+        android:name="com.shaikhomes.anyrent.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/nav_propertylist"
-        android:name="com.shaikhomes.smartdiary.ui.propertylist.PropertyDataFragment"
+        android:name="com.shaikhomes.anyrent.ui.propertylist.PropertyDataFragment"
         android:label="@string/property_list"
         tools:layout="@layout/fragment_propertydata" />
     <fragment
         android:id="@+id/nav_manageLeads"
-        android:name="com.shaikhomes.smartdiary.ui.manageleads.ManageLeadsFragment"
+        android:name="com.shaikhomes.anyrent.ui.manageleads.ManageLeadsFragment"
         android:label="@string/menu_manageleads"
         tools:layout="@layout/fragment_manageleads" />
     <fragment
         android:id="@+id/nav_scheduleOn"
-        android:name="com.shaikhomes.smartdiary.ui.schedulevisit.ScheduleVisitFragment"
+        android:name="com.shaikhomes.anyrent.ui.schedulevisit.ScheduleVisitFragment"
         android:label="@string/menu_schedule"
         tools:layout="@layout/fragment_schedulevisit">
         <action
@@ -169,20 +169,20 @@
 
     <fragment
         android:id="@+id/nav_employeeData"
-        android:name="com.shaikhomes.smartdiary.ui.employeeData.EmployeeDataFragment"
+        android:name="com.shaikhomes.anyrent.ui.employeeData.EmployeeDataFragment"
         android:label="@string/menu_employee"
         tools:layout="@layout/fragment_employeedata" />
 
     <fragment
         android:id="@+id/nav_addreminder"
-        android:name="com.shaikhomes.smartdiary.ui.addreminder.AddReminder"
+        android:name="com.shaikhomes.anyrent.ui.addreminder.AddReminder"
         android:label="@string/add_reminder"
         tools:layout="@layout/fragment_addreminder" />
 
 
     <fragment
         android:id="@+id/nav_addrequirement"
-        android:name="com.shaikhomes.smartdiary.ui.addrequirement.AddRequirement"
+        android:name="com.shaikhomes.anyrent.ui.addrequirement.AddRequirement"
         android:label="@string/add_requirement"
         tools:layout="@layout/fragment_addrequirement">
         <action
@@ -197,7 +197,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_leadinfo"
-        android:name="com.shaikhomes.smartdiary.ui.leadinfo.LeadInfoFragment"
+        android:name="com.shaikhomes.anyrent.ui.leadinfo.LeadInfoFragment"
         android:label=""
         tools:layout="@layout/fragment_leadinfo">
         <action
@@ -232,7 +232,7 @@
 
     <fragment
         android:id="@+id/nav_viewleads"
-        android:name="com.shaikhomes.smartdiary.ui.addlead.ViewLeadsFragment"
+        android:name="com.shaikhomes.anyrent.ui.addlead.ViewLeadsFragment"
         android:label="@string/hot_leads"
         tools:layout="@layout/fragment_viewleads">
         <action

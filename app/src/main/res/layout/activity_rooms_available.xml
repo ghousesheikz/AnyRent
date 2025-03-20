@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.shaikhomes.smartdiary.RoomsAvailableActivity">
+    tools:context="com.shaikhomes.anyrent.RoomsAvailableActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/roomAvailableList"
