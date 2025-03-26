@@ -277,15 +277,15 @@ class SwapBedsActivity : AppCompatActivity() {
                 it1.CreatedBy = prefmanager.userData?.UserName
                 it1.UpdatedOn = currentdate()
                 it1?.checkin =
-                    it1?.checkin?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                    it1?.checkin?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                 it1?.checkout =
-                    it1?.checkout?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                    it1?.checkout?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                 it1?.UpdatedOn = currentdate()
                 it1?.CreatedBy = prefmanager?.userData?.UserName
                 it1?.duedate =
-                    it1?.duedate?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                    it1?.duedate?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                 it1?.joinedon =
-                    it1?.joinedon?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                    it1?.joinedon?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                 it1?.update = "update"
                 addApartmentViewModel?.addTenant(it1, success = {
                     updatebeds(

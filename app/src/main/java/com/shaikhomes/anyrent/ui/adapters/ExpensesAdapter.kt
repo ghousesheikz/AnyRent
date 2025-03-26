@@ -104,7 +104,7 @@ class ExpensesAdapter(
             "AED ${if (!item.debitAmount.isNullOrEmpty() && item.debitAmount != "0") item.debitAmount else item.creditAmount}/-"
         holder.description.text = item.notes
         holder.paymentMode.text = "Payment mode : ${item.paymentMode}"
-        holder.paidOn.text = item.receivedOn?.dateFormat("dd-MM-yyyy hh:mm:ss", "dd-MMM-yyyy")
+        holder.paidOn.text = item.receivedOn?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "dd-MMM-yyyy")
         if (!item.picture.isNullOrEmpty()) {
             Glide.with(context)
                 .load(item.picture)

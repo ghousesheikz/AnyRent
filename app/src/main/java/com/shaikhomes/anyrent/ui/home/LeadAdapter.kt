@@ -70,10 +70,10 @@ class LeadAdapter(
             )
         holder.dateTime.text =
             if (!leadsList[position].updatedon.isNullOrEmpty()) leadsList[position].updatedon?.dateFormat(
-                "dd-MM-yyyy HH:mm:ss",
+                "MM/dd/yyyy hh:mm:ss aa",
                 "dd MMM yyyy HH:mm:ss"
             )
-            else leadsList[position].date?.dateFormat("dd-MM-yyyy HH:mm:ss", "dd MMM yyyy")
+            else leadsList[position].date?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "dd MMM yyyy")
 
         holder.callLead.setOnClickListener {
             try {

@@ -107,7 +107,7 @@ class TenantApprovalAdapter(
             Html.fromHtml(
                 "Joined On: <font color='#000000'>${
                     filteredList[position].joinedon?.dateFormat(
-                        "dd-MM-yyyy hh:mm:ss",
+                        "MM/dd/yyyy hh:mm:ss aa",
                         "dd-MMM-yyyy"
                     )
                 }</font>"

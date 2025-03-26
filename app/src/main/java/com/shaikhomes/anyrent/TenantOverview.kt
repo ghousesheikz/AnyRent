@@ -93,19 +93,19 @@ class TenantOverview : AppCompatActivity() {
             }
             checkin.text = "CheckIn Date : ${
                 tenantList?.checkin?.dateFormat(
-                    "dd-MM-yyyy 00:00:00",
+                    "MM/dd/yyyy hh:mm:ss aa",
                     "dd-MM-yyyy"
                 )
             }"
             joinedOn.text = "Joined On : ${
                 tenantList?.joinedon?.dateFormat(
-                    "dd-MM-yyyy hh:mm:ss",
+                    "MM/dd/yyyy hh:mm:ss aa",
                     "dd-MM-yyyy"
                 )
             }"
             checkout.text = "CheckOut Date : ${
                 tenantList?.checkout?.dateFormat(
-                    "dd-MM-yyyy 00:00:00",
+                    "MM/dd/yyyy hh:mm:ss aa",
                     "dd-MM-yyyy"
                 )
             }"
@@ -129,7 +129,7 @@ class TenantOverview : AppCompatActivity() {
             btnReminder.setOnClickListener {
                 sendReminder(tenantList!!)
             }
-            val checkOut = tenantList?.checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
+            val checkOut = tenantList?.checkout?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "dd-MM-yyyy")
             val currentDate = currentonlydate("dd-MM-yyyy")
             val rent =
                 if (tenantList?.rent.isNullOrEmpty()) 0.0 else tenantList?.rent?.toDouble()
@@ -231,7 +231,7 @@ class TenantOverview : AppCompatActivity() {
 //        editCheckIn.setOnClickListener {
 //            selectCheckInDate(editCheckIn)
 //        }
-        editCheckIn.setText(tenantList?.checkin?.dateFormat("dd-MM-yyyy hh:mm:ss", "dd-MM-yyyy"))
+        editCheckIn.setText(tenantList?.checkin?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "dd-MM-yyyy"))
         editCheckOutDays.doAfterTextChanged {
             if (it.toString().isNotEmpty()) {
                 val number = it.toString().toInt()
@@ -300,9 +300,9 @@ class TenantOverview : AppCompatActivity() {
                 tenantList?.UpdatedOn = currentdate()
                 tenantList?.CreatedBy = prefmanager?.userData?.UserName
                 tenantList?.duedate =
-                    tenantList?.duedate?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                    tenantList?.duedate?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                 tenantList?.joinedon =
-                    tenantList?.joinedon?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                    tenantList?.joinedon?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                 tenantList?.update = "update"
                 tenantList?.rentstatus = status
                 tenantList?.paid = amtReceived.toString()

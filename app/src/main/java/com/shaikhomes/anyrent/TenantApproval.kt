@@ -207,15 +207,15 @@ class TenantApproval : AppCompatActivity() {
                             if (inserted) {
                                 tenant.Active = "1"
                                 tenant.checkin =
-                                    tenant.checkin?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                                    tenant.checkin?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                                 tenant.checkout =
-                                    tenant.checkout?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                                    tenant.checkout?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                                 tenant.UpdatedOn = currentdate()
                                 tenant.CreatedBy = prefmanager?.userData?.UserName
                                 tenant.duedate =
-                                    tenant.duedate?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                                    tenant.duedate?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                                 tenant.joinedon =
-                                    tenant.joinedon?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                                    tenant.joinedon?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                                 tenant.update = "update"
                                 tenant.paid = "0"
                                 addApartmentViewModel?.addTenant(tenant, success = {

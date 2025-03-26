@@ -139,7 +139,7 @@ class EditTenant : AppCompatActivity() {
             editRentPerDay.setText(tenantList?.rent)
             editJoiningDate.setText(
                 tenantList?.joinedon?.dateFormat(
-                    "dd-MM-yyyy hh:mm:ss",
+                    "MM/dd/yyyy hh:mm:ss aa",
                     "dd-MM-yyyy"
                 )
             )
@@ -169,12 +169,12 @@ class EditTenant : AppCompatActivity() {
                     tenantList?.userImage = imagePath
                 }
                 tenantList?.checkin =
-                    tenantList?.checkin?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                    tenantList?.checkin?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                 tenantList?.checkout =
-                    tenantList?.checkout?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                    tenantList?.checkout?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                 tenantList?.UpdatedOn = currentdate()
                 tenantList?.duedate =
-                    tenantList?.duedate?.dateFormat("dd-MM-yyyy hh:mm:ss", "yyyy-MM-dd")
+                    tenantList?.duedate?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "yyyy-MM-dd")
                 tenantList?.renttype = rentType
                 tenantList?.update = "update"
                 addApartmentViewModel?.addTenant(tenantList!!, success = {

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -43,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         scheduleDailyNotification(this)
         setSupportActionBar(binding.appBarMain.toolbar)
-
 //        binding.appBarMain.fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_manageLeads, R.id.nav_employeeData, R.id.nav_scheduleOn
-            ), drawerLayout
+            )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         //navView.setupWithNavController(navController)
@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         binding.appBarMain.bottomNavigation.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.dashboard -> {
+                    hide3Dots()
                     navController.navigate(R.id.nav_home)
                     true
                 }
@@ -114,6 +115,15 @@ class MainActivity : AppCompatActivity() {
 
         }
         askPermission()
+    }
+
+    fun hide3Dots(){
+        try {
+            supportActionBar?.setDisplayShowHomeEnabled(false)
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun hideEmpMenu(navView: NavigationView) {

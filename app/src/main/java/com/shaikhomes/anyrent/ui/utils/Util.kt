@@ -132,7 +132,7 @@ fun getDatewiseExpenses(
     fromDateStr: String,
     toDateStr: String
 ): List<ExpensesList> {
-    val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+    val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault())
     // Parse fromDate and toDate strings
     val fromDate = dateFormat.parse(fromDateStr)
     val toDate = dateFormat.parse(toDateStr)
@@ -150,7 +150,7 @@ fun getExpensesList(
     currentMonth: Boolean? = false
 ): List<ExpensesList> {
     // Date format of the input strings
-    val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+    val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault())
     val currentCalendar = Calendar.getInstance()
     // Convert the `receivedOn` date strings to Date objects and Calendar instances
     val recordsWithDates = expensesData.map { record ->
