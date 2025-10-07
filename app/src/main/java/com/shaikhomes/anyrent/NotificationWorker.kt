@@ -135,7 +135,7 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
         CoroutineScope(Dispatchers.IO).launch {
             var pendingAmt: Long = 0
             tenantListData.forEach { tenantList ->
-                val checkOut = tenantList.checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
+                val checkOut = tenantList.checkout?.dateFormat("MM/dd/yyyy hh:mm:ss a", "dd-MM-yyyy")
                 val currentDate = currentonlydate("dd-MM-yyyy")
                 val rent =
                     if (tenantList.rent.isNullOrEmpty()) 0 else tenantList.rent?.toInt()

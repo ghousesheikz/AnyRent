@@ -181,8 +181,10 @@ class TenantRegistration : AppCompatActivity() {
                         activityTenantsBinding.editCheckOut.isClickable = true
                         activityTenantsBinding.editCheckOut.isEnabled = true
                         if (rentType == "monthly") {
+                            activityTenantsBinding.editCheckOut.visibility = View.GONE
                             activityTenantsBinding.editRentPerDay.setHint("Rent Per Month")
                         } else {
+                            activityTenantsBinding.editCheckOut.visibility = View.VISIBLE
                             activityTenantsBinding.editRentPerDay.setHint("Rent Per Day")
                         }
                     }

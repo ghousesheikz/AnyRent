@@ -3,6 +3,7 @@ package com.shaikhomes.anyrent
 import android.content.Context
 import android.os.Build
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -236,6 +237,13 @@ class TenantAdapter(
                 .load(R.drawable.ic_profile)
                 .transform(CircleTransformation()) // Apply custom circle transformation
                 .into(holder.circularImageView)
+        }
+        if ((filteredList[position].renttype == "monthly")) {
+            holder.checkout.visibility = View.GONE
+            Log.e("onBindViewHolder: ", "true")
+        }else{
+            Log.e("onBindViewHolder: ", "false")
+            holder.checkout.visibility = View.VISIBLE
         }
     }
 

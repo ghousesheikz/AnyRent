@@ -265,8 +265,10 @@ class TenantsActivity : AppCompatActivity() {
                         activityTenantsBinding.editCheckOut.isClickable = true
                         activityTenantsBinding.editCheckOut.isEnabled = true
                         if (rentType == "monthly") {
+                            activityTenantsBinding.editCheckOut.visibility = View.GONE
                             activityTenantsBinding.editRentPerDay.setHint("Rent Per Month")
                         } else {
+                            activityTenantsBinding.editCheckOut.visibility = View.VISIBLE
                             activityTenantsBinding.editRentPerDay.setHint("Rent Per Day")
                         }
                     }
@@ -310,10 +312,11 @@ class TenantsActivity : AppCompatActivity() {
 
     val safeClickListener = SafeClickListener {
         if (validations()) {
+            activityTenantsBinding.addTenant.isEnabled = false
             uploadImages(base64String, {
                 val tenantList = TenantList(
                     Active = "1",
-                    MobileNo = activityTenantsBinding.editNumber.text.toString(),
+                    MobileNo = activityTenantsBinding.editNumber.text.toString().replaceFirst("^0+".toRegex(), ""),
                     Name = activityTenantsBinding.editName.text.toString(),
                     apartmentId = apartmentSelected?.ID.toString(),
                     floorno = selectFloor,
@@ -349,9 +352,10 @@ class TenantsActivity : AppCompatActivity() {
                     updatebeds(
                         roomSelected,
                         bedSelected,
-                        activityTenantsBinding.editNumber.text.toString()
+                        activityTenantsBinding.editNumber.text.toString().replaceFirst("^0+".toRegex(), "")
                     )
                 }, error = {
+                    activityTenantsBinding.addTenant.isEnabled = true
                     showToast(this, it)
                 })
             })
@@ -630,8 +634,10 @@ class TenantsActivity : AppCompatActivity() {
                 Log.v("SELECTED_ROOM", Gson().toJson(roomSelected))
                 addApartmentViewModel?.addRooms(roomSelected, success = {
                     showToast(this, "Tenant Added Successfully")
+                    activityTenantsBinding.addTenant.isEnabled = true
                     onBackPressed()
                 }, error = {
+                    activityTenantsBinding.addTenant.isEnabled = true
                     showToast(this, it)
                 })
             }

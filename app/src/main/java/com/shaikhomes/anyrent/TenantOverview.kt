@@ -213,9 +213,13 @@ class TenantOverview : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
+            if (tenantList?.renttype == "monthly") {
+                checkout.visibility = View.GONE
+            }else checkout.visibility = View.VISIBLE
         }
         getApartment(tenantList?.apartmentId)
         getFlat(tenantList?.apartmentId, tenantList?.floorno)
+
     }
 
     private fun recordPayment(checkOut: String, totalRent: Double) {
