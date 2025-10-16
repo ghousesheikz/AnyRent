@@ -96,7 +96,7 @@ class TenantApprovalAdapter(
             Html.fromHtml(
                 "CheckIn: <font color='#000E77'>${
                     filteredList[position].checkin?.dateFormat(
-                        "dd-MM-yyyy 00:00:00",
+                        "MM/dd/yyyy hh:mm:ss aa",
                         "dd-MMM-yyyy"
                     )
                 }</font>"
@@ -126,7 +126,7 @@ class TenantApprovalAdapter(
             Html.fromHtml(
                 "CheckOut: <font color='#000E77'>${
                     filteredList[position].checkout?.dateFormat(
-                        "dd-MM-yyyy 00:00:00",
+                        "MM/dd/yyyy hh:mm:ss aa",
                         "dd-MMM-yyyy"
                     )
                 }</font>"
@@ -152,7 +152,7 @@ class TenantApprovalAdapter(
         if (filteredList[position].renttype.isNullOrEmpty()) holder.rentType.visibility =
             View.GONE else holder.rentType.visibility = View.VISIBLE
         val checkOut =
-            filteredList[position].checkout?.dateFormat("dd-MM-yyyy 00:00:00", "dd-MM-yyyy")
+            filteredList[position].checkout?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "dd-MM-yyyy")
         val currentDate = currentonlydate("dd-MM-yyyy")
         checkOut?.let {
             val days = calculateDaysBetween(currentDate, it)
