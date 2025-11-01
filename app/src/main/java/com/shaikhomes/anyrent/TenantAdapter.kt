@@ -63,9 +63,9 @@ class TenantAdapter(
         this.deleteClickListener = leadList
     }
 
-    private var reminderClickListener: ((TenantList) -> Unit)? = null
+    private var reminderClickListener: ((TenantList, Double) -> Unit)? = null
 
-    fun setReminderClickListener(leadList: (TenantList) -> Unit) {
+    fun setReminderClickListener(leadList: (TenantList, Double) -> Unit) {
         this.reminderClickListener = leadList
     }
 
@@ -155,6 +155,7 @@ class TenantAdapter(
         val checkOut =
             filteredList[position].checkout?.dateFormat("MM/dd/yyyy hh:mm:ss aa", "dd-MM-yyyy")
         val currentDate = currentonlydate("dd-MM-yyyy")
+        var amount = 0.0
         checkOut?.let {
             val days = calculateDaysBetween(currentDate, it)
             val rent =
@@ -171,15 +172,18 @@ class TenantAdapter(
                                 if (filteredList[position].paid.isNullOrEmpty()) 0 else (filteredList[position].paid?:"0").toInt()
                             val dueAmt = total - paidAmt
                             if (filteredList[position].rentstatus == "pending") {
+                                amount = dueAmt
                                 Html.fromHtml(
                                     "<font color='#FF0000'>Due Amount AED ${dueAmt!!}/- Paid Amount AED ${paidAmt}/-</font>"
                                 )
                             } else {
+                                amount = rent
                                 Html.fromHtml(
                                     "<font color='#FF0000'>Over Due Amount AED ${rent!!}/- Penality AED ${penality}/-</font>"
                                 )
                             }
                         } else {
+                            amount = rent!! * days
                             Html.fromHtml(
                                 "<font color='#FF0000'>Over Due Amount AED ${rent!! * days}/-</font>"
                             )
@@ -215,7 +219,7 @@ class TenantAdapter(
             callClickListener?.invoke(filteredList[position])
         }
         holder.reminder.setOnClickListener {
-            reminderClickListener?.invoke(filteredList[position])
+            reminderClickListener?.invoke(filteredList[position],amount)
         }
         holder.tenantLayout.setOnClickListener {
             editClickListener?.invoke(filteredList[position])

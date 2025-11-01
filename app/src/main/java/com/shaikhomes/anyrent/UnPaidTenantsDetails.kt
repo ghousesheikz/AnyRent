@@ -88,8 +88,8 @@ class UnPaidTenantsDetails : AppCompatActivity() {
                 setDeleteClickListener { tenant ->
                     //deleteTenant(tenant)
                 }
-                setReminderClickListener { tenant ->
-                    sendReminder(tenant)
+                setReminderClickListener { tenant,amount ->
+                    sendReminder(tenant,amount)
                 }
             }
             adapter = tenantAdapter
@@ -124,13 +124,17 @@ class UnPaidTenantsDetails : AppCompatActivity() {
         }
     }
 
-    private fun sendReminder(tenant: TenantList) {
+    private fun sendReminder(tenant: TenantList,amount: Double) {
         val packageManager = packageManager
         val i = Intent(Intent.ACTION_VIEW)
         try {
             val url =
                 "https://api.whatsapp.com/send?phone=${(if (!tenant?.countrycode.isNullOrEmpty()) tenant?.countrycode else "+971") + tenant?.MobileNo}" + "&text=" + URLEncoder.encode(
-                    "This is reminder for your due for the rent",
+                    "Dear ${tenant.Name},\n" +
+                            "\n" +
+                            "Your rent of AED ${amount} is now due. Please make your payment using the link below:\n" +
+                            "\n" +
+                            "https://buy.stripe.com/3cs6q41UM4RedgYbIK\n",
                     "UTF-8"
                 )
             i.setPackage("com.whatsapp.w4b")
