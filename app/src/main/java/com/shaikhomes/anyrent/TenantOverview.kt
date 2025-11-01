@@ -412,7 +412,7 @@ class TenantOverview : AppCompatActivity() {
                     "This is reminder for your due for the rent",
                     "UTF-8"
                 )
-            i.setPackage("com.whatsapp")
+            i.setPackage("com.whatsapp.w4b")
             i.data = Uri.parse(url)
             startActivity(i)
         } catch (e: java.lang.Exception) {

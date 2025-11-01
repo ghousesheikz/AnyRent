@@ -128,7 +128,7 @@ class LeadInfoFragment : Fragment() {
                                 "",
                                 "UTF-8"
                             )
-                        i.setPackage("com.whatsapp")
+                        i.setPackage("com.whatsapp.w4b")
                         i.data = Uri.parse(url)
                         requireActivity().startActivity(i)
                     } catch (e: java.lang.Exception) {
@@ -146,7 +146,7 @@ class LeadInfoFragment : Fragment() {
                                         "https://shaikhomes.com/addreminder/schedule.html",
                                 "UTF-8"
                             )
-                        i.setPackage("com.whatsapp")
+                        i.setPackage("com.whatsapp.w4b")
                         i.data = Uri.parse(url)
                         requireActivity().startActivity(i)
                     } catch (e: java.lang.Exception) {

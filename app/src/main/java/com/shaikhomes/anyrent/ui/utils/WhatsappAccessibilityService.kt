@@ -10,14 +10,14 @@ class WhatsappAccessibilityService : AccessibilityService() {
         if (rootInActiveWindow == null) return
         val rootNodeInfo = AccessibilityNodeInfoCompat.wrap(rootInActiveWindow)
         val messageNodeList =
-            rootNodeInfo.findAccessibilityNodeInfosByViewId("com.whatsapp:id/entry")
+            rootNodeInfo.findAccessibilityNodeInfosByViewId("com.whatsapp.w4b:id/entry")
         if (messageNodeList.isNullOrEmpty()) return
         val messageField = messageNodeList[0]
         if (messageField == null || messageField.text.isEmpty() || !messageField.text.toString()
                 .endsWith("\uD83D\uDE0A")
         ) return
         val sendMessageNodeList =
-            rootNodeInfo.findAccessibilityNodeInfosByViewId("com.whatsapp:id/send")
+            rootNodeInfo.findAccessibilityNodeInfosByViewId("com.whatsapp.w4b:id/send")
         if (sendMessageNodeList.isNullOrEmpty()) return
         val sendMessage = sendMessageNodeList[0]
         if (!sendMessage.isVisibleToUser) return
