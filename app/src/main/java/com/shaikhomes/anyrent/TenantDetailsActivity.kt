@@ -108,11 +108,28 @@ class TenantDetailsActivity : AppCompatActivity() {
         try {
             val url =
                 "https://api.whatsapp.com/send?phone=${(if (!tenant?.countrycode.isNullOrEmpty()) tenant?.countrycode else "+971") + tenant?.MobileNo}" + "&text=" + URLEncoder.encode(
-                    "Dear ${tenant.Name},\n" +
+                    "Subject: Rent Payment Reminder – AED $amount Due\n" +
                             "\n" +
-                            "Your rent of AED ${amount} is now due. Please make your payment using the link below:\n" +
+                            "Dear ${tenant.Name},\n" +
                             "\n" +
-                            "https://buy.stripe.com/3cs6q41UM4RedgYbIK\n",
+                            "This is a friendly reminder from Al Taj Al Raea Holiday Homes that your rent payment of AED $amount is now due.\n" +
+                            "\n" +
+                            "To complete your payment securely, please use the link below:\n" +
+                            "\uD83D\uDD17 https://buy.stripe.com/3cs6q41UM4RedgYbIK\n" +
+                            "\n" +
+                            "We kindly request you to settle the payment at your earliest convenience to avoid any delay or inconvenience.\n" +
+                            "\n" +
+                            "If you have already made the payment, please disregard this message.\n" +
+                            "For any questions or assistance, feel free to contact us at +971 56 764 5418 or nasuruddinshaik@gmail.com.\n" +
+                            "\n" +
+                            "Thank you for choosing Al Taj Al Raea Holiday Homes.\n" +
+                            "We appreciate your prompt attention.\n" +
+                            "\n" +
+                            "Warm regards,\n" +
+                            "Nasuruddin Shaik\n" +
+                            "Managing Director\n" +
+                            "Al Taj Al Raea Holiday Homes\n" +
+                            "\uD83D\uDCDE +971 56 764 5418",
                     "UTF-8"
                 )
             i.setPackage("com.whatsapp.w4b")
